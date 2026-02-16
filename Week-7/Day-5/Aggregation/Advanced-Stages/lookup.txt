@@ -1,0 +1,87 @@
+10. $lookup:
+
+$lookup is used to join two collections. 
+It matches a field from one collection with a field in another collection and brings the matched data as an array.
+
+> Example:
+
+- courses collection
+db.courses.insertMany([
+ { _id: 1, courseName: "Web Development" },
+ { _id: 2, courseName: "MERN Stack" }
+])
+
+- students collection
+db.students.insertMany([
+ { name: "Hiba", courseId: 1, totalMarks: 450 },
+ { name: "Aisha", courseId: 2, totalMarks: 480 }
+])
+
+students.courseId and courses._id These two will be matched.
+
+Basic $lookup Syntax:
+db.students.aggregate([
+ {
+   $lookup: {
+     from: "courses",
+     localField: "courseId",
+     foreignField: "_id",
+     as: "courseDetails"
+   }
+ }
+])
+
+from: pointing to other collection
+localField: points to field in students
+foreignField: poins to field in courses
+as: specifies output array name
+
+Output:
+{
+ name: "Hiba",
+ courseId: 1,
+ totalMarks: 450,
+ courseDetails: [
+   {
+     _id: 1,
+     courseName: "Web Development"
+   }
+ ]
+}
+MongoDB adds courseDetails array.
+
+MongoDB gives array, even if there is only ONE course.
+But in real apps, we usually want:
+course: {
+   _id: 1,
+   courseName: "MERN Stack"
+}
+That’s why $unwind exists.
+
+> $unwind breaks the array and converts it into a normal object.
+
+Example:
+
+db.students.aggregate([
+ {
+   $lookup: {
+     from: "courses",
+     localField: "courseId",
+     foreignField: "_id",
+     as: "course"
+   }
+ },
+ {
+   $unwind: "$course"
+ }
+])
+
+Result:
+{
+ name: "Hiba",
+ courseId: 1,
+ course: {
+   _id: 1,
+   courseName: "MERN Stack"
+ }
+}

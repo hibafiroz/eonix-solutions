@@ -1,0 +1,33 @@
+6. Unique Index:
+
+- A unique index is used to maintain data integrity and avoid duplicates like duplicate emails or usernames.
+- If we try to insert a value that already exists, MongoDB rejects it and throws a duplicate key error.
+
+- MongoDB also treats null as a value, so we cannot have multiple missing fields bcz they are treated as null by default.
+
+Syntax
+db.collection.createIndex(
+  { fieldName: 1 },
+  { unique: true }
+)
+Example
+db.users.createIndex(
+  { email: 1 },
+  { unique: true }
+)
+
+If a document with an existing value is inserted:
+{ email: "test@gmail.com" }
+MongoDB Rejects the insert
+
+> If two doc contain nothing in email field (null), It is considered as duplicate
+{ email: null }
+{ email: null }
+NOT allowed with a unique index bcz MongoDB treats null as a value
+
+> Field is missing (not present at all)
+{ name: "A" }
+{ name: "B" }
+Also NOT allowed by default
+Reason:
+Missing fields are indexed as null

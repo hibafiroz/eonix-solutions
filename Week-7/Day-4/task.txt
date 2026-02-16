@@ -1,0 +1,170 @@
+1. Data Modeling:
+ Create two collections, students and courses.
+
+db.createCollection("students")
+db.createCollection("courses")
+
+
+2. Show one example of embedding (store course details inside a student).
+
+db.students.insertOne({
+    name: "Mohan Das", 
+    totalMarks: 490, 
+    course: { id:1, name: "Math",duration: "3 months" },
+    subject:[ "Math", "Physics" ]
+})
+
+[
+{
+  _id: ObjectId("68ff0c0d9d1e70c6f3cebea8"),
+  name: "John Simon",
+  course: "MEAN Stack",
+  isPassed: true,
+  dob: ISODate("2001-09-15"),
+  joiningDate: ISODate("2025-02-09"),
+  subjects: ["Math", "Physics", "Chemistry", "English"],
+  address: {},
+  attendance: 95,
+  totalMarks: 88,
+  activities: ["sports", "seminar", "project"],
+  lastUpdated: ISODate("2025-11-13T09:51:25Z")
+},
+{
+  _id: ObjectId("6915bfb37c95f503e39911c3"),
+  name: "Neha",
+  course: "Digital Marketing",
+  isPassed: false,
+  joiningDate: ISODate("2025-11-13T11:23:31Z"),
+  attendance: 50,
+  totalMarks: 44,
+  activities: ["presentation", "assignment", "workshop"]
+},
+{
+  _id: ObjectId("6915e0b94778824944cebea4"),
+  name: "Maaz",
+  age: 25,
+  course: "Data science",
+  attendance: 60,
+  totalMarks: 67,
+  joiningDate: ISODate("2025-11-13T13:44:25Z"),
+  activities: ["coding", "hackathon", "group study"]
+},
+{
+  _id: ObjectId("698ed44cb811f96c70cebea4"),
+  name: "Mohan Das",
+  totalMarks: 490,
+  course: {
+    id:1,
+    name: "MERN Stack",
+    duration: "4 months"
+  },
+  subject: ["Math", "Computer"]
+}
+]
+
+
+3. Show one example of referencing (store only courseId in the student).
+
+db.students.insertOne({
+    name: "Sara Khan", 
+    totalMarks: 490, 
+    courseID: 2, 
+    subject:["Biology","Chemistry"]
+})
+
+[
+{
+  _id: ObjectId("68ff0c0d9d1e70c6f3cebea8"),
+  name: "John Simon",
+  course: "MEAN Stack",
+  isPassed: true,
+  dob: ISODate("2001-09-15"),
+  joiningDate: ISODate("2025-02-09"),
+  subjects: ["Math", "Physics", "Chemistry", "English"],
+  address: {},
+  attendance: 95,
+  totalMarks: 88,
+  activities: ["sports", "seminar", "project"],
+  lastUpdated: ISODate("2025-11-13T09:51:25Z")
+},
+{
+  _id: ObjectId("6915bfb37c95f503e39911c3"),
+  name: "Neha",
+  course: "Digital Marketing",
+  isPassed: false,
+  joiningDate: ISODate("2025-11-13T11:23:31Z"),
+  attendance: 50,
+  totalMarks: 44,
+  activities: ["presentation", "assignment", "workshop"]
+},
+{
+  _id: ObjectId("6915e0b94778824944cebea4"),
+  name: "Maaz",
+  age: 25,
+  course: "Data science",
+  attendance: 60,
+  totalMarks: 67,
+  joiningDate: ISODate("2025-11-13T13:44:25Z"),
+  activities: ["coding", "hackathon", "group study"]
+},
+{
+  _id: ObjectId("698ed44cb811f96c70cebea4"),
+  name: "Mohan Das",
+  totalMarks: 490,
+  course: {
+    id:1,
+    name: "MERN Stack",
+    duration: "4 months"
+  },
+  subject: ["Math", "Computer"]
+},
+{
+  _id: ObjectId("698ed44cb811f96c70cebea4"),
+  name: "Sara Khan",
+  totalMarks: 490,
+  courseID: 2,
+  subject: ["Biology", "Chemistry"]
+}
+]
+
+
+4. Indexing: Create a single-field index on course.
+
+db.students.createIndex({course:1})
+
+
+5. Create a compound index on { course: 1, totalMarks: -1 }.
+
+db.students.createIndex({ course: 1, totalMarks: -1 })
+
+
+6. Create a text index on subjects and search for “Math”.
+
+db.students.createIndex({subject:"text"})
+db.students.find({$text:{$search:{"Math"}}})
+
+[
+  {
+    _id: ObjectId('698ed44cb811f96c70cebea4'),
+    name: 'Mohan Das',
+    totalMarks: 490,
+    course: { id: 1, name: 'Math', duration: '3 months' },
+    subject: [ 'Math', 'Physics' ]
+  }
+]
+
+
+7. Performance:
+ Run one query with and without index; compare the result using explain(&quot;executionStats&quot;).
+
+Without Index:
+db.students.find({ course: "Math" }).explain("executionStats")
+
+- stage: COLLSCAN
+- totalDocsExamined: 8
+
+With Index:
+db.students.find({ course: "Math" }).explain("executionStats")
+
+- stage: IXSCAN
+- totalDocsExamined: 0

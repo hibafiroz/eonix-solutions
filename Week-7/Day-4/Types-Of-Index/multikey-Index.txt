@@ -1,0 +1,42 @@
+3. multikey Index:
+
+- A multikey index is automatically created when we index a field that contains an array.
+
+- Instead of creating normal index in the whole array, MongoDB separates index for each value in the array. 
+  So searching inside arrays becomes very fast.
+
+- But MongoDB does not allow more than one array field in the same compound index, because it would create too many index combinations and can use more storage.
+  Multikey indexes also support nested arrays and array objects.
+
+
+> example:
+{
+  name: "Hiba",
+  skills: ["JavaScript", "Node.js", "MongoDB"]
+}
+
+db.users.createIndex({ skills: 1 })   //auto multikey
+Here, MongoDB creates multiple index entries:
+JavaScript
+Node.js
+MongoDB
+All pointing to the same document.
+
+We can query array fields as -> db.users.find({ skills: "MongoDB" })
+
+> Multikey with nested objects:
+{
+  name: "Hiba",
+  projects: [
+    { tech: "React", year: 2024 },
+    { tech: "Node", year: 2025 }
+  ]
+}
+index: db.users.createIndex({ "projects.tech": 1 })  //this is also a multikey
+
+> Only ONE array field allowed in a compound index
+db.users.createIndex({ skills: 1, hobbies: 1 })  //not allowed if both are arrays
+
+> Multikey indexes use more space
+Because, One document -> many index entries
+So, Faster reads -> Slightly slower writes

@@ -1,0 +1,87 @@
+2. $project:
+
+- $project is used to control the structure of documents. 
+- Basically, it lets us decide which fields we want to show, which ones to hide, and we can also rename fields or create new calculated fields. 
+- It works exactly like projection in find(), but $project is more powerful because we can do transformations and calculations.
+
+1 → include field
+0 → exclude field
+
+For example:
+[
+ {
+  name:"Hiba",
+  age:22,
+  city:"Kannur",
+  salary:20000,
+  bonus:2000,
+  password:"12345"
+ }
+]
+
+
+> Include Fields.
+db.users.aggregate([
+ {
+  $project:{
+   name:1,
+   city:1,
+   _id:0
+  }
+ }
+])                       //shows only name and city.
+
+
+> Create new field.
+{
+ $project:{
+  name:1,
+  newName:"$city"
+ }
+}
+
+> Rename field.
+db.users.aggregate([
+ {
+  $project:{
+   username:"$name",
+   city:1,
+   _id:0
+  }
+ }
+])                           //name becomes username
+
+
+> Arithmetic Operators inside $project:   starts with :["..."]
+These are used to calculate values inside ONE document.
+
+1. $add (Addition):
+Adds two or more numbers.
+for example:
+{
+ $project:{
+  name:1,
+  totalIncome:{ $add:["$salary","$bonus"] }
+ }
+}
+
+2. $subtract (Subtraction):
+{
+ $project:{
+  remaining:{ $subtract:["$salary",5000] }
+ }
+}
+
+3. $multiply (Multiplication):
+{
+  $project: {
+    total: { $multiply: ["$salary", 2] }
+  }
+}
+
+4. $divide (Division):
+{
+ $project:{
+  average:{ $divide:["$salary",2] }
+ }
+}

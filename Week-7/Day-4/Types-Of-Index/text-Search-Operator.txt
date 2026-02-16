@@ -1,0 +1,81 @@
+MongoDB Text Search Operators:
+MongoDB provides some operators for text search, and we use them inside $text.
+
+
+1. $text:
+$text operator is used to search text But before using $text, we must create a text index on string fields. 
+If there is no text index, $text search will not work.
+
+Syntax:
+{ $text: { ... } }
+$text is mandatory for all text search operations.
+
+
+
+2. $search:
+It specifies the actual text to search
+
+Using $search, we can do single-word search that returns all documents containing that word, 
+multiple-word search that returns documents that contain any of the searched words (uses OR logic), 
+exact phrase search returns documents that contain exact searched words and 
+we can also exclude words using a minus sign
+
+By default, multiple words are treated as OR logic.
+
+Examples:
+$search: "developer"
+$search: "backend developer"
+$search: \"full stack developer\" : This matches "Looking for a full stack developer" NOT "Developer with full stack skills"
+$search: "developer -junior"
+
+Multiple Phrase Search (OR behavior):
+$search: "\"final exam\" \"library rules\""
+MongoDB search for documents that match EITHER of these phrases:
+the exact phrase “final exam”
+OR the exact phrase “library rules”
+
+
+
+3. $language:
+The $language option is used to specify the language for text search. It controls stemming rules, 
+which means MongoDB converts words to their root form, like 'developers' to 'develop'. 
+If we don't specify $language, MongoDB uses English by default.
+
+Syntax : $language: "spanish"
+Default language is english if not specified.
+
+When we write : $language: "english"
+MongoDB : uses English stemming rules and uses English stop words
+
+
+
+4. $caseSensitive:
+It controls whether text search is case-sensitive.
+By default, it is false, so MongoDB treats uppercase and lowercase as the same.
+When true, exact case matching is required.
+
+Example:
+$caseSensitive: true
+Developer ≠ developer
+
+
+
+5. $diacriticSensitive:
+It decides if MongoDB should care about accent marks on letters.
+Diacritic is a small symbols on letters
+By default, it is false, so MongoDB ignores accent.
+When true, accents must match exactly
+
+Example:
+café ≠ cafe   (when true)
+Syntax : $diacriticSensitive:true
+
+Combined Example:
+db.collection.find({
+  $text: {
+    $search: "developer",
+    $language: "english",
+    $caseSensitive: false,
+    $diacriticSensitive: false
+  }
+})

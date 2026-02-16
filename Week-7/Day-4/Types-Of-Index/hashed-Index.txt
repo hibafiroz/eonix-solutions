@@ -1,0 +1,34 @@
+5. Hashed Index:
+
+- A hashed index is used to change the field value into a hash number and stores that instead of the actual value. 
+- When we search using query, MongoDB also hashes the search value and compares it. If it matches, MongoDB returns the corresponding document.
+
+- Hashed index is mainly used for equality searches (searching for an exact value) and to spread data evenly. 
+  It cannot be used for sorting or range search bcz hash values do not keep the original order.
+
+Example:
+"userId": "A001"
+
+syntax: db.collection.createIndex({ fieldName: "hashed" })
+
+db.users.createIndex({ userId: "hashed" })
+"A001" → 2398472398472398.  This hash value is what gets stored in the index.
+
+What Hashed Index is GOOD for?
+Equality searches (field = value)
+Uniform data distribution
+Sharded collections
+
+What Hashed Index is NOT good for?
+Range queries (>, <, between)
+Sorting
+Prefix matching
+ex: { userId: { $gt: "A001" } }
+
+| Feature          | Normal Index   | Hashed Index  |
+| ---------------- | ------------   | ------------  |
+| Stores           | Actual value   | Hash value    |
+| Equality search  | ✅            | ✅            |
+| Range queries    | ✅            | ❌            |
+| Sorting          | ✅            | ❌            |
+| Sharding support | ❌            | ✅            |

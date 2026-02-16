@@ -1,0 +1,15 @@
+1. $match:
+
+- $match is basically used to filter documents in an aggregation pipeline. 
+- It works similar to find(), but the difference is it’s used inside aggregation. 
+- Whatever condition we give in $match, only those documents move to the next pipeline stage.
+
+For example: 
+[
+ { name:"Hiba", age:22 },
+ { name:"Sara", age:25 }
+]
+
+db.users.aggregate([
+ { $match:{ age:22 } }
+])                          // only name Hiba document is returned.

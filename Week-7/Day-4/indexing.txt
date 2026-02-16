@@ -1,0 +1,133 @@
+Data Structure:
+
+A data structure is basically a rule for arranging data.
+It tells us how to organize data in a proper and structured way so that operations like searching, inserting, deleting, or updating become more efficient.
+In MongoDB, the index uses a B-Tree data structure.
+
+1. Tree (General Tree):
+A tree is a way of arranging data in a hierarchical form — like a family tree.
+It has a root (top node) and it has children and those children can have more children.
+
+2. Binary Tree:
+A Binary Tree is a tree where each node can have at most two children:
+Left child
+Right child
+There is no rule about sorting here.
+
+3. Binary Search Tree (BST) — How it works
+A Binary Search Tree is a special type of binary tree with a sorting rule:
+Left side contains smaller values
+Right side contains larger values
+
+
+
+Indexing:
+
+An index is a separate data structure that keeps a small, sorted version of specific fields so MongoDB can find documents quickly without scanning the whole collection.
+Without an index, MongoDB performs a collection scan (COLLSCAN)
+> checks every document that results in slow for large collections
+
+With an index, MongoDB performs an index scan (IXSCAN)
+> jumps directly to the matching values
+> skips unnecessary documents
+> fast even for millions of records
+This reduces the number of documents examined.
+
+> Default _id Index:
+Whenever we create collections, a default index gets created on _id field and it never allows to drop it.
+The _id index is the built-in primary index of every collection. It ensure unique documents and also fast lookups. 
+
+
+> Creating an Index:
+Creating an index tells MongoDB to build a sorted structure based on a field so queries on that field become fast.
+Example:
+db.users.createIndex({ age: 1 })  // ascending index
+db.users.createIndex({ age: -1 })  // descending index
+This makes queries on age extremely efficient.
+
+
+> Deleting an Index
+Deleting an index means removes it when it is no longer useful.
+Bcz every extra index slows down the write operations (insert/update/delete)
+Bcz MongoDB must update the index each time one of those operations happen
+Example:
+db.users.dropIndex({ age: 1 })
+db.users.dropIndex({ age: -1 })
+
+
+> When to Use Indexes:
+a. A field is searched repeatedly
+b. Query returns a small portion (10–20%) of the collection
+c. Sorting or filtering happens often on a field
+
+
+> When NOT to Use Indexes:
+a. Field is rarely searched
+b. Frequent inserts/updates
+c. Query returns most of the collection (80–90%)
+Examples:
+Boolean field (true/false)
+Gender field (male/female)
+
+
+> Using explain():
+explain() shows how MongoDB executes a query.
+It does NOT return actual data, it only returns performance details.
+Example:
+db.users.find({ age: 25 }).explain()
+It telles: Whether index was used, Whether it did COLLSCAN or IXSCAN, Query planning details
+
+
+> explain("executionStats"):
+Used to analyze query performance.
+Exampel:
+db.users.find({ age: 25 }).explain("executionStats")
+
+It shows only important fields:
+a. nReturned: number of documents returned
+b. executionTimeMillis: time taken to run the query
+c. totalDocsExamined: number of documents scanned
+d. stage: "COLLSCAN" → collection scan
+d. stage: "IXSCAN" → index scan
+e. winningPlan
+
+Covered Queries:
+A query is covered when:
+All fields in query are in index
+All fields in projection are in index
+MongoDB does NOT read actual documents
+
+Winning Plan:
+MongoDB automatically chooses the most efficient index as the winning plan based on query cost.
+Shown inside explain().
+winningPlan:
+  stage: IXSCAN
+
+Other indexes appear under:
+rejectedPlans
+
+
+limit():
+limit() is used to control how many documents MongoDB returns.
+db.users.find().limit(5)
+Returns only first 5 documents.
+
+Projection:
+Projection is used to select only required fields from documents.
+db.users.find({}, { name: 1, _id: 0 })
+Returns only name field and hides _id.
+
+
+> When to use or avoid indexes (read-heavy vs write-heavy):
+
+Covered queries return data directly from indexes without document fetch. 
+MongoDB chooses the best index as the winning plan. Indexes are ideal for read-heavy applications but 
+should be limited in write-heavy systems because they slow down insert and update operations.
+
+
+Note: 
+To get the number of documnts returned using find() is db.collectiton.find({...}).count()
+To clear terminal : cls (clear shell)
+To delete collection : db.collection.drop()
+To remove Index : db.collection.dropIndex({age(field) : 1(ascending)})
+To check how many index present : db.collection.getIndexes()

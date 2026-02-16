@@ -1,0 +1,17 @@
+6. $limit:
+
+$limit is used to control how many documents are returned from the aggregation pipeline. 
+It’s commonly used when we need only top records, latest entries, or during pagination to avoid fetching full data.
+
+We use $limit when:
+we want top 5 records
+we want latest 3 items
+we don’t want full data
+for pagination
+
+Get only top 2 students
+db.students.aggregate([
+ { $sort:{ marks:-1 } },
+ { $limit:2 }
+])
+Only 2 documents returned.

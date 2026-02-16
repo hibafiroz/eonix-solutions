@@ -1,0 +1,96 @@
+> MongoDB $lookup Performance Best Practices:
+
+> $lookup is an expensive stage because MongoDB has to read documents from the first collection, 
+go to the second collection, match fields, bring the data back, and then merge everything. 
+So it takes more time compared to normal queries.
+
+By default $lookup also returns full documents from the other collection, 
+which increases memory usage. On large collections it becomes slow and heavy. 
+And when we use many $lookup stages, aggregation pipelines become complex and hard to maintain.
+
+
+> Tips to Improve MongoDB $lookup Performance:
+
+1. Always use $match BEFORE $lookup:
+
+Because if we run $lookup first, MongoDB joins all documents and then filters them, which is slow. 
+But if we use $match first, MongoDB filters the documents first then joins only the required records. So performance becomes faster.
+
+If we do $match first:
+
+db.orders.aggregate([
+  { $match: { status: "completed" } },
+  {
+    $lookup: {
+      from: "users",
+      localField: "userId",
+      foreignField: "_id",
+      as: "user"
+    }
+  }
+])
+
+- MongoDB filters documents with status
+- joins only required records
+- faster performance
+
+
+2. Index the foreignField:
+
+MongoDB uses index during $lookup if we index the foreign field. No need to scan whole collection.
+db.users.createIndex({ _id: 1 })
+
+
+3. Return only required fields (CRITICAL):
+
+By default, $lookup returns the entire document from the foreign collection. This increases memory usage and makes slow.
+So we should return only required fields.
+For that, we use pipeline-based $lookup. It matchs documents and use $project to pick only required fields.
+
+{
+  $lookup: {
+    from: "users",
+    localField: "userId",
+    foreignField: "_id",
+    as: "user"
+  }
+}
+This brings all user fields like:
+
+name, email, password, address, phone, timestamps
+Even if we need only name and email.
+Drawbacks: Higher memory usage, Larger response size, Slower aggregation
+
+So Pipeline-based $lookup allows running a mini aggregation pipeline on the foreign collection for EACH document.
+It helps to Match documents, Project specific fields
+
+> Example:
+
+Orders collection contains userId.
+Users collection contains _id.
+
+db.orders.aggregate([
+  {
+    $lookup: {
+      from: "users",
+      let: { uid: "$userId" },
+
+      pipeline: [
+        {
+          $match: {
+            $expr: { $eq: ["$_id", "$$uid"] }
+          }
+        },
+        {
+          $project: {
+            name: 1,
+            email: 1,
+            _id: 0
+          }
+        }
+      ],
+
+      as: "user"
+    }
+  }
+])
