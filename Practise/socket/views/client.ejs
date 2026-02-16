@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <h1><%=otheruser.username%></h1>
+    <div id="chatBox" class="p-4"></div>
+    <input type="text" name="text" id="input">
+    <button onclick="sendmsg()">send</button>
+
+    <script>
+        const socket=io()
+        const room='<%=roomName%>'
+        const username='<%=username%>'
+        socket.emit('joinRoom',room)
+        socket.on('message',({msg,from})=>{
+             append(msg,from===username?'self':'other')
+        })
+        function append(message,type){
+            const p=document.createElement('p')
+            p.textContent=message
+            p.classList=`p-2 bg-gray-200'
+            ${type==='self'?'self-end':'self-start'}`
+            document.getElementById('chatBox').appendChild(p)
+        }
+        function sendMsg(){
+            const messages=document.getElementById('input').value.trim()
+            socket.emit('message',({messages,from:username,room}))
+            document.getElementById('input').value=''
+        }
+    </script>
+</body>
+</html>

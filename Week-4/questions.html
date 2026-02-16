@@ -1,0 +1,102 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">click</button>
+    <script>
+        const btn=document.getElementById("btn")
+        function debounce(func,delay){
+            let timer;
+            return function(){
+                clearTimeout(timer)
+                timer=setTimeout(func,delay)
+            }
+        }
+        function type(){
+            console.log("btn clicked")
+        }
+        const debounced=debounce(type,1000)
+        btn.addEventListener("click",debounced)
+    </script>
+</body>
+</html>-->
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">click me</button>
+    <script>
+        const btn=document.getElementById("btn")
+        function throttle(func,delay){
+            let last=0
+            return function(){
+                const now=Date.now()
+                if((now-last)>=delay){
+                    last=now
+                    func()
+                }
+            }
+        }
+        function after(){
+            console.log("button clicked")
+        }
+        const throttled=throttle(after,500)
+        btn.addEventListener("click",throttled)
+    </script>
+</body>
+</html> -->
+
+
+
+<!-- 1. The user enters a *future year* (e.g., 2028) into a text input.
+2. When the user stops typing (use *debounce – 500ms), calculate the difference between the **current year* and the entered year.
+3. Display the result as:
+   Time left: 3 years
+4. Show an error if:
+   * The entered value is not a number.
+   * The year is less than or equal to the current year. -->
+
+   <!DOCTYPE html>
+   <html lang="en">
+   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   </head>
+   <body>
+      <input type="text" placeholder="Enter Year" id="input">
+      <div id="div" style="color: red;"></div>
+      <script>
+        const input=document.getElementById("input")
+        const div=document.getElementById("div")
+        function debounce(func,delay){
+            let timer;
+            return function(){
+                clearTimeout(timer);
+                timer=setTimeout(func,delay)
+            }
+        }
+        function difference(){
+           let now=new Date().getFullYear()
+           let time=(input.value)-now
+            if(input.value>now){
+           div.textContent=`Time Left:${time}`
+            }else{
+                div.textContent=`The entered value is not a number`
+            }
+        }
+        const debounced=debounce(difference,500)
+        input.addEventListener("input",debounced)
+      </script>
+   </body>
+   </html>

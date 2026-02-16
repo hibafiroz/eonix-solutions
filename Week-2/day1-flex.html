@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive</title>
+    <style>
+      .container {
+        display: flex;
+        /* flex-wrap: wrap; */
+      }
+      .left-column {
+        background-color: rgb(152, 230, 152);
+        flex: 1;
+        padding: 50px 0;
+      }
+      .right-column {
+        background-color: rgb(87, 129, 87);
+        flex: 1;
+        padding: 50px 0;
+      }
+      @media (max-width: 600px) {
+        .container {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="left-column">
+        <h1>Left-column</h1>
+      </div>
+      <div class="right-column">
+        <h1>Right-column</h1>
+      </div>
+    </div>
+  </body>
+</html>

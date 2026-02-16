@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-area: 10px;
+      }
+      .firstCard {
+        background-color: rgb(212, 101, 101);
+        padding: 30px 0;
+        text-align: center;
+      }
+      .secondCard {
+        background-color: rgb(122, 36, 36);
+        padding: 30px 0;
+        text-align: center;
+      }
+      .thirdCard {
+        background-color: rgb(122, 63, 63);
+        padding: 30px 0;
+        text-align: center;
+      }
+      @media  (min-width: 600px) and (max-width: 1024px)  {
+        .container {
+          grid-template-columns: 1fr;
+          font-size: 5px;
+          font-style: italic;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="firstCard"><h1>First-Card</h1></div>
+      <div class="secondCard"><h1>Second-Card</h1></div>
+      <div class="thirdCard"><h1>Third-Card</h1></div>
+    </div>
+  </body>
+</html>

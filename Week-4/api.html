@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="parent">
+        <p id="para1"></p>
+    </div>
+    <script>
+        const para1 = document.getElementById("para1")
+
+        window.addEventListener("DOMContentLoaded", checkAPI)
+        
+
+        async function checkAPI() {
+            const oldbtn = document.getElementById("retrybtn")
+            if (oldbtn) {
+                oldbtn.remove()
+            }
+            try {
+                para1.textContent = "Checking API..."
+                const res = await fetch("https://jsonplaceholder.wrong.com/posts")
+                const data = await res.json()
+                para1.textContent = "API is working ✅"
+            } catch (error) {
+                para1.textContent = "API failed ❌"
+                const btn = document.createElement("button")
+                btn.id = "retrybtn"
+                btn.textContent = "Retry"
+                btn.style.border = "2px solid black"
+                btn.style.padding = "5px"
+                parent.appendChild(btn)
+            }
+        }
+        parent.addEventListener("click", (e) => {
+            if (e.target.id === "retrybtn") {
+                checkAPI()
+            }
+        })
+    </script>
+</body>
+</html>
+
+<!-- 🧠 Task Instructions:
+	1.	When the page loads, use async/await and fetch() to make a request to the above API.
+	2.	Show a loading spinner/message like "Checking API..." during the fetch.
+	3.	If the API responds successfully, remove the spinner and show "API is working ✅".
+	4.	If the API fails (try using a wrong URL to test), show "API failed ❌" and handle it using try/catch.
+	5.	Add a Retry button — when clicked, the fetch attempt should run again.
+	6.	Store the latest API result status (success/failure) in localStorage so the message persists on reload.
+	7.	Use a single parent div and event delegation to handle all button clicks -->

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+    <body>
+       
+        <div id="modal" class="fixed inset-0 bg-black/50 flex justify-center items-center hidden">
+            <div>
+                <form action="" id="form" class="text-left bg-white">
+                    <div class="p-3">
+                        <label for="name">name</label>
+                        <input type="text" name="name" id="name" placeholder="enter name" minlength="3" maxlength="6" class="border-2 border-black p-3">
+                    </div>
+                     <div class="p-3">
+                        <label for="email">email</label>
+                        <input type="email" name="email" id="email" class="border-2 border-black p-3" placeholder="enter email">
+                    </div>
+                     <div class="p-3">
+                        <label for="phone">number</label>
+                        <input type="number" name="number" id="number" class="border-2 border-black p-3" placeholder="phone enter">
+                    </div>
+                    <div class="flex justify-center"><button type="submit" class="border-2 p-2 border-black rounded">submit</button></div>
+                </form>
+            </div>
+        </div>
+     <button id="btn" class="border-2 border-black rounded-lg bg-gray-300 p-3">click here</button>
+
+    <script>
+        const btn=document.getElementById('btn')
+        const modal=document.getElementById('modal')
+        const form=document.getElementById('form')
+        const name=document.getElementById('name')
+        const email=document.getElementById('email')
+        const number=document.getElementById('number')
+
+        btn.addEventListener('click',(e)=>{
+            modal.classList.remove('hidden')
+        })
+        form.addEventListener('submit',(e)=>{
+            e.preventDefault();
+           let isValid=true;
+            if(!name.checkValidity()){
+                alert('enetr your name')
+                isValid=false
+            }
+            if(!email.checkValidity()){
+                alert('enter email')
+                isValid=false
+            }
+            if(number.value.trim()===""){
+                alert('enter phone')
+                isValid=false
+            }
+            if(isValid){
+                alert('form submitted')
+                form.reset()
+            }
+           
+        })
+
+    </script>
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <div id="goods">
+            <div>hello</div>
+            <div>hey</div>
+            <div>hi</div>
+        </div>
+        <script>
+            const goods=document.getElementById('goods')
+        goods.addEventListener('click',(e)=>{
+            if(e.target.tagName==='DIV'){
+                alert('you clicked '+e.target.textContent)
+            }
+        })
+        </script>
+    </div>
+</body>
+</html> -->

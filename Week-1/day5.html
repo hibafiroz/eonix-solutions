@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="day5.css">
+
+    
+  </head>
+
+  <body>
+   
+    <div class="container">
+      <header>
+        <nav>
+          <div class="container">
+            <div class="firstNav">
+              <div class="firstNav1">
+                <div class="logo">
+                  <img
+                    src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJhIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTQuODMgNzQuNzkiPjxkZWZzPjxzdHlsZT4uYntmaWxsOiM4MzI3Mjk7ZmlsbC1ydWxlOmV2ZW5vZGQ7fTwvc3R5bGU+PC9kZWZzPjxwYXRoIGNsYXNzPSJiIiBkPSJNMzguNzksNy41NWMtLjYyLTIuOTEsMS4zMi01LjU2LDQuMTUtNS41Nmg3Ljk1YzIuMTIsLjA5LDQuNzctMS41OSw0Ljc3LTEuNTlWMTMuNzNjMCwxMy41MS03LjQyLDE5LjI0LTEwLjg2LDE5Ljc3LS42MiwuMjctMS4wNiwuMDktLjI2LS41Myw0LjY4LTMsNy40Mi0xMC4xNSw3LjY4LTE2LjI0VjQuNTVjLS45NywuNjItMi44MiwuNzEtMi44MiwuNzFoLTYuOTdjLTEuODUsMC0yLjgyLC42Mi0zLjYyLDIuMjltMzUuNTgsMGMuNjItMi45MS0xLjI0LTUuNTYtNC4xNS01LjU2aC03Ljk1Yy0yLjAzLC4wOS00Ljc3LTEuNTktNC43Ny0xLjU5VjEzLjczYzAsMTMuNTEsNy40MiwxOS4yNCwxMC44NiwxOS43NywuNjIsLjI3LDEuMDYsLjA5LC4yNy0uNTMtNC42OC0zLTcuNDItMTAuMTUtNy42OC0xNi4yNFY0LjU1Yy45NywuNjIsMi44MiwuNzEsMi44MiwuNzFoNy4wNmMxLjg1LDAsMi44MywuNjIsMy41MywyLjI5aDBaTTIwLjI2LDYyLjk5Yy0uNzEtMS43Ny0uMTgtMy43MSwuMjYtNC40MWg4LjAzdjQuNDFoMi4wM3YtMTkuNTFzLS42Mi0uMDktMS4wNiwuNjJjLTMsNC43Ny01LjMsNi04LjY1LDkuMzYtMi44MywyLjgyLTQuOTQsNi0zLjg5LDkuNTNoMy4yN1ptLjg4LTUuNzRoNy40MnYtOC4zOWMtMS44NSwzLjQ0LTYuMjcsNS4zLTcuNDIsOC4zOVptODQuOTMtMTUuOGMtMi41NiwyLjAzLTQuNjgsMy44LTUuODMsNi40NC0xLjI0LDIuNjUtMS41OSw2LjQ0LDAsOS43MSwxLjc3LDMuNjIsMy44LDUuNTYsNi4xOCw3Ljk0LDEuNjgsMS44NSw0Ljg2LDUuNTYsMy44LDguODMsLjc5LDAsMS44NS0xLjk0LDIuMDMtMi42NSwuNDQtMi4yOSwuMTgtMy40NC0uNzktNS4xMi0uNjItMS4xNS0xLjk0LTIuMjktMi45MS0zLjQ0LDEuNDEtMS4xNSwyLjkxLTIuODMsNC4xNS00LjUsMS41OS0yLjIxLDIuNTYtNS45MSwuNTMtOS41My0xLjg1LTMuNDQtNy4wNi02LjYyLTcuMTUtNy42OGgwWm0xLjA2LDIwLjM5Yy0yLjAzLTEuNjgtMy4yNy0zLjA5LTQuNS01LjgzLTEuMjQtMi40Ny0xLjMyLTUuMzktLjc5LTcuNDIsLjYyLTIuMjEsMi4xMi0zLjgsMy41My00Ljk0LDEuNTksMS4xNSwzLjI3LDIuNTYsNC41LDQuNTksMi4wMywzLjQ0LDIuMDMsNS45MSwuNzEsOS4yNy0uNzksMS45NC0xLjY4LDMuMDktMy40NCw0LjMzaDBaTS41Nyw0NS4wN2MtLjM1LS43MSwuMTgtMi41NiwyLjMtMi4zOEgxMy4yOGMxLjMyLC4wOSwyLjEyLS44OCwzLjgtLjcxLTIuMzgsMS45NC0yLjY1LDIuOTEtMy4wOSw0Ljc3bC0xLjY4LDEzLjY4Yy0uNDQsNS41NiwxLjE1LDEwLjE1LDUuMywxMy45NS0yLjU2LC4zNS04LjEyLTMuNzEtOC4zLTExLjEyLS4xOC0zLjcxLC44OC0xNS41NCwuODgtMTUuNTQsLjI2LTEuOTQsMS41LTMuMzUsMS41LTMuMzVIMS44Yy0uNjIsLjA5LS45NywuMDktMS4yNCwuNzFILjU3Wm04MS44NCwxNy4zOWgyLjU2di01LjIxaDYuOTd2NS40N2gyLjY1di0xOC44OWgtMi42NXYxMS45MmgtNi45N3YtMTEuOTJoLTIuNTZ2MTguNjNoMFptLTcuMTUtMTQuMjFjLS42MiwuMTgtMS4yNC0uMDktMS44NS0uNjItLjg4LS43OS0xLjI0LTEuNTktMi4zOC0yLjI5LTEuMjQtLjYyLTMtLjcxLTQuMDYsLjA5LS45NywuNzEtLjk3LDIuMywuMDksMy4xOCwyLjAzLDEuNTksNC4yNCwyLjQ3LDYuOCwzLjgsNC42OCwyLjQ3LDUuNDcsNi44LDIuMjEsOS0yLjc0LDEuODUtNi4xOCwyLjAzLTkuMjcsLjg4LTIuMzgtLjk3LTQuMjQtMi45MS00LjUtNS4zLDEuNTksMCwyLjEyLC43MSwyLjc0LDEuNjgsLjk3LDEuMzIsMS41OSwxLjg1LDMsMi40NywyLjAzLC43OSw0LjMzLC41Myw1LjY1LS4yNiwxLjk0LTEuMjQsMS42OC0zLjI3LC4yNi00LjU5LTIuOTEtMi43NC02LjUzLTMuNTMtOC41Ni01LjU2LTEuNzctMS43Ny0yLjM4LTMuNzEtLjUzLTUuNzQsMS41OS0xLjY4LDUuODMtMi4yMSw4LjMtLjA5LDEuMDYsLjk3LDEuODUsMi4xMiwyLjEyLDMuMzVoMFptLTIxLjEtMTAuMDZjMC0xLjQxLDEuMDYtMi40NywyLjQ3LTIuNDcsMS4yNCwwLDIuMzgsMS4wNiwyLjM4LDIuNDcsMCwxLjMyLTEuMTUsMi40Ny0yLjM4LDIuNDctMS40MSwwLTIuNDctMS4xNS0yLjQ3LTIuNDdabTEuMTUsNS42NWgyLjQ3djE5LjE2aC0yLjQ3di0xOS4xNlptLTE5LjI1LDE5LjE2aDEuNzd2LTEzLjE1Yy44OCwyLjU2LDUuMjEsNS45Miw1LjIxLDUuOTIsMCwwLDMuMzUsMi44Myw0Ljk0LDYuNzFsMS4wNiwuNTN2LTE5LjE2aC0xLjc3djEzLjQyYy0uOTctMi41Ni00Ljc3LTUuNTYtNC43Ny01LjU2LTIuOTEtMi41Ni00Ljg2LTYuMDktNS4zLTcuNzdsLTEuMTUtLjM1djE5LjQyaDBaIi8+PC9zdmc+"
+                    width="80px"
+                    alt="image"
+                    class="logo-img d-none display-lg"
+                  />
+                </div>
+                <div class="searchbar">
+                  <div class="searchLogo">
+                    <i
+                      class="fa-solid fa-magnifying-glass"
+                      style="
+                        font-size: 16px;
+                        position: relative;
+                        top: 12px;
+                        left: 5px;
+                      "
+                    ></i>
+                  </div>
+                  <div class="search">
+                    <input
+                      type="text"
+                      placeholder="Search for gold jewellery, diamond jewellary and more..."
+                      style="
+                        width: 410.667px;
+                        height: 33px;
+                        padding-left: 6px;
+                        padding-right: 36px;
+                        padding-top: 5px;
+                        padding-bottom: 6px;
+                        border: 0px;
+                      "
+                    />
+                  </div>
+                  <div class="camera">
+                    <i
+                      class="fa-solid fa-camera"
+                      style="
+                        font-size: 16px;
+                        position: relative;
+                        top: 12px;
+                        left: 5px;
+                      "
+                    ></i>
+                  </div>
+                  <div class="voice">
+                    <i
+                      class="fa-solid fa-microphone"
+                      style="
+                        font-size: 16px;
+                        position: relative;
+                        top: 12px;
+                        left: 20px;
+                      "
+                    ></i>
+                  </div>
+                </div>
+                <div class="icons">
+                  <div class="i">
+                    <img
+                      src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dwef297d32/header-diamond-icon.svg"
+                      alt="imagee"
+                    />
+                  </div>
+                  <div class="i">
+                    <img
+                      src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dwef297d32/header-diamond-icon.svg"
+                      alt="imagee"
+                    />
+                  </div>
+                  <div class="i">
+                    <img
+                      src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dwef297d32/header-diamond-icon.svg"
+                      alt="imagee"
+                    />
+                  </div>
+                  <div class="i">
+                    <img
+                      src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dwef297d32/header-diamond-icon.svg"
+                      alt="imagee"
+                    />
+                  </div>
+                  <div class="i">
+                    <img
+                      src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dwef297d32/header-diamond-icon.svg"
+                      alt="imagee"
+                    />
+                  </div>
+                 
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <nav>
+          <div class="container">
+            <div class="secondNav">
+              <div class="c">
+                <div>
+                  <img
+                    src="https://www.tanishq.co.in/on/demandware.static/-/Sites-Tanishq-site-catalog/default/dw2ee8f0b6/header-mega-menu/thumbnail-icons/all-jewellery-l1.svg"
+                    alt="hi"
+                  />
+                </div>
+                <div><h4>All Jewellary</h4></div>
+              </div>
+              <div class="c">
+                <div>
+                  <img
+                    src="https://www.tanishq.co.in/on/demandware.static/-/Sites-Tanishq-site-catalog/default/dw981316d3/header-mega-menu/thumbnail-icons/gold-l1.svg"
+                    alt="hi"
+                  />
+                </div>
+                <div><h4>Gold</h4></div>
+              </div>
+              <div class="c">
+                <div>
+                  <img
+                    src="https://www.tanishq.co.in/on/demandware.static/-/Sites-Tanishq-site-catalog/default/dwc45fe833/header-mega-menu/thumbnail-icons/diamond-l1.svg"
+                    alt=""
+                  />
+                </div>
+                <div><h4>Diamond</h4></div>
+              </div>
+              <div class="c">
+                <div>
+                  <img
+                    src="https://www.tanishq.co.in/on/demandware.static/-/Sites-Tanishq-site-catalog/default/dw948435f7/header-mega-menu/thumbnail-icons/earrings-l1.svg"
+                    alt=""
+                  />
+                </div>
+                <div><h4>Earrings</h4></div>
+              </div>
+              <div class="c">
+                <div>
+                  <img
+                    src="https://www.tanishq.co.in/on/demandware.static/-/Sites-Tanishq-site-catalog/default/dw0bb9456d/header-mega-menu/thumbnail-icons/rings-l1.svg"
+                    alt=""
+                  />
+                </div>
+                <div><h4>Rings</h4></div>
+              </div>
+              <div class="c">
+                <div>
+                  <img
+                    src="https://www.tanishq.co.in/on/demandware.static/-/Sites-Tanishq-site-catalog/default/dw7a595219/header-mega-menu/thumbnail-icons/dailywear-l1.svg"
+                    alt=""
+                  />
+                </div>
+                <div><h4>Daily Wear</h4></div>
+              </div>
+              <div class="c">
+                <div>
+                  <img
+                    src="https://www.tanishq.co.in/on/demandware.static/-/Sites-Tanishq-site-catalog/default/dw869e84c0/header-mega-menu/thumbnail-icons/collection-l1.svg"
+                    alt=""
+                  />
+                </div>
+                <div><h4>Collections</h4></div>
+              </div>
+              <div class="c">
+                <div>
+                  <img
+                    src="https://www.tanishq.co.in/on/demandware.static/-/Sites-Tanishq-site-catalog/default/dw2983a4ba/header-mega-menu/thumbnail-icons/wedding-l1.svg"
+                    alt=""
+                  />
+                </div>
+                <div><h4>Wedding</h4></div>
+              </div>
+              <div class="c">
+                <div>
+                  <img
+                    src="https://www.tanishq.co.in/on/demandware.static/-/Sites-Tanishq-site-catalog/default/dw63798178/header-mega-menu/thumbnail-icons/gifting-l1.svg"
+                    alt=""
+                  />
+                </div>
+                <div><h4>Gifting</h4></div>
+              </div>
+              <div class="c">
+                <div>
+                  <img
+                    src="https://www.tanishq.co.in/on/demandware.static/-/Sites-Tanishq-site-catalog/default/dwaf05c947/header-mega-menu/thumbnail-icons/more-l1.svg"
+                    alt=""
+                  />
+                </div>
+                <div><h4>More</h4></div>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <div class="space"></div>
+      </header>
+      <main>
+        <div class="second">
+          <img
+            src="https://www.tanishq.co.in/dw/image/v2/BKCK_PRD/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dw5a5ad31d/rivaahpage/rivaah-south-geo-d1.jpg"
+            alt="tanishq"
+          />
+        </div>
+        <div class="headingsection">
+          <h1>Tanishq Collections</h1>
+          <h2 style="text-align: center; font-size: 20px">
+            Explore our newly launched collections
+          </h2>
+        </div>
+        <div class="parentGrid1">
+          <div class="grid1">
+            <div class="left">
+              <img
+                alt="banner"
+                class="img-fluid w-100 br-12"
+                src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dw80160994/homepage/tanishq-collections/dailywear-earrings-desktop.jpg"
+                title=""
+              />
+            </div>
+            <div class="right">
+              <div class="r1">
+                <img
+                  loading="lazy"
+                  alt="banner"
+                  class="img-fluid w-100 br-12"
+                  src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dwf5f2c9f4/homepage/tanishq-collections/auspicious-jewellery.jpg"
+                  title=""
+                />
+              </div>
+              <div class="r2">
+                <img
+                  loading="lazy"
+                  alt="banner"
+                  class="img-fluid w-100 br-12"
+                  src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dw1eded5b5/homepage/tanishq-collections/dailywear-chains.jpg"
+                  title=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="headingSection">
+          <h1>Find your Perfect Match</h1>
+          <h3>Shop by categories</h3>
+        </div>
+        <div class="parentGrid2">
+          <div class="grid2">
+            <div class="b">
+              <img
+                src="https://www.tanishq.co.in/dw/image/v2/BKCK_PRD/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dw83758477/homepage/shopByCategory/earrings-cat.jpg"
+                class="card-img-top"
+                alt="..."
+                loading="lazy"
+              />
+              <h2>Earrings</h2>
+            </div>
+            <div class="b">
+              <img
+                src="https://www.tanishq.co.in/dw/image/v2/BKCK_PRD/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dw47da8133/homepage/shopByCategory/rings-cat.jpg"
+                class="card-img-top"
+                alt="..."
+                loading="lazy"
+              />
+              <h2>Finger Rings</h2>
+            </div>
+            <div class="b">
+              <img
+                src="https://www.tanishq.co.in/dw/image/v2/BKCK_PRD/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dw63553376/homepage/shopByCategory/pendants-cat.jpg"
+                class="card-img-top"
+                alt="..."
+                loading="lazy"
+              />
+              <h2>Pendants</h2>
+            </div>
+            <div class="b">
+              <img
+                src="https://www.tanishq.co.in/dw/image/v2/BKCK_PRD/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dw442a2739/homepage/shopByCategory/mangalsutra-cat.jpg"
+                class="card-img-top"
+                alt="..."
+                loading="lazy"
+              />
+              <h2>Mangalsuthra</h2>
+            </div>
+            <div class="b">
+              <img
+                src="https://www.tanishq.co.in/dw/image/v2/BKCK_PRD/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dw2562a9fe/homepage/shopByCategory/bracelets-cat.jpg"
+                class="card-img-top"
+                alt="..."
+                loading="lazy"
+              />
+              <h2>Bracelets</h2>
+            </div>
+            <div class="b">
+              <img
+                src="https://www.tanishq.co.in/dw/image/v2/BKCK_PRD/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dw1226b98b/homepage/shopByCategory/bangles-cat.jpg"
+                class="card-img-top"
+                alt="..."
+                loading="lazy"
+              />
+              <h2>Bangles</h2>
+            </div>
+            <div class="b">
+              <img
+                src="https://www.tanishq.co.in/dw/image/v2/BKCK_PRD/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dwd0550e4c/homepage/shopByCategory/chains-cat.jpg"
+                class="card-img-top"
+                alt="..."
+                loading="lazy"
+              />
+              <h2>Chains</h2>
+            </div>
+            <div class="b">
+              <img
+                src="https://www.tanishq.co.in/dw/image/v2/BKCK_PRD/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dw811a2edc/homepage/shopByCategory/all-jew-cat.jpg"
+                class="card-img-top"
+                alt="..."
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+      </main>
+      <footer>
+        <div class="container" style="background-color: rgb(45, 11, 11)">
+          <div class="footer">
+            <div class="logo2">
+              <img
+                loading="lazy"
+                src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dwcfc0b576/images/footer/tanishq-footer-logo.svg"
+                alt="Tanishq logo Icon"
+                class="tanishq-logo"
+              />
+            </div>
+            <div class="foot">
+              <div class="firstFooter">
+                <div>
+                  <h2
+                    style="
+                      color: white;
+                      text-align: center;
+                      position: relative;
+                      right: 25px;
+                    "
+                  >
+                    Download the Tanishq App<br />Now
+                  </h2>
+                </div>
+                <div>
+                  <img
+                    src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dw0fa1b94a/images/footer/tanishq-app-QR-code.svg"
+                    alt="Tanishq QR Icon"
+                  />
+                </div>
+                <div class="apps">
+                  <div>
+                    <img
+                      src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dwf3971307/images/footer/footer-playstore.svg"
+                      alt="Playstore Icon"
+                    />
+                  </div>
+                  <div>
+                    <img
+                      src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dwe9d356b9/images/footer/footer-ios.svg"
+                      alt="iOS Icon"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="secondFooter">
+                <div class="one">
+                  <div class="one1">
+                    <div class="title"><h2>Useful links</h2></div>
+
+                    <p>Delivery information</p>
+                    <p>International shipping</p>
+                    <p>Payment options</p>
+                    <p>Track your order</p>
+                    <p>Returns</p>
+                    <p>Find a store</p>
+                  </div>
+                  <div class="one2">
+                    <div><h2>Information</h2></div>
+                    <p>Blog</p>
+                    <p>Offers & contest details</p>
+                    <p>Help & FAQS</p>
+                    <p>About Tanishq</p>
+                  </div>
+                  <div class="one3">
+                    <div>
+                      <h2>Contact us</h2>
+                      <p>1800-266-0123</p>
+                      <h2>Chat with us</h2>
+                      <p>+918737382721</p>
+                      <div class="hi">
+                        <div>
+                          <img
+                            loading="lazy"
+                            src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dwd94cc295/images/footer/footer-whatsapp.svg"
+                            alt="Whatsapp Icon"
+                          />
+                        </div>
+                        <div>
+                          <img
+                            loading="lazy"
+                            class="d-none d-lg-block"
+                            src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dwca9d87e8/images/footer/footer-writetous.svg"
+                            alt="WriteToUs Icon"
+                          />
+                        </div>
+                        <div>
+                          <img
+                            loading="lazy"
+                            class="d-none d-lg-block"
+                            src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dw69956d76/images/footer/footer-chatwithus.svg"
+                            alt="ChatWithUs Icon"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="two">
+                  <div>
+                    <h2 style="position: relative; bottom: 18px; color: white">
+                      Social
+                    </h2>
+                  </div>
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dwdd3964ee/images/footer/footer-instagram.svg"
+                      alt="Instagram Icon"
+                    />
+                  </div>
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dw55bd73af/images/footer/footer-twitter.svg"
+                      alt="Twitter Icon"
+                    />
+                  </div>
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dwd3c8497b/images/footer/footer-fb.svg"
+                      alt="Facebook Icon"
+                    />
+                  </div>
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dwcf955502/images/footer/footer-youtube.svg"
+                      alt="Youtube Icon"
+                    />
+                  </div>
+                </div>
+
+                <div class="three">
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dw7b8761e0/images/footer/footer-visa.svg"
+                      alt="Visa Icon"
+                      class="visa"
+                      style="width: 27px; height: 21px"
+                    />
+                  </div>
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dw567d438d/images/footer/footer-mastercard.svg"
+                      alt="Mastercard Icon"
+                      class="mastercard"
+                    />
+                  </div>
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dwc6c7f35b/images/footer/footer-maestro.svg"
+                      alt="Maestro Icon"
+                      class="maestro"
+                    />
+                  </div>
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dw5e3e7fa9/images/footer/footer-paypal.svg"
+                      alt="Paypal Icon"
+                      class="paypal"
+                    />
+                  </div>
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dwac930b5f/images/footer/footer-dinnerclub.svg"
+                      alt="Dinnerclub Icon"
+                      class="dinnerclub"
+                    />
+                  </div>
+                  <div>
+                    <img
+                      loading="lazy"
+                      src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dw54f98ea5/images/footer/footer-americanexpress.svg"
+                      alt="Americanexpress Icon"
+                      class="americanexpress"
+                    />
+                  </div>
+                </div>
+
+                <div class="four">
+                  <div class="e">
+                    <h2>2025 Titan Comapny Limited. All Rights Reserved.</h2>
+                  </div>
+                  <div class="e"><h2>Terms & conditions</h2></div>
+                  <div class="e"><h2>Privacy Policy</h2></div>
+                  <div class="e"><h2>Disclaimer</h2></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

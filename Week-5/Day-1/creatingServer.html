@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Node</title>
+</head>
+<body>
+  <h2>Fetch the Data from Node Server</h2>
+  <button onclick="fetchData()">Click</button>
+  <div id="output" style="margin-top: 20px; font-weight: bold;"></div>
+
+  <script>
+    function fetchData() {
+      fetch('/data')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('output').innerText = data;
+        })
+        .catch(err => {
+          console.error('Error:', err);
+        });
+    }
+  </script>
+</body>
+</html>

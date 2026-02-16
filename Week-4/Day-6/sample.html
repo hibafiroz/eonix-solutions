@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn" style="border: 2px solid black; padding: 5px;">fetch data</button>
+    <p id="para"></p>
+    <p id="para2"></p>
+    <p id="lastUser"></p>
+<script>
+    const btn=document.getElementById("btn")
+    const para=document.getElementById("para")
+    const para2=document.getElementById("para2")
+    const lastUser=document.getElementById("lastUser")
+    
+    console.log(this)
+   
+   btn.addEventListener("click",fetchData)
+   
+    async function fetchData(){
+        try{
+            
+            const store=localStorage.getItem("name")
+            console.log(store)
+            // if(store){
+            //    lastUser.textContent=store
+            // }else{
+            //     lastUser.textContent=""
+            // }
+         para.textContent="Loading..."
+        const res=await fetch("https://randomuser.me/api/")
+        const data=await res.json()
+        const user=data.results[0]
+        const name=user.name.first
+        const email=user.email
+        para.textContent=name
+        para2.textContent=email
+        localStorage.setItem("name",name)
+        
+        //console.log(user.name.first)
+         //para.textContent="name:"+data.name+"email"+data.email
+    }catch(error){
+        alert(error)
+    }
+}
+
+
+
+
+</script>
+</body>
+</html>
+
+<!-- // Task: Show a random user’s name and email from this API:
+// 👉 https://randomuser.me/api/
+ 
+// ⸻ -->
+ 
+<!-- // Do the following:
+// 	1.	Use async/await to fetch the user when the page loads.
+// 	2.	Show "Loading..." while fetching.
+// 	3.	On success, display the user’s name and email.
+// 	4.	On error, show "Error fetching user" using try/catch.
+// 	5.	Add a button to fetch and display the next user.
+// 	6.	Store the last fetched user’s name in localStorage and show "Last user: ___" on reload. -->

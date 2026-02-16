@@ -1,0 +1,42 @@
+.container{
+    background-color: rgb(86, 25, 25);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    
+}
+
+.left{
+    
+    flex: 1;
+    border: 5px solid white;
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    font-style: italic;
+
+}
+
+.list{
+    text-align: left;
+}
+
+.right{
+    flex: 1;
+    border: 1px solid black;
+    text-align: center;
+    padding: 40px;
+    
+}
+
+h1{
+    font-size: 50px;
+    color: white;
+    font-style: italic;
+}
+h2{
+    font-size: 20px;
+}
+img{
+    height: 300px;
+}

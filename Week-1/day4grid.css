@@ -1,0 +1,45 @@
+.container{
+    background-color: rgb(74, 89, 104);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr ;
+    grid-template-rows: 1fr 1fr;
+    height: 1100px;
+    gap: 12px;
+}
+.one, .two, .three, .four, .five, .six{
+    background-color: white;
+    border: 2px solid rgb(44, 25, 61);
+    text-align: center;
+    border-radius: 20px;
+}
+h1{
+    text-align: center;
+    font-style: italic;
+    color: brown;
+    font-size: 50px;
+}
+.one{
+    
+    top: 2px;
+    right: 2px;
+}
+img{
+    height: 300px;
+}
+.badge{
+    position: absolute;
+    top: 125px;
+    right: 10px;
+    background-color: brown;
+    color: white;
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 3px 8px;
+}
+h2{
+    font-size: 20px;
+    font-style: italic;
+}
+p{
+    font-style: italic;
+}

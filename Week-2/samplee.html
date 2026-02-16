@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <div class="h-screen flex flex-col justify-center items-center">
+
+
+
+      <div class="border-2 border-black p-8">
+        <div class="bg-blue-300">
+          <input
+            type="text"
+            placeholder="enter message"
+            class="border-2 border-black p-3"
+            id="inputText"
+            required
+          />
+        </div>
+        <div>
+          <p id="error" class="hidden text-red-500 py-2">Message is required</p>
+        </div>
+        <button id="btn" class="bg-red-400 p-3 mx-auto">Show notification</button>
+      </div>
+
+
+
+      <div class="bg-gray-300 absolute top-5 hidden px-10" id="div">
+        <button id="close" class="text-red-500">x</button>
+        <p id="notification"></p>
+      </div>
+
+
+
+    </div>
+    <script>
+      const btn = document.getElementById("btn");
+      const error = document.getElementById("error");
+      const notification = document.getElementById("notification");
+      const inputText = document.getElementById("inputText");
+      const x = document.getElementById("close");
+
+      btn.addEventListener("click", (e) => {
+        if (inputText.value.trim() === "") {
+          error.classList.remove("hidden");
+        } else {
+          error.classList.add("hidden");
+          div.classList.remove("hidden");
+          notification.textContent = inputText.value
+          setTimeout(() => {
+            div.classList.add('hidden')
+            
+          }, 3000);
+        }
+      });
+      x.addEventListener("click", () => {
+        div.classList.add("hidden");
+      });
+    </script>
+  </body>
+</html>
