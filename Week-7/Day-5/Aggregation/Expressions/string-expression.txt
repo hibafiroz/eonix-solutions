@@ -1,0 +1,35 @@
+> Common String Expression:
+
+These are used inside aggregation to format text data.   (mostly with $project / $set) 
+
+1. $concat:
+It is used to combine strings.
+{ $concat: ["$firstName", " ", "$lastName"] }
+
+2. $toUpper:
+It makes text CAPITAL.
+{ $toUpper: "$name" }
+
+3. $toLower:
+It makes text small.
+{ $toLower: "$name" }
+
+4. $substrCP
+{ $substrCP: ["$name", 0, 3] }
+ takes part of string (start, length).
+
+5. $strLenCP:
+returns string length.
+{ $strLenCP: "$name" }
+
+6. $trim:
+{ $trim: { input: "$name" } }
+removes spaces from start + end.
+
+7. $replaceOne:
+{ $replaceOne: { input:"$text", find:"old", replacement:"new" } }
+replaces first match.
+
+8. $replaceAll:
+{ $replaceAll: { input:"$text", find:"old", replacement:"new" } }
+replaces ALL matches.

@@ -187,3 +187,13 @@ db.students.aggregate([
 output: ["A","B"]
 
 > After $group, you get one result per group — and if _id is null, everything becomes one single group, so you get only one value.
+
+
+
+
+> Note:
+
+totalAmount: {
+  $sum: { $multiply: ['$items.price', '$items.quantity'] }
+}
+$sum is an accumulator (used in $group / $bucket), not for simple field calculation.

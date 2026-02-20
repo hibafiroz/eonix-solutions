@@ -1,0 +1,64 @@
+> Type / Null Checking Expressions:
+
+These expressions is used to handle missing fields and validate data inside aggregation
+
+1. $ifNull: handle missing or null values
+Returns the first value if it exists, otherwise returns a default.
+
+> Syntax
+{ $ifNull: [ value, defaultValue ] }
+
+> Example
+phone: { $ifNull: ["$phone", "Not Provided"] }
+
+If phone exists → show it
+If phone is null / missing → "Not Provided"
+
+
+2. $type — find data type of a field
+
+Returns the BSON type of a field.
+
+> Example:
+{ $type: "$age" }
+
+Possible outputs:
+"string"
+"int"
+"double"
+"array"
+"object"
+"null"
+
+Use case: Check what type your data actually is (debugging / validation).
+
+
+3. $isNumber — check if value is numeric
+
+Returns:
+true → if number
+false → if not
+
+Example
+{ $isNumber: "$salary" }
+
+Often used with $cond
+salaryStatus: {
+  $cond: {
+    if: { $isNumber: "$salary" },
+    then: "Valid",
+    else: "Invalid"
+  }
+}
+
+
+4. { $isArray: "$skills" } : Checks whether field is an array.
+Returns true / false.
+
+
+| Operator    | Purpose        |
+| ----------- | -------------- |
+| `$ifNull`   | default value  |
+| `$type`     | get field type |
+| `$isNumber` | check number   |
+| `$isArray`  | check array    |

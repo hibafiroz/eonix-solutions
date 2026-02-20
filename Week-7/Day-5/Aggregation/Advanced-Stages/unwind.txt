@@ -1,0 +1,46 @@
+11. $unwind:
+
+$unwind breaks an array into multiple documents. If an array has 3 elements, $unwind gives 3 documents.
+If the array is empty, that document will disappear from the result.
+
+> example:
+
+{
+  orderId: 1,
+  items: ["pen", "pencil", "eraser"]
+}
+
+Now we apply:
+{ $unwind: "$items" }
+
+output:
+{ orderId: 1, items: "pen" }
+{ orderId: 1, items: "pencil" }
+{ orderId: 1, items: "eraser" }
+
+Originally → 1 document
+After unwind → 3 documents because array had 3 items.
+
+If items is empty MongoDB removes that document completely.
+If we still want that document without removing
+We use preserveNullAndEmptyArrays:
+{
+  $unwind: {
+    path: "$items",
+    preserveNullAndEmptyArrays: true
+  }
+}
+Even if items is empty or null, MongoDB will keep the document.
+
+Arrays can appear:
+
+already inside documents
+after $lookup (because lookup always returns an array)
+after $group (when we use $push or $addToSet)
+after $project or $addFields
+
+When do we NEED $unwind:
+1. Grouping by array values
+2. Filtering based on array elements
+3. Doing calculations per array item
+4. Converting array into normal documents

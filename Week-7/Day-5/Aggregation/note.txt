@@ -14,11 +14,14 @@ It works like a pipeline where documents goes step by step. Each step is called 
 6. $limit
 7. $skip
 
-> Other useful stages:
+> Advanced stages:
 
 1. $lookup
 2. $unwind
 3. $count
+4. $bucket
+5. $facet
+6. $unwind
 
 Aggregation is mainly used for reports and analytics.
 Example: Count users by city, Find total sales, Find average marks

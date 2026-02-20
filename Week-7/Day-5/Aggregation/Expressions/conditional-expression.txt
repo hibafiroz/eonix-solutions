@@ -1,0 +1,84 @@
+> Conditional Expressions:
+We mainly use them inside aggregation to create fields based on logic.
+
+
+1. $cond:  If / Else (only ONE condition):
+$cond is used when we have only one condition — it works like if–else. 
+For example, if a student’s score is greater than 50, we return Pass, otherwise Fail.
+
+> Syntax:
+$cond: [
+  <condition>,               //the condition
+  <value_if_true>,           //If condition is true, do this
+  <value_if_false>           //If condition is false, do this
+]
+
+> Example:
+ statusLabel: {
+  $cond: [
+    { $gte: ["$score", 50] },
+    "Pass",
+    "Fail"
+  ]
+}               OR
+
+db.students.aggregate([
+  {
+    $addFields: {
+      status: {
+        $cond: {
+          if: { $gte: ["$marks", 40] },
+          then: "Pass",
+          else: "Fail"
+        }
+      }
+    }
+  }
+])
+Output:
+{ name: "Hiba", marks: 85, status: "Pass" }
+{ name: "Sara", marks: 35, status: "Fail" }
+
+
+
+2. $switch:  Multiple conditions (like if / else if / else):
+
+$switch is used when we have multiple conditions. It works like if–else if–else. 
+For example, if score is above 80 we give grade A, above 60 grade B, and otherwise grade C. 
+MongoDB checks the conditions from top to bottom and returns the first match.
+
+> Syntax:
+$switch: {
+  branches: [
+    { case: <condition1>, then: <value1> },
+    { case: <condition2>, then: <value2> }
+  ],
+  default: <defaultValue>
+}
+
+> Example:
+grade: {
+  $switch: {
+    branches: [
+      { case: { $gte: ["$score", 80] }, then: "A" },
+      { case: { $gte: ["$score", 60] }, then: "B" }
+    ],
+    default: "C"
+  }
+}
+
+marks ≥ 80 → A Grade
+else if ≥ 60 → B Grade
+else → C Grade
+
+
+
+3. $ifNull — give default value:
+It is $ifNull — give default value.
+
+> Example:
+{
+  $ifNull: ["$phone", "Not Provided"]
+}
+If phone exists → show it
+If not → show "Not Provided"

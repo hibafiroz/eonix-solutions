@@ -1,0 +1,99 @@
+> Pipeline-based $lookup:
+
+Pipeline $lookup is used when normal $lookup is not enough.
+Instead of just matching fields, we can run aggregation on the second collection.
+So we can filter records and pick only needed fields before joining.
+
+db.orders.aggregate([
+  {
+    $lookup: {
+      from: "users",
+      let: { uid: "$userId" },
+
+      pipeline: [
+        {
+          $match: {
+            $expr: { $eq: ["$_id", "$$uid"] }
+          }
+        },
+        { 
+            $project: { name: 1, email: 1, _id: 0 }
+        }
+      ],
+
+      as: "user"
+    }
+  }
+])
+
+$match: { _id: "$userId" }
+we can't directly use $userId inside pipeline.
+Because inside pipeline, MongoDB does not know fields from the main collection.
+
+We use let:
+let is used to send values from the main document into the lookup pipeline.
+
+Example:
+let: { uid: "$userId" }     // Now userId is stored in a variable called uid.
+Then we access it using $$uid
+
+But normal $match still can't compare fields
+So this also won't work:
+$match: { _id: "$$uid" }
+
+That’s why we use $expr.
+We use $expr when the condition is expression-based. for ex field with variable, field with field or when calculations are involved.
+It evaluates expressions inside $match.
+
+So final working version:
+$match: {
+  $expr: { $eq: ["$_id", "$$uid"] }
+}
+
+
+1. paidAmount > discount:
+Normal query
+paidAmount: { $gt: "$discount" }
+Because MongoDB treats "$discount" as a string.
+So we use $expr:
+{
+ $match: {
+   $expr: { $gt: ["$paidAmount", "$discount"] }     //field vs field.
+ }
+}
+
+2. sellingPrice > costPrice + tax:
+{
+ $match: {
+   $expr: {
+     $gt: ["$sellingPrice", { $add: ["$costPrice", "$tax"] }]      //field vs calculation.
+   }
+ }
+}
+
+Normal query → value comparison
+$expr → field comparison + math
+
+
+3. 
+db.orders.find({
+  paidAmount: { $gt: "$discount" }
+})
+this does not work because in normal queries, MongoDB treats "$discount" as a string value, not as a field.
+
+db.orders.find({
+  $expr: {
+    $gt: ["$paidAmount", "$discount"]
+  }
+})
+
+4. sellingPrice > (costPrice + tax)
+db.products.find({
+  $expr: {
+    $gt: [
+      "$sellingPrice",
+      { $add: ["$costPrice", "$tax"] }
+    ]
+  }
+})
+

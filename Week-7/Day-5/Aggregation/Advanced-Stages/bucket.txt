@@ -1,0 +1,81 @@
+13. $bucket:
+
+$bucket is used when we want to group data into ranges instead of exact values.
+For example, if I have student marks, instead of grouping each value separately, I can define ranges like 0–40, 40–60, 60–80, etc. MongoDB automatically puts each document into the correct range.
+Its useful in analytics dashboard, age groups or price categories like in e-commerce app.
+
+Boundaries:
+[0, 18, 30, 50]
+
+Means:
+0 ≤ age < 18
+18 ≤ age < 30
+30 ≤ age < 50
+Boundaries are lower inclusive and upper exclusive.
+
+Query:
+db.users.aggregate([
+ {
+   $bucket: {
+     groupBy: "$age",
+     boundaries: [0, 18, 30, 50],
+     default: "50+",
+     output: {
+       count: { $sum: 1 }
+     }
+   }
+ }
+])
+output:
+[
+ { _id: 0, count: 3 },
+ { _id: 18, count: 5 },
+ { _id: 30, count: 2 },
+ { _id: "50+", count: 1 }
+]
+_id is bucket start value.
+
+
+Example2:
+db.products.aggregate([
+  {
+    $bucket: {
+      groupBy: "$price",
+      boundaries: [0, 500, 1000, 2000],
+      default: "Expensive",
+      output: {
+        count: { $sum: 1 },
+        products: { $push: "$name" }   //Collect all product names that fall into this bucket and store them as an array called products.
+      }
+    }
+  }
+])
+
+
+
+14. $bucketAuto:     automatic range grouping
+
+$bucketAuto is almost same as $bucket.
+The only difference is, In $bucket we define the ranges but In $bucketAuto, MongoDB automatically creates the ranges.
+we just write bucket count and MongoDB splits data evenly
+
+> Example:
+db.users.aggregate([
+ {
+   $bucketAuto: {
+     groupBy: "$age",
+     buckets: 3,
+     output: {
+       count: { $sum: 1 }
+     }
+   }
+ }
+])
+
+ Output:
+ [
+ { _id: { min: 18, max: 25 }, count: 4 },
+ { _id: { min: 25, max: 35 }, count: 3 },
+ { _id: { min: 35, max: 50 }, count: 2 }
+]
+MongoDB created ranges automatically.

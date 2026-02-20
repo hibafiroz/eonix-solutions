@@ -94,3 +94,28 @@ db.orders.aggregate([
     }
   }
 ])
+
+
+4. Avoid Multiple $lookup Stages:
+
+Each $lookup works like a join. So if we use many $lookup stages in one pipeline, MongoDB has to read multiple collections again and again and merge the data. That can slow things down
+
+- Solution1: If data is closely related and doesn't change often, we embed it to avoid multiple lookups.
+- Solution2: For heavy queries, we pre-aggregate data and store it in another collection so APIs don’t run expensive lookups every time.
+
+Pre-aggregation means we do the heavy calculation once — maybe every hour or every day — and save the result in another collection.
+After that, our application just reads from that saved collection.
+So it becomes very fast because we are not calculating again and again.
+
+> For ex: Save result in a new collection daily_customer_sales
+db.daily_customer_sales.find()
+No lookup. No grouping. Fast.
+
+To save the result, we can use:
+
+$merge → it updates existing data or inserts new data. This is safer and mostly used.
+$out → it replaces the whole collection with new data.
+
+
+5. Use $lookup only when necessary:
+If we need to join the same data again and again, we change the schema and save that data together, so we don’t have to use $lookup every time.

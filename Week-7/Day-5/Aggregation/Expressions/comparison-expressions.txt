@@ -1,0 +1,46 @@
+> Comparison Expressions:
+
+Comparison operators compare two values and return true or false
+
+Syntax:
+{ $operator: [ value1, value2 ] }
+
+
+| Operator | Meaning               |
+| -------- | --------------------- |
+| `$eq`    | equal                 |
+| `$ne`    | not equal             |
+| `$gt`    | greater than          |
+| `$gte`   | greater than or equal |
+| `$lt`    | less than             |
+| `$lte`   | less than or equal    |
+
+
+
+1. $eq
+{ $eq: ["$status", "Active"] }
+
+
+Returns true if status is "Active".
+
+2. $gt
+{ $gt: ["$marks", 40] }
+
+
+Returns true if marks > 40.
+
+3. $lte
+{ $lte: ["$age", 60] }
+
+
+Note:
+
+Normal query Comparison Operators Used in: find() and $match to Filter documents
+- db.users.find({
+  age: { $gte: 18 }
+})                        //Only return users whose age ≥ 18.
+- It returns documents
+
+Aggregation Comparison Expressions used inside aggregation stages and $cond to Build logic / calculate fields
+- eligible: { $gte: ["$age", 18] }     //Used to create a new field.
+- It returns true or false

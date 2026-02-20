@@ -1,0 +1,84 @@
+Terminal Stages:
+
+Terminal stages are aggregation stages that finish the aggregation by saving results into a collection.
+
+1. $out:
+$out writes the full pipeline output into a collection.
+If that collection already exists, it completely replaces it.
+
+> Example:
+
+db.students.aggregate([
+ { $match: { status: "Passed" } },
+ { $out: "reportCollection" }
+])
+Now MongoDB creates or replaces reportCollection with passed students.
+
+If the collection is in another database.
+{
+ $out: {
+   db: "databaseName",
+   coll: "collectionName"
+ }
+}
+
+After $out, no more stages can run.
+
+Note:
+$out is powerful because it writes aggregation results directly into a collection.
+But it’s dangerous because if the collection exists, it completely replaces it.
+
+
+2. $merge:
+
+$merge is safe version of $out.
+Instead of replacing the whole collection, it can insert or update documents based on a matching key.
+
+{
+ $merge: {
+   into: "targetCollection",
+   on: "_id",                       // match by _id
+   whenMatched: "merge",            // if found → merge fields
+   whenNotMatched: "insert"         // if not found → insert new document
+ }
+}
+
+- whenMatched:
+
+"merge" → combine fields
+"replace" → replace document
+"keepExisting" → don’t touch old
+"fail" → throw error
+
+- whenNotMatched:
+
+"insert"
+"discard"
+"fail"
+
+> Important Restriction ($out & $merge):
+
+$out and $merge CANNOT be used inside:
+- $facet
+- $lookup pipelines
+- any inner / nested pipelines
+They must be the LAST stage of the MAIN pipeline.
+
+
+> Where $merge / $out are really used:
+
+1. Reporting & Dashboards:
+Pre-compute stats and save to collections.
+
+2. ETL / Data Transformation
+Clean data → store transformed version.
+
+3. Data Migration / Restructuring
+Old schema → new schema.
+
+4. Batch / Scheduled Jobs
+Nightly aggregations.
+
+5. Incremental Updates (mainly $merge)
+Update only changed records.
+

@@ -1,0 +1,50 @@
+Aggregation Pipeline Update:
+
+aggregation pipeline update allows us to update documents using aggregation expressions.
+
+> Normal update:
+db.users.updateOne(filter, {
+  $set: { field: value }
+})
+
+Direct value assignment
+Cannot use aggregation expressions
+Simple updates only
+
+> Aggregation Pipeline Update:
+db.users.updateOne(filter, [
+  {
+    $set: { field: <expression> }
+  }
+])
+Treat update as aggregation pipeline
+Expressions are allowed
+
+It is useful bcz:
+- Conditional updates ($cond)
+- Math calculations ($add, $multiply)
+- String operations ($concat)
+- Field-to-field updates
+- Complex logic
+
+- Allowed Stages are-
+$set, $addFields, $unset, $replaceRoot, $replaceWith, $project (limited)
+Because update works per document
+
+> Example:
+db.users.updateOne(
+  { _id: 1 },
+  [
+    {
+      $set: {
+        status: {
+          $cond: {
+            if: { $gte: ["$marks", 40] },
+            then: "Pass",
+            else: "Fail"
+          }
+        }
+      }
+    }
+  ]
+)

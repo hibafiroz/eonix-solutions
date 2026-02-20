@@ -1,8 +1,7 @@
 3. $addFields:
 
-> It is used to add new fields to existing documents.
+> It is used to add new fields on top of existing documents.
 > $addFields does NOT remove old/original fields.
-> It only adds new fields on top of existing data.
 
 for example:
 [

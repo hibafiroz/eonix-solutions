@@ -1,0 +1,106 @@
+> Logical Expressions:
+
+Logical expressions help us to combine conditions or reverse conditions.
+They don’t return values like $cond.
+They only return true / false.
+
+
+1. $and:
+Returns true only if ALL conditions are true.
+
+> Syntax:
+{ $and: [ condition1, condition2, ... ] }
+
+> Example:
+{
+  $and: [
+    { $gte: ["$marks", 40] },
+    { $lte: ["$marks", 100] }
+  ]
+}
+marks must be between 40 and 100.
+
+
+2. $or:
+Returns true if ANY ONE condition is true.
+
+> Syntax:
+{ $or: [ condition1, condition2 ] }
+
+> Example:
+{
+  $or: [
+    { $lt: ["$age", 18] },
+    { $gt: ["$age", 60] }
+  ]
+}
+ age < 18 OR age > 60.
+
+
+3. $not:
+Reverses a condition.
+
+> Syntax:
+{ $not: [ condition ] }
+
+> Example:
+{ $not: [{ $gte: ["$age", 18] }] }
+ means: age NOT ≥ 18
+(same as age < 18)
+
+
+
+> Full Example:
+db.users.aggregate([
+  {
+    $project: {
+      name: 1,
+      eligible: {
+        $cond: {
+          if: {
+            $and: [
+              { $gte: ["$age", 18] },
+              { $eq: ["$country", "India"] }
+            ]
+          },
+          then: "Yes",
+          else: "No"
+        }
+      }
+    }
+  }
+])
+
+
+| Operator | Meaning  |
+| -------- | -------- |
+| `$and`   | All true |
+| `$or`    | Any true |
+| `$not`   | Reverse  |
+
+
+
+Note:
+- Normal Logical Operators (Query Logical)
+Used in: find() and $match to Filter documents
+
+query form:
+db.users.find({
+  $and: [
+    { age: { $gte: 18 } },
+    { country: "India" }
+  ]
+})
+$and: [ { field: condition }, { field: condition } ]
+returns documents
+
+
+- Aggregation Logical Expressions used inside aggregation stages and $cond to build logic/calculate fields
+eligible: {
+  $and: [
+    { $gte: ["$age", 18] },
+    { $eq: ["$country", "India"] }
+  ]
+}
+$and: [ expression, expression ]
+return true or false

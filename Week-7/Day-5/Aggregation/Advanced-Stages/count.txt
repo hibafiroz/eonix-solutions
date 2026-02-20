@@ -1,0 +1,34 @@
+14. $count:
+
+$count counts how many documents are currently passing through the pipeline
+and returns ONE summary document.
+Internally it works like $group with $sum: 1.
+
+> syntax:
+{ $count: "total" }
+"total" becomes the field name in output.
+{ total: 25 }
+
+
+> Example:
+
+db.users.aggregate([
+ { $match: { status: "active" } },
+ { $count: "totalUsers" }
+])
+
+output:
+[
+ { totalUsers: 10 }
+]
+
+$count is just a shortcut for:
+{
+ $group: {
+   _id: null,
+   total: { $sum: 1 }
+ }
+}
+
+If ZERO documents reach $count:
+it returns empty array, not { total: 0 }.

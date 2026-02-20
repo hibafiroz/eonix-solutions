@@ -1,0 +1,86 @@
+> Date Expression:
+
+Date expressions let us extract parts of a date, format dates, or do calculations with dates inside aggregation.
+Date expressions work on fields of type Date.
+
+Example 
+createdAt: ISODate("2025-02-19T10:30:00Z")
+
+1. $year
+Gets year from date.
+{ $year: "$createdAt" }
+Output: 2025
+
+2. $month
+Gets month (1–12)
+{ $month: "$createdAt" }
+
+
+3. $dayOfMonth
+Gets day of month
+{ $dayOfMonth: "$createdAt" }
+
+
+4. $hour, $minute, $second
+Get time parts.
+{ $hour: "$createdAt" }
+
+5. $dateToString (very important)
+Formats date as string.
+
+{
+  $dateToString: {
+    format: "%Y-%m-%d",
+    date: "$createdAt"
+  }
+}
+Output: "2025-02-19"
+
+
+6. $dateDiff
+Finds difference between two dates.
+
+{
+  $dateDiff: {
+    startDate: "$dob",
+    endDate: "$$NOW",
+    unit: "year"
+  }
+}
+Used for age calculation.
+
+
+7. $dateAdd / $dateSubtract
+Add or subtract time.
+
+{
+  $dateAdd: {
+    startDate: "$createdAt",
+    unit: "day",
+    amount: 7
+  }
+}
+adds 7 days.
+
+
+Small Example:
+db.users.aggregate([
+  {
+    $project: {
+      name: 1,
+      yearJoined: { $year: "$createdAt" }
+    }
+  }
+])
+
+
+| Expression      | Use           |
+| --------------- | ------------- |
+| `$year`         | get year      |
+| `$month`        | get month     |
+| `$dayOfMonth`   | get day       |
+| `$hour`         | get hour      |
+| `$dateToString` | format date   |
+| `$dateDiff`     | difference    |
+| `$dateAdd`      | add time      |
+| `$dateSubtract` | subtract time |

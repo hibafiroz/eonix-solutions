@@ -1,0 +1,60 @@
+> Array Expression:
+
+Array expressions are used to manipulate array fields inside aggregation.
+
+Example:
+skills: ["HTML", "CSS", "JS"]
+
+
+1. $size — get array length
+{ $size: "$skills" }
+Returns number of elements.
+
+
+2. $arrayElemAt — get item by index
+{ $arrayElemAt: ["$skills", 0] }
+First element of array.
+
+
+3. $in — check value exists in array
+{ $in: ["JS", "$skills"] }
+true if "JS" exists.
+
+
+4. $map — transform array
+Used when you want to modify each element.
+
+{
+  $map: {
+    input: "$marks",
+    as: "m",
+    in: { $add: ["$$m", 5] }
+  }
+}
+adds 5 to every mark.
+
+
+5. $filter — filter array values
+{
+  $filter: {
+    input: "$marks",
+    as: "m",
+    cond: { $gte: ["$$m", 40] }
+  }
+}
+keeps only marks ≥ 40.
+
+
+6. $concatArrays — merge arrays
+{ $concatArrays: ["$skills", "$extraSkills"] }
+
+
+> Small Example
+db.users.aggregate([
+  {
+    $project: {
+      name: 1,
+      skillCount: { $size: "$skills" }
+    }
+  }
+])

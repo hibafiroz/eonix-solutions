@@ -1,0 +1,56 @@
+12. $facet:
+
+$facet is used to run multiple aggregation pipelines at the same time on the same data
+and gives all results together in one output.
+So instead of running many queries, we run one query and get different results.
+
+> Example:
+
+1. CourseWise:
+
+courseWise: [
+ { $group: { _id: "$course", count: { $sum: 1 } } },
+ { $project: { _id: 0, course: "$_id", count: 1 } },
+ { $sort: { count: -1 } }
+]
+
+outptu:
+[
+ { course: "MERN", count: 5 },
+ { course: "MEAN", count: 3 },
+ { course: "Python", count: 2 }
+]
+
+2. Yearwise:
+
+yearWise: [
+ { $group: { _id: "$year", count: { $sum: 1 } } },
+ { $project: { _id: 0, year: "$_id", count: 1 } }
+]
+
+output:
+[
+ { year: 2023, count: 4 },
+ { year: 2024, count: 6 }
+]
+
+$facet always returns only one document.
+Inside that document, each pipeline result comes as an array.
+[
+ {
+   courseWise: [
+     { course: "MERN", count: 5 },
+     { course: "MEAN", count: 3 }
+   ],
+   yearWise: [
+     { year: 2023, count: 4 },
+     { year: 2024, count: 6 }
+   ]
+ }
+]
+
+> Drawback:
+It can be heavy on memory for large datasets because everything is processed at once, so we should filter using $match before $facet.
+
+> Useful:
+$facet is useful for dashboards, pagination, and analytics where we need multiple results from the same dataset in a single query.

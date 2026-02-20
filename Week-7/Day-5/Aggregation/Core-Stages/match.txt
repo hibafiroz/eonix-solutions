@@ -13,3 +13,32 @@ For example:
 db.users.aggregate([
  { $match:{ age:22 } }
 ])                          // only name Hiba document is returned.
+
+MongoDB automatically treats multiple conditions inside $match as AND.
+
+
+> Note:
+
+We cannot use comparision expr directly in match or find
+$match: {
+  city: 'Kochi',
+  { $gt: ['$marks', 60] }
+}
+
+Can do in 2 ways:
+1. db.aggregation.aggregate([
+  {
+    $match: {
+      city: "Kochi",
+      marks: { $gt: 60 }
+    }
+  }
+])
+
+2. db.aggregation.aggregate([
+  {
+    $match: {
+      $expr: { $gt: ["$marks", 60] }
+    }
+  }
+])

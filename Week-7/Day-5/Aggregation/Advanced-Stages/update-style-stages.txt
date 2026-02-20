@@ -1,0 +1,84 @@
+Update-Style Stages:
+
+These stages modify the document shape inside aggregation (not actual DB update — only pipeline result).
+
+1. $set (same as $addFields)
+2. $unset
+3. $replaceRoot
+4. $replaceWith
+
+1. $set (same as $addFields):
+It Adds new fields or updates existing fields. Does NOT remove existing fields.
+{
+ $set: {
+   status: "Passed",
+   totalWithBonus: { $add: ["$marks", 5] }
+ }
+}
+Here it adds status, calculates new field, keeps all old fields
+
+
+2. $unset:
+It is used to delete fields from documents in aggregation.
+{ $unset: "password" }     OR
+{ $unset: ["password", "secretKey"] }
+
+
+3. $replaceRoot:
+$replaceRoot completely replaces the document with another object.
+Whatever we put in newRoot becomes the full document.
+It’s powerful but dangerous because all previous fields are removed.
+
+{
+ $replaceRoot: {
+   newRoot: "$profile"
+ }
+}
+Means Whole document becomes profile.
+
+> Example 1:
+If my document is:
+{
+ name: "Hiba",
+ profile: { city: "Kochi", age: 22 }
+}
+
+After $replaceRoot:
+{
+ city: "Kochi",
+ age: 22
+}
+Only profile remains. Everything else is gone. That's why it’s called dangerous.
+
+> Example 2 (creating a new object):
+{
+ $replaceRoot: {
+   newRoot: {
+     name: "$name",
+     city: "$profile.city"
+   }
+ }
+}
+Now MongoDB builds a brand new object.
+output:
+{
+ name: "Hiba",
+ city: "Kochi"
+}
+
+
+4. $replaceWith:
+$replaceWith is just the modern and shorter version of $replaceRoot.
+They’re useful when reshaping data, but risky because they remove all old fields.
+
+> Example:
+
+{ $replaceWith: "$profile" }
+Same result as:
+{ $replaceRoot: { newRoot: "$profile" } }
+
+
+Note:
+$project is NOT considered an update-style stage.
+$project also reshapes documents, but it’s not considered update-style because it’s mainly for selecting or excluding fields.
+Update-style stages like $set and $unset behave more like updates.
