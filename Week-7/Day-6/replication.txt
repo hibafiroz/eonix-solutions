@@ -1,0 +1,56 @@
+> Replication:
+
+Replication means keeping the same data on multiple servers. 
+So if one server get crashed, another server already has the data and appliaction keeps running.
+
+> Replica set:
+
+A replica set is a group of mongodb server that keep the same data.
+It usually has one primary and multiple secondary servers.
+
+> Oplog:
+
+Oplog is a special capped collection that records all write operations performed on the primary node. 
+Secondary nodes reads the operation and apply the same to stay in sync.
+
+> If Primary Crashes, How MongoDB Chooses New Primary:
+
+- When the primary server crashes, the secondary servers first detect that the primary is not responding. This is done using heartbeat.
+  (Heartbeat is a small signal that servers send to each other again and again to check if everyone is alive)
+- Then one of the secondary servers becomes a candidate. After that, voting happens automatically.
+- The server which gets majority votes wins. Finally, that server becomes the new primary.
+
+
+> Write Concern:
+
+- write concern decides when MongoDB should tell that a write operation is successful.
+- By default, MongoDB uses w:1. That means as soon as the primary server writes the data, MongoDB immediately sends success msg to the client. 
+  This is fast, but if the primary crashes before secondaries copy, we could lose that data.
+- If we use w: 'majority', MongoDB waits until most of thesecondaries also save the data. Only after majority confirmation does it return success. 
+  This is slower, but much safer because the data already exists on multiple servers.
+
+  db.collection.insertOne(
+    { name: "John" },
+    { writeConcern: { w: "majority" } }
+  )
+
+> when majority is useful?
+
+We use majority write concern for important data like payments, orders, financial transactions, or important logs.
+For normal data, default is enough.
+
+
+> Read Preference:
+
+read preference decides which server should MongoDB reads data from. 
+By default it reads from the primary because primary always has the latest data. 
+We can also read from secondary to reduce load on primary, but secondaries may have slightly old data due to replication lag, 
+so for critical things like login or payments we always use primary
+
+But we can’t always read from secondary because replication is not instant. Secondaries may have slightly old data — this is called replication lag.
+
+Note:
+- MongoDB replication is asynchronous by default.
+  That means primary does not wait for secondary servers to copy data. It confirms write immediately.
+- But if we use write concern majority, then primary waits until most servers copy the data.
+- So it becomes synchronous.

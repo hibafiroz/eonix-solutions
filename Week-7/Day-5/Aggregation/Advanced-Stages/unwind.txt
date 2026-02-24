@@ -1,6 +1,6 @@
 11. $unwind:
 
-$unwind breaks an array into multiple documents. If an array has 3 elements, $unwind gives 3 documents.
+$unwind is used to break an array into multiple documents. If an array has 3 elements, $unwind gives 3 documents.
 If the array is empty, that document will disappear from the result.
 
 > example:

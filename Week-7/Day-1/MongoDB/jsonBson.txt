@@ -1,0 +1,104 @@
+> JSON v/s BSON:
+
+JSON is a text format used to store and share data. 
+It is easy for humans to read, but it supports only basic types like string, number, and boolean.
+
+BSON stands for Binary JSON. It is a binary format so its faster for computers to process.
+It supports extra data types like Date, ObjectId, and Decimal128.
+
+
+> Why MongoDB uses BSON internally?
+
+It is faster to read and write since it’s binary.
+It supports more data types. 
+It also helps with indexing for better performance.
+
+
+> What is an Insert Operation?
+An insert operation is the process of adding new documents into a collection.
+
+
+1. insertOne()
+
+Purpose: Inserts a single document into a collection.
+Syntax:
+db.collectionName.insertOne({
+  key1: value1,
+  key2: value2,
+})
+
+Example:
+db.users.insertOne({
+  name: "Hiba",
+  age: 25,
+  isStudent: true
+})
+MongoDB automatically creates an _id for the document.
+
+
+2. insertMany()
+
+Purpose: Inserts multiple documents at once into a collection.
+
+Syntax:
+db.collectionName.insertMany([
+  { key1: value1, key2: value2 },
+  { key1: value1, key2: value2 },
+])
+
+Example:
+db.users.insertMany([
+  { name: "Ali", age: 22 },
+  { name: "Sara", age: 24 },
+  { name: "John", age: 26 }
+])
+
+
+> Retrieving data:
+It means reading data from the collection.
+
+
+1. find(): To get documents from a collection.
+Syntax:
+db.collectionName.find(filter)
+     
+Example: Get all users older than 23:
+db.users.find({ age: { $gt: 23 } })
+
+
+2. find().pretty()
+Makes the output formatted and easy to read.
+Syntax:
+db.collectionName.find(query).pretty()
+
+
+1. Auto _id
+
+Every document automatically gets a unique _id field.
+It ensures that every document can be uniquely identified.
+Example:
+db.users.insertOne({ name: "Hiba", age: 25 })
+
+MongoDB automatically adds _id like:
+{
+  _id: ObjectId("650f4e2f1234abcd5678ef90"),
+  name: "Hiba",
+  age: 25
+}
+
+2. ObjectId Structure
+
+ObjectId is the default value for the _id field. It is 12 bytes long.
+It has three parts: 
+4 bytes for timestamp (seconds since Unix epoch), 5 bytes for a random value, and 3 bytes as an incrementing counter. 
+Because of this structure, every ObjectId is unique.
+
+3. Extracting Timestamp from id.
+
+To find one's time of creation using id, we use-
+db.students.findOne()._id.getTimestamp()
+
+For multiple docs, we use-
+db.students.find().forEach(doc => {
+  print(doc._id.getTimestamp())
+})

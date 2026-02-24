@@ -1,14 +1,14 @@
 4. Text Index:
 
-- Text index is used for searching words inside string fields.
+- A text index is used to search for words inside string fields.
 - Normal indexes only matches full strings, but text index can search individual words like 'developer' even if the full value is 'Full Stack Developer'.
 
 - Internally how it works is, first everything is converted to lowercase called normalization then 
   It breaks the text into individual words which is called tokenization. 
-  Then, stop words are removed, and stemming reduces the words into their root form.
+  Then, stop words are removed, and stemming converts the words into their root form.
   After that, an inverted index is created where each word points to the documents that containing it.
 
-- Only one text index is allowed per collection, and it's not for sorting or range queries, mainly for text searching.
+- Only one text index is allowed per collection and it's not for sorting or range queries, mainly for text searching.
 
 
 It enables features like:

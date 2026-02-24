@@ -1,11 +1,12 @@
 5. Hashed Index:
 
-- A hashed index is used to change the field value into a hash number and stores that instead of the actual value. 
+- A hashed index hashes the field value and stores that in the index instead of the actual value. 
 - When we search using query, MongoDB also hashes the search value and compares it. If it matches, MongoDB returns the corresponding document.
 
 - Hashed index is mainly used for equality searches (searching for an exact value) and to spread data evenly. 
   It cannot be used for sorting or range search bcz hash values do not keep the original order.
 
+Hashed number is a fixed-length random-looking string. (fixed length is 32 characters)
 Example:
 "userId": "A001"
 

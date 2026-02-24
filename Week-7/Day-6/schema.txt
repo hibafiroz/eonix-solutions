@@ -1,0 +1,31 @@
+> Schema Validation in MongoDB:
+
+It is used to restrict what kind of data can be inserted into a collection.
+By default, MongoDB allows any type of data
+
+> MongoDB uses JSON Schema format to define rules.
+db.createCollection("users", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["age"],
+      properties: {
+        age: {
+          bsonType: "int",
+          minimum: 0
+        }
+      }
+    }
+  }
+})
+
+> validationLevel:
+Controls when validation applies
+"strict" → validate all inserts + updates (default)
+"moderate" → validate only new documents
+
+> validationAction:
+Controls what happens if validation fails
+"error" → reject document (default)
+"warn" → allow insert but give warning
+

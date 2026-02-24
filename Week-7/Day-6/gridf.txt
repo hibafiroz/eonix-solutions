@@ -1,0 +1,15 @@
+> GridFS:
+
+GridFS is used when we want to store large files.
+Since MongoDB has a document size limit, we can’t store big files directly.
+So GridFS solves this by breaking the file into small chunks and storing each chunk separately.
+Later, when we retrieve the file, MongoDB automatically joins all those chunks and gives us the full file back.
+
+How does MongoDB store it?
+Internally it uses two collections.
+One is fs.files, which stores file information like name and size.
+The other is fs.chunks, which stores the actual file data in pieces.
+
+Why do we use GridFS?
+Mainly because of MongoDB’s size limit.
+If we have things like videos, images, or PDFs that are large, GridFS helps us store them safely inside MongoDB.

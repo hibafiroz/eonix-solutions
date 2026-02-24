@@ -22,7 +22,7 @@ true if "JS" exists.
 
 
 4. $map — transform array
-Used when you want to modify each element.
+Used when we want to modify each element.
 
 {
   $map: {
@@ -32,6 +32,9 @@ Used when you want to modify each element.
   }
 }
 adds 5 to every mark.
+
+We can convert a number to array to iterate with map.
+input: ["$age"]
 
 
 5. $filter — filter array values

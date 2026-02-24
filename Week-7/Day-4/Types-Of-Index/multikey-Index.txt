@@ -1,15 +1,13 @@
 3. multikey Index:
 
-- A multikey index is automatically created when we index a field that contains an array.
+- A multikey index is automatically created by mongodb when we index a field that contains an array.
 
-- Instead of creating normal index in the whole array, MongoDB separates index for each value in the array. 
-  So searching inside arrays becomes very fast.
-
-- But MongoDB does not allow more than one array field in the same compound index, because it would create too many index combinations and can use more storage.
+- But MongoDB does not allow more than one array field in the same compound index, bcz it would create too many index combinations and can use more storage.
   Multikey indexes also support nested arrays and array objects.
 
+(A normal index can index a field that has single value So, We can't use a normal index on array field bcz an array field contains multiple values)
 
-> example:
+> Example:
 {
   name: "Hiba",
   skills: ["JavaScript", "Node.js", "MongoDB"]

@@ -23,13 +23,23 @@ returns string length.
 { $strLenCP: "$name" }
 
 6. $trim:
-{ $trim: { input: "$name" } }
+{ $trim: { 
+    input: "$name" 
+} }
 removes spaces from start + end.
 
 7. $replaceOne:
-{ $replaceOne: { input:"$text", find:"old", replacement:"new" } }
+{ $replaceOne: { 
+    input:"$text", 
+    find:"old", 
+    replacement:"new" 
+} }
 replaces first match.
 
 8. $replaceAll:
-{ $replaceAll: { input:"$text", find:"old", replacement:"new" } }
+{ $replaceAll: { 
+    input:"$text", 
+    find:"old", 
+    replacement:"new" 
+} }
 replaces ALL matches.

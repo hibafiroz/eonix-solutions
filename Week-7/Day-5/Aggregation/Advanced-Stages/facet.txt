@@ -1,10 +1,10 @@
 12. $facet:
 
 $facet is used to run multiple aggregation pipelines at the same time on the same data
-and gives all results together in one output.
-So instead of running many queries, we run one query and get different results.
+and gives all results together in one array.
+So instead of running many queries, we can run one query and get different results in one output.
 
-> Example:
+> Example:  If I wanna work with 2 facets
 
 1. CourseWise:
 
@@ -34,6 +34,7 @@ output:
  { year: 2024, count: 6 }
 ]
 
+
 $facet always returns only one document.
 Inside that document, each pipeline result comes as an array.
 [
@@ -49,8 +50,9 @@ Inside that document, each pipeline result comes as an array.
  }
 ]
 
+
 > Drawback:
-It can be heavy on memory for large datasets because everything is processed at once, so we should filter using $match before $facet.
+It can be heavy on memory for large collection bcz everything is processed at once, so we should filter using $match before $facet.
 
 > Useful:
-$facet is useful for dashboards, pagination, and analytics where we need multiple results from the same dataset in a single query.
+$facet is useful for dashboards, pagination, and analytics to avoid multiple queries.

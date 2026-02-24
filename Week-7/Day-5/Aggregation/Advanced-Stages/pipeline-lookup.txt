@@ -4,6 +4,10 @@ Pipeline $lookup is used when normal $lookup is not enough.
 Instead of just matching fields, we can run aggregation on the second collection.
 So we can filter records and pick only needed fields before joining.
 
+
+Orders collection contains userId.
+Users collection contains _id.
+
 db.orders.aggregate([
   {
     $lookup: {

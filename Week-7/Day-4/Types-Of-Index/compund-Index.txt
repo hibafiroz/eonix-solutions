@@ -1,6 +1,6 @@
 2. Compound Index:
 
-- A compound index is an index created on multiple fields of a document, and the order of fields matters. 
+- A compound index is an index created on multiple fields of a document, and the order of fields matters. bcz
 MongoDB follows the left-prefix rule, which means the query must start with the first indexed field to use the index.
 For example, if we create an index on city and age, MongoDB first sorts by city and then by age inside each city.
 

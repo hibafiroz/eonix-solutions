@@ -1,11 +1,8 @@
 7. Sparse Index:
 
-- A sparse index means it only creates index entries for documents that actually have that field. 
-  If some documents don’t contain that field, MongoDB just ignores them completely while indexing. 
-  Bcz of that, the index becomes smaller.
-
-- By default, even if a field is missing, MongoDB still indexes that document as null
-- if we search for email: null, those missing-email documents won't come back bcz they were never indexed in the first place.
+- A sparse index indexes only the documents that actually contain the indexed field.
+  By default, If a document doesn't have that field, it still indexed as null.
+  So to avoid that we use sparse index. This reduces the index size.
 
 > Example:
 [

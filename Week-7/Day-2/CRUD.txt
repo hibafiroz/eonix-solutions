@@ -20,7 +20,8 @@ findOne() to fetch a single document based on a filter.
 
 3.Update:
 
-Update operations are done using updateOne() that updates single doc and the first document that matches the filter 
+Update operations are done using 
+updateOne() that updates single doc and the first document that matches the filter 
 UpdateMany() Updates all documents that match the filter.
 while $set, $inc, and $unset are used to modify fields in a document.
 db.collection.updateOne(filter, update)
@@ -78,7 +79,7 @@ db.students.updateOne(
   { _id: 1 },
   { $inc: { age: 1, marks: 5 } }   //increment.
 )
-
+ 
 db.students.updateOne(
   { _id: 1 },
   { $inc: { age: 1, marks: -5 } }   //decrement
@@ -113,6 +114,8 @@ Adds or updates updatedAt with the current date/time (ISODate)
 
 
 
-4. Delete(): this operation is done using deleteOne() to delete a single document and deleteMany() to delete multiple documents.
+4. Delete(): 
+
+This operation is done using deleteOne() to delete a single document and deleteMany() to delete multiple documents.
 db.students.deleteOne({ name: "Rahul" }): MongoDB will search for a document where name is "Rahul", it will delete only one, even if multiple Rahuls exist
-db.students.deleteMany({}) : delete all documents from the students collection
+db.students.deleteMany({}) : delete all documents from the students collection.

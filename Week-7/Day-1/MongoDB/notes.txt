@@ -1,0 +1,100 @@
+> MongoDB:
+
+MongoDB is a NoSQL database. It stores data in JSON-like format instead of tables.
+It is schema-less and flexible, so it's good for large and growing applications.
+
+
+> Key features of MongoDB:
+
+- It stores data in document format.
+- It is schema-less, so structure can change easily.
+- It is scalable using sharding.
+- It provides high availability using replication.
+
+
+> Advantanges of MongoDB:
+
+- It is flexible.
+- It can handle large data.
+- Its easy to scale when data grows.
+- It supports replication, so data is safe.
+
+
+> MongoDB installed mainly in two ways:
+
+1. Local Installation:
+Install MongoDB Community edition on our computer directly using mongosh works offline.
+
+2. Cloud(mongoDB atlas):
+Use free and no need installation, stored and accessed through cloud, works online.
+
+Data types in MongoDB:
+
+1. String
+Text data.
+Example: "name": "Hiba"
+
+2. Number
+Any number (integer or float).
+Example: "age": 25
+
+3. Boolean
+True or false value.
+Example: "isActive": true
+
+4. Date
+Stores date and time.
+Example: "createdAt": ISODate("2025-10-14T10:00:00Z")
+
+5. Array
+List of values.
+Example: "hobbies": ["reading", "coding", "music"]
+
+6. Object
+Nested document (like a JSON object).
+Example:
+"address": {
+  "city": "Delhi",
+  "zip": 110001
+}
+
+7. Null
+Represents no value or empty.
+Example: "middleName": null
+
+8. ObjectId
+Unique ID automatically created for each document.
+Example: "_id": ObjectId("650f4e2f1234abcd5678ef90")
+
+9. Decimal128
+High-precision decimal number (useful for money or scientific data).
+Example: "price": NumberDecimal("99.99")
+
+10.Date
+store date and time in standard way
+
+String / Number / Boolean / Date → basic types
+Array / Object / Null → structured data
+ObjectId / Decimal128 → special MongoDB types
+
+
+> Structure of MongoDB
+
+It stores data in a heirarchy like-
+database contains collections
+each collection contains documents. 
+Documents are JSON-like objects that hold the actual data and can have flexible fields.
+
+
+> MongoDB shell commands:
+
+- show dbs: show all databases that has atleat one collection, if not it wont appera here.
+- use school: switch to database (creates only after insert)
+- db: shows current database
+- show collections: shows collections in current DB
+- db.createCollection("students"): create collection
+- db.students.insertOne({...}): insert one document
+- db.students.insertMany([...]): insert many documents
+- db.students.find(): show all documents
+
+Tip: find().pretty() makes it easier to read.

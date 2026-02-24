@@ -14,36 +14,18 @@ And when we use many $lookup stages, aggregation pipelines become complex and ha
 1. Always use $match BEFORE $lookup:
 
 Because if we run $lookup first, MongoDB joins all documents and then filters them, which is slow. 
-But if we use $match first, MongoDB filters the documents first then joins only the required records. So performance becomes faster.
-
-If we do $match first:
-
-db.orders.aggregate([
-  { $match: { status: "completed" } },
-  {
-    $lookup: {
-      from: "users",
-      localField: "userId",
-      foreignField: "_id",
-      as: "user"
-    }
-  }
-])
-
-- MongoDB filters documents with status
-- joins only required records
-- faster performance
+But if we use $match first, MongoDB filters the documents first then joins only the required docs. So performance becomes faster.
 
 
 2. Index the foreignField:
 
-MongoDB uses index during $lookup if we index the foreign field. No need to scan whole collection.
+MongoDB uses index during $lookup if we index the foreign field. So it doesn't scan whole collection.
 db.users.createIndex({ _id: 1 })
 
 
-3. Return only required fields (CRITICAL):
+3. Return only required fields:
 
-By default, $lookup returns the entire document from the foreign collection. This increases memory usage and makes slow.
+By default, $lookup returns the entire document from the foreign collection. This increases memory usage.
 So we should return only required fields.
 For that, we use pipeline-based $lookup. It matchs documents and use $project to pick only required fields.
 
@@ -62,38 +44,7 @@ Even if we need only name and email.
 Drawbacks: Higher memory usage, Larger response size, Slower aggregation
 
 So Pipeline-based $lookup allows running a mini aggregation pipeline on the foreign collection for EACH document.
-It helps to Match documents, Project specific fields
-
-> Example:
-
-Orders collection contains userId.
-Users collection contains _id.
-
-db.orders.aggregate([
-  {
-    $lookup: {
-      from: "users",
-      let: { uid: "$userId" },
-
-      pipeline: [
-        {
-          $match: {
-            $expr: { $eq: ["$_id", "$$uid"] }
-          }
-        },
-        {
-          $project: {
-            name: 1,
-            email: 1,
-            _id: 0
-          }
-        }
-      ],
-
-      as: "user"
-    }
-  }
-])
+It helps to Match documents, Project specific field.
 
 
 4. Avoid Multiple $lookup Stages:
