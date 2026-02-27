@@ -1,7 +1,6 @@
 6. $limit:
 
 $limit is used to control how many documents are returned from the aggregation pipeline. 
-It’s commonly used when we need only top records, latest entries, or during pagination to avoid fetching full data.
 
 We use $limit when:
 we want top 5 records

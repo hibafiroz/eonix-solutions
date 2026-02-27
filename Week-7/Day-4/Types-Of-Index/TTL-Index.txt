@@ -3,7 +3,7 @@
 - TTL index is used to delete documents automatically after a certain time. 
 - We create it on a Date field using expireAfterSeconds. 
 - MongoDB runs a background process that checks expired documents and removes them. 
-- It's mainly used for temporary data like OTPs.
+- It's mainly used for OTPs.
 
 - TTL index works in two ways. One way is based on expireAfterSeconds, where MongoDB deletes documents after a fixed time from a Date field.
 - The second way is storing an exact expiry time inside the document and setting expireAfterSeconds to zero. 
@@ -16,10 +16,6 @@ db.sessions.createIndex(
   { expireAfterSeconds: 3600 }
 )
 Means Delete each document 1 hour after createdAt time.
-
-> The Indexed field must be date type
-{ createdAt: new Date() }
-If it’s not Date, TTL will NOT work.
 
 > How TTL Works Internally:
 MongoDB runs a background job every ~60 seconds.

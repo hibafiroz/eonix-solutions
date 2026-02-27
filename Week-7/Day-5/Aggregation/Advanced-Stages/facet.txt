@@ -52,7 +52,8 @@ Inside that document, each pipeline result comes as an array.
 
 
 > Drawback:
-It can be heavy on memory for large collection bcz everything is processed at once, so we should filter using $match before $facet.
+It can be heavy on memory for large collection bcz everything is processed at once, 
+so we should filter using $match before $facet.
 
 > Useful:
 $facet is useful for dashboards, pagination, and analytics to avoid multiple queries.

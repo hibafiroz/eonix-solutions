@@ -1,0 +1,649 @@
+1. Insert 10–12 students and 3–4 courses.
+db.students.insertMany([
+  {
+    name: 'Hiba Firoz',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea4'),
+    joiningDate: new Date('2025-05-01'),
+    feeStatus: 'paid'
+  },
+  {
+    name: 'Noah',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea4'),
+    joiningDate: new Date('2025-05-01'),
+    feeStatus: 'paid'
+  },
+  {
+    name: 'Amelia',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea4'),
+    joiningDate: new Date('2025-08-16'),
+    feeStatus: 'pending'
+  },
+  {
+    name: "Arjun",
+    course: ObjectId('69a158b6c5c4b8c9d8cebea5'),
+    joiningDate: new Date("2025-06-10"),
+    feeStatus: "paid"
+  },
+  {
+    name: "Sophia",
+    course: ObjectId('69a158b6c5c4b8c9d8cebea5'),
+    joiningDate: new Date("2025-06-12"),
+    feeStatus: "paid"
+  },
+  {
+    name: "Daniel",
+    course: ObjectId('69a158b6c5c4b8c9d8cebea5'),
+    joiningDate: new Date("2025-09-01"),
+    feeStatus: "pending"
+  },
+  {
+    name: "Ayaan",
+    course: ObjectId('69a158b6c5c4b8c9d8cebea6'),
+    joiningDate: new Date("2025-04-15"),
+    feeStatus: "paid"
+  },
+  {
+    name: "Mia",
+    course: ObjectId('69a158b6c5c4b8c9d8cebea6'),
+    joiningDate: new Date("2025-04-18"),
+    feeStatus: "paid"
+  },
+  {
+    name: "Lucas",
+    course: ObjectId('69a158b6c5c4b8c9d8cebea6'),
+    joiningDate: new Date("2025-07-20"),
+    feeStatus: "pending"
+  },
+  {
+    name: "Zara",
+    course: ObjectId('69a158b6c5c4b8c9d8cebea7'),
+    joiningDate: new Date("2025-03-05"),
+    feeStatus: "paid"
+  },
+  {
+    name: "Ethan",
+    course: ObjectId('69a158b6c5c4b8c9d8cebea7'),
+    joiningDate: new Date("2025-03-07"),
+    feeStatus: "paid"
+  },
+  {
+    name: "Isabella",
+    course: ObjectId('69a158b6c5c4b8c9d8cebea7'),
+    joiningDate: new Date("2025-08-22"),
+    feeStatus: "pending"
+  }
+])
+
+courses → course name, duration, fee.
+db.course.insertMany([
+  {
+    name: 'MERN Stack Development',
+    duration: 12,
+    fee:120000
+  },
+  {
+    name: 'MEAN Stack Development',
+    duration: 12,
+    fee:100000
+  },
+  {
+    name: 'Python Full Stack Development',
+    duration: 16,
+    fee:160000
+  },
+  {
+    name: 'Flutter Development',
+    duration: 8,
+    fee:80000
+  }
+])
+
+
+2. Update a student’s feeStatus to 'paid' using $set.
+db.students.updateOne({
+  _id:ObjectId('69a15bd8c5c4b8c9d8cebeb3')
+},
+  {
+  $set:{feeStatus:'paid'}
+})
+
+Output:
+{
+  "_id": ObjectId("69a15bd8c5c4b8c9d8cebeb3"),
+  "name": "Isabella",
+  "course": ObjectId("69a158b6c5c4b8c9d8cebea4"),
+  "joiningDate": ISODate("2025-05-01T00:00:00.000Z"),
+  "feeStatus": "paid"
+}
+
+
+3. Increase all course fees by 5 % using $mul.
+db.course.updateMany(
+  {},
+  {
+    $mul:{fee:1.05}
+  }
+)
+
+Output:
+[
+  {
+    "_id": ObjectId("69a158b6c5c4b8c9d8cebea4"),
+    "name": "MERN Stack Development",
+    "duration": 12,
+    "fee": 126000
+  },
+  {
+    "_id": ObjectId("69a158b6c5c4b8c9d8cebea5"),
+    "name": "MEAN Stack Development",
+    "duration": 12,
+    "fee": 105000
+  },
+  {
+    "_id": ObjectId("69a158b6c5c4b8c9d8cebea6"),
+    "name": "Python Full Stack Development",
+    "duration": 16,
+    "fee": 168000
+  },
+  {
+    "_id": ObjectId("69a158b6c5c4b8c9d8cebea7"),
+    "name": "Flutter Development",
+    "duration": 8,
+    "fee": 84000
+  }
+]
+
+
+4. Delete one inactive student.
+db.students.find({feeStatus:'pending'}).sort({ joiningDate: 1 }).limit(1)
+db.students.deleteOne({
+  _id: ObjectId('69a15bd8c5c4b8c9d8cebeb0')
+})
+
+
+5. Apply $jsonSchema to students collection → require name, course, and joiningDate.
+db.runCommand({
+  collMod: 'students',
+  validator: {
+    $jsonSchema: {
+      bsonType: 'object',
+      required: ['name', 'course', 'joiningDate'],
+      properties: {
+        name: {
+          bsonType: 'string',
+          description:'name must be string and is required'
+        },
+        course: {
+          bsonType: 'objectId',
+          description:'only store reference ID'
+        },
+        joiningDate: {
+          bsonType: 'date',
+          description:'must specify joining date'
+        },
+        feeStatus: {
+          enum:['paid','pending']
+        }
+      }
+    }
+  },
+  validationLevel: 'strict',
+  validationAction:'error'
+})
+
+
+6. Create an index on course.
+db.students.createIndex({course:1})
+
+Output:
+course_1
+
+
+7. Run find({course:&quot;Science&quot;}) and compare explain() before/after indexing.
+
+Before Index:
+winningPlan.stage → "COLLSCAN"
+No indexName
+No keyPattern
+Full collection scanned
+totalDocsExamined = total documents
+Slower for large data
+
+After Index:
+winningPlan.inputStage.stage → "IXSCAN"
+indexName → "course_1"
+keyPattern → { course: 1 }
+indexBounds present
+totalDocsExamined reduced
+Faster lookup
+
+
+8. Use $lookup to join students and payments.
+db.students.aggregate([
+    {
+        $lookup: {
+            from: 'payments',
+            localField: '_id',
+            foreignField: 'studentId',
+            as:'paymentDetails'
+        }
+    }
+])
+
+Output:
+[
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebea8'),
+    name: 'Hiba Firoz',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea4'),
+    joiningDate: ISODate('2025-05-01T00:00:00.000Z'),
+    feeStatus: 'paid',
+    paymentDetails: [
+      {
+        _id: ObjectId('69a182905258b5c324cebea4'),
+        studentId: ObjectId('69a15bd8c5c4b8c9d8cebea8'),
+        amount: 120000,
+        date: ISODate('2026-02-27T11:40:00.693Z')
+      }
+    ]
+  },
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebea9'),
+    name: 'Noah',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea4'),
+    joiningDate: ISODate('2025-05-01T00:00:00.000Z'),
+    feeStatus: 'paid',
+    paymentDetails: [
+      {
+        _id: ObjectId('69a182905258b5c324cebea5'),
+        studentId: ObjectId('69a15bd8c5c4b8c9d8cebea9'),
+        amount: 120000,
+        date: ISODate('2026-02-27T11:40:00.693Z')
+      }
+    ]
+  },
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebeaa'),
+    name: 'Amelia',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea4'),
+    joiningDate: ISODate('2025-08-16T00:00:00.000Z'),
+    feeStatus: 'pending',
+    paymentDetails: []
+  },
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebeab'),
+    name: 'Arjun',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea5'),
+    joiningDate: ISODate('2025-06-10T00:00:00.000Z'),
+    feeStatus: 'paid',
+    paymentDetails: [
+      {
+        _id: ObjectId('69a182905258b5c324cebea6'),
+        studentId: ObjectId('69a15bd8c5c4b8c9d8cebeab'),
+        amount: 100000,
+        date: ISODate('2026-02-27T11:40:00.693Z')
+      }
+    ]
+  },
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebeac'),
+    name: 'Sophia',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea5'),
+    joiningDate: ISODate('2025-06-12T00:00:00.000Z'),
+    feeStatus: 'paid',
+    paymentDetails: [
+      {
+        _id: ObjectId('69a182905258b5c324cebea7'),
+        studentId: ObjectId('69a15bd8c5c4b8c9d8cebeac'),
+        amount: 100000,
+        date: ISODate('2026-02-27T11:40:00.693Z')
+      }
+    ]
+  },
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebead'),
+    name: 'Daniel',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea5'),
+    joiningDate: ISODate('2025-09-01T00:00:00.000Z'),
+    feeStatus: 'pending',
+    paymentDetails: []
+  },
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebeae'),
+    name: 'Ayaan',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea6'),
+    joiningDate: ISODate('2025-04-15T00:00:00.000Z'),
+    feeStatus: 'paid',
+    paymentDetails: [
+      {
+        _id: ObjectId('69a182905258b5c324cebea8'),
+        studentId: ObjectId('69a15bd8c5c4b8c9d8cebeae'),
+        amount: 160000,
+        date: ISODate('2026-02-27T11:40:00.693Z')
+      }
+    ]
+  },
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebeaf'),
+    name: 'Mia',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea6'),
+    joiningDate: ISODate('2025-04-18T00:00:00.000Z'),
+    feeStatus: 'paid',
+    paymentDetails: [
+      {
+        _id: ObjectId('69a182905258b5c324cebea9'),
+        studentId: ObjectId('69a15bd8c5c4b8c9d8cebeaf'),
+        amount: 160000,
+        date: ISODate('2026-02-27T11:40:00.693Z')
+      }
+    ]
+  },
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebeb1'),
+    name: 'Zara',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea7'),
+    joiningDate: ISODate('2025-03-05T00:00:00.000Z'),
+    feeStatus: 'paid',
+    paymentDetails: [
+      {
+        _id: ObjectId('69a182905258b5c324cebeaa'),
+        studentId: ObjectId('69a15bd8c5c4b8c9d8cebeb1'),
+        amount: 80000,
+        date: ISODate('2026-02-27T11:40:00.693Z')
+      }
+    ]
+  },
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebeb2'),
+    name: 'Ethan',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea7'),
+    joiningDate: ISODate('2025-03-07T00:00:00.000Z'),
+    feeStatus: 'paid',
+    paymentDetails: [
+      {
+        _id: ObjectId('69a182905258b5c324cebeab'),
+        studentId: ObjectId('69a15bd8c5c4b8c9d8cebeb2'),
+        amount: 80000,
+        date: ISODate('2026-02-27T11:40:00.693Z')
+      }
+    ]
+  },
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebeb3'),
+    name: 'Isabella',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea7'),
+    joiningDate: ISODate('2025-08-22T00:00:00.000Z'),
+    feeStatus: 'paid',
+    paymentDetails: []
+  }
+]
+
+
+9. Use $group to calculate total payments per course.
+db.students.aggregate([
+    {
+        $match: {
+            feeStatus:'paid'
+        }
+    },
+    {
+        $lookup: {
+          from: 'course',
+          localField: 'course',
+          foreignField: '_id',
+          as: 'courseDetails'
+        }
+    },
+    {
+        $unwind: '$courseDetails'
+    },
+    {
+        $group: {
+            _id: '$courseDetails.name',
+            totalPayment: {
+                $sum:'$courseDetails.fee'
+            }
+        }
+    }
+])
+
+Output:
+[
+  { _id: 'Python Full Stack Development', totalPayment: 336000 },
+  { _id: 'MEAN Stack Development', totalPayment: 210000 },
+  { _id: 'MERN Stack Development', totalPayment: 252000 },
+  { _id: 'Flutter Development', totalPayment: 252000 }
+]
+
+
+9. Use $addFields to mark students as &quot;Active&quot; if payment done.
+db.students.aggregate([
+    {
+        $lookup: {
+          from: 'payments',
+          localField: '_id',
+          foreignField: 'studentId',
+          as: 'paymentDetails'
+        }
+    },
+    {
+        $addFields: {
+            isActive: {
+                $cond: [
+                    { $gt: [{ $size: '$paymentDetails' }, 0] },
+                    true,
+                    false
+              ]
+          }
+        }
+    }
+])
+
+Output:
+[
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebea8'),
+    name: 'Hiba Firoz',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea4'),
+    joiningDate: ISODate('2025-05-01T00:00:00.000Z'),
+    feeStatus: 'paid',
+    paymentDetails: [
+      {
+        _id: ObjectId('69a182905258b5c324cebea4'),
+        studentId: ObjectId('69a15bd8c5c4b8c9d8cebea8'),
+        amount: 120000,
+        date: ISODate('2026-02-27T11:40:00.693Z')
+      }
+    ],
+    isActive: true
+  },
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebea9'),
+    name: 'Noah',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea4'),
+    joiningDate: ISODate('2025-05-01T00:00:00.000Z'),
+    feeStatus: 'paid',
+    paymentDetails: [
+      {
+        _id: ObjectId('69a182905258b5c324cebea5'),
+        studentId: ObjectId('69a15bd8c5c4b8c9d8cebea9'),
+        amount: 120000,
+        date: ISODate('2026-02-27T11:40:00.693Z')
+      }
+    ],
+    isActive: true
+  },
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebeaa'),
+    name: 'Amelia',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea4'),
+    joiningDate: ISODate('2025-08-16T00:00:00.000Z'),
+    feeStatus: 'pending',
+    paymentDetails: [],
+    isActive: false
+  },
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebeab'),
+    name: 'Arjun',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea5'),
+    joiningDate: ISODate('2025-06-10T00:00:00.000Z'),
+    feeStatus: 'paid',
+    paymentDetails: [
+      {
+        _id: ObjectId('69a182905258b5c324cebea6'),
+        studentId: ObjectId('69a15bd8c5c4b8c9d8cebeab'),
+        amount: 100000,
+        date: ISODate('2026-02-27T11:40:00.693Z')
+      }
+    ],
+    isActive: true
+  },
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebeac'),
+    name: 'Sophia',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea5'),
+    joiningDate: ISODate('2025-06-12T00:00:00.000Z'),
+    feeStatus: 'paid',
+    paymentDetails: [
+      {
+        _id: ObjectId('69a182905258b5c324cebea7'),
+        studentId: ObjectId('69a15bd8c5c4b8c9d8cebeac'),
+        amount: 100000,
+        date: ISODate('2026-02-27T11:40:00.693Z')
+      }
+    ],
+    isActive: true
+  },
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebead'),
+    name: 'Daniel',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea5'),
+    joiningDate: ISODate('2025-09-01T00:00:00.000Z'),
+    feeStatus: 'pending',
+    paymentDetails: [],
+    isActive: false
+  },
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebeae'),
+    name: 'Ayaan',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea6'),
+    joiningDate: ISODate('2025-04-15T00:00:00.000Z'),
+    feeStatus: 'paid',
+    paymentDetails: [
+      {
+        _id: ObjectId('69a182905258b5c324cebea8'),
+        studentId: ObjectId('69a15bd8c5c4b8c9d8cebeae'),
+        amount: 160000,
+        date: ISODate('2026-02-27T11:40:00.693Z')
+      }
+    ],
+    isActive: true
+  },
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebeaf'),
+    name: 'Mia',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea6'),
+    joiningDate: ISODate('2025-04-18T00:00:00.000Z'),
+    feeStatus: 'paid',
+    paymentDetails: [
+      {
+        _id: ObjectId('69a182905258b5c324cebea9'),
+        studentId: ObjectId('69a15bd8c5c4b8c9d8cebeaf'),
+        amount: 160000,
+        date: ISODate('2026-02-27T11:40:00.693Z')
+      }
+    ],
+    isActive: true
+  },
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebeb1'),
+    name: 'Zara',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea7'),
+    joiningDate: ISODate('2025-03-05T00:00:00.000Z'),
+    feeStatus: 'paid',
+    paymentDetails: [
+      {
+        _id: ObjectId('69a182905258b5c324cebeaa'),
+        studentId: ObjectId('69a15bd8c5c4b8c9d8cebeb1'),
+        amount: 80000,
+        date: ISODate('2026-02-27T11:40:00.693Z')
+      }
+    ],
+    isActive: true
+  },
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebeb2'),
+    name: 'Ethan',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea7'),
+    joiningDate: ISODate('2025-03-07T00:00:00.000Z'),
+    feeStatus: 'paid',
+    paymentDetails: [
+      {
+        _id: ObjectId('69a182905258b5c324cebeab'),
+        studentId: ObjectId('69a15bd8c5c4b8c9d8cebeb2'),
+        amount: 80000,
+        date: ISODate('2026-02-27T11:40:00.693Z')
+      }
+    ],
+    isActive: true
+  },
+  {
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebeb3'),
+    name: 'Isabella',
+    course: ObjectId('69a158b6c5c4b8c9d8cebea7'),
+    joiningDate: ISODate('2025-08-22T00:00:00.000Z'),
+    feeStatus: 'paid',
+    paymentDetails: [],
+    isActive: false
+  }
+]
+
+
+10. Use $sort and $limit to list top 3 courses by revenue.
+db.students.aggregate([
+    {
+        $lookup: {
+            from: 'payments',
+            localField: '_id',
+            foreignField: 'studentId',
+            as: 'paymentDetails'
+        }
+    },
+    {
+        $lookup: {
+            from: 'course',
+            localField: 'course',
+            foreignField: '_id',
+            as: 'courseDetails'
+        }
+    },
+    {
+        $unwind: '$paymentDetails'
+    },
+    {
+        $unwind: '$courseDetails'
+    },
+    {
+        $group: {
+          _id: '$courseDetails.name',
+          revenue: {
+            $sum:'$paymentDetails.amount'
+          }
+        }
+    },
+    {
+        $sort: {
+            revenue:-1
+        }
+    },
+    {
+        $limit: 3
+    }
+])
+
+Output:
+[
+  { _id: 'Python Full Stack Development', revenue: 320000 },
+  { _id: 'MERN Stack Development', revenue: 240000 },
+  { _id: 'MEAN Stack Development', revenue: 200000 }
+]

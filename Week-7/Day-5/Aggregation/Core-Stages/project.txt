@@ -1,8 +1,8 @@
 2. $project:
 
 - $project is used to control the structure of documents. 
-- Basically, it lets us decide which fields we want to show, which ones to hide, and we can also rename fields or create new calculated fields. 
-- It works exactly like projection in find(), but $project is more powerful because we can do transformations and calculations.
+- It specifies which fields to include or exclude, and it can also rename fields or create new calculated fields.
+- It works exactly like projection in find(), but $project is more powerful because we can do calculations.
 
 1 → include field
 0 → exclude field

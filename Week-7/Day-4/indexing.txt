@@ -1,7 +1,6 @@
 Data Structure:
 
-A data structure is basically a rule for arranging data.
-It tells us how to organize data in a proper and structured way so that operations like searching, inserting, deleting, or updating become more efficient.
+A data structure is a way to organize data in a proper format so that we can easily search, insert, delete, or update it
 In MongoDB, the index uses a B-Tree data structure.
 
 1. Tree (General Tree):
@@ -23,99 +22,73 @@ Right side contains larger values
 
 Indexing:
 
-An index is a separate data structure that keeps a small, sorted version of specific fields so MongoDB can find documents quickly without scanning the whole collection.
-Without an index, MongoDB performs a collection scan (COLLSCAN)
-> checks every document that results in slow for large collections
+An index is a separate data structure that stores field values in sorted version, 
+so MongoDB can find data quickly without checking whole collection.
 
 With an index, MongoDB performs an index scan (IXSCAN)
-> jumps directly to the matching values
-> skips unnecessary documents
-> fast even for millions of records
 This reduces the number of documents examined.
 
 > Default _id Index:
-Whenever we create collections, a default index gets created on _id field and it never allows to drop it.
-The _id index is the built-in primary index of every collection. It ensure unique documents and also fast lookups. 
-
+Whenever we create a collection, MongoDB automatically creates an index on the _id field. 
+This index makes sure every document inside collection is unique.
 
 > Creating an Index:
-Creating an index tells MongoDB to build a sorted structure based on a field so queries on that field become fast.
-Example:
+
 db.users.createIndex({ age: 1 })  // ascending index
 db.users.createIndex({ age: -1 })  // descending index
-This makes queries on age extremely efficient.
-
 
 > Deleting an Index
-Deleting an index means removes it when it is no longer useful.
-Bcz every extra index slows down the write operations (insert/update/delete)
-Bcz MongoDB must update the index each time one of those operations happen
-Example:
+Removes it when it is no longer useful.
+
 db.users.dropIndex({ age: 1 })
 db.users.dropIndex({ age: -1 })
 
 
 > When to Use Indexes:
 a. A field is searched repeatedly
-b. Query returns a small portion (10–20%) of the collection
-c. Sorting or filtering happens often on a field
+b. when we often sort or filter using that field etc.
 
 
 > When NOT to Use Indexes:
 a. Field is rarely searched
 b. Frequent inserts/updates
 c. Query returns most of the collection (80–90%)
-Examples:
-Boolean field (true/false)
-Gender field (male/female)
+   Boolean field (true/false)
+   Gender field (male/female)
 
 
 > Using explain():
-explain() shows how MongoDB executes a query.
-It does NOT return actual data, it only returns performance details.
-Example:
-db.users.find({ age: 25 }).explain()
-It telles: Whether index was used, Whether it did COLLSCAN or IXSCAN, Query planning details
+explain() shows how MongoDB runs a query.
+It only shows performance details like whether an index was used or it scanned the whole collection etc.
+- db.users.find({ age: 25 }).explain()
 
 
 > explain("executionStats"):
-Used to analyze query performance.
-Exampel:
-db.users.find({ age: 25 }).explain("executionStats")
+is used to check how a query actually performed. 
+It shows details like how many documents were returned, how many were scanned, 
+how much time it took, and whether MongoDB used an index or did a full collection scan
+- db.users.find({ age: 25 }).explain("executionStats")
 
-It shows only important fields:
-a. nReturned: number of documents returned
-b. executionTimeMillis: time taken to run the query
-c. totalDocsExamined: number of documents scanned
-d. stage: "COLLSCAN" → collection scan
-d. stage: "IXSCAN" → index scan
-e. winningPlan
 
-Covered Queries:
-A query is covered when:
-All fields in query are in index
-All fields in projection are in index
-MongoDB does NOT read actual documents
+> Covered Queries:
+A query is called a covered query when all the fields used in the filter and the projection are already in the index,
+so MongoDB doesn’t need to read the actual documents.
 
-Winning Plan:
-MongoDB automatically chooses the most efficient index as the winning plan based on query cost.
-Shown inside explain().
-winningPlan:
-  stage: IXSCAN
 
-Other indexes appear under:
-rejectedPlans
+> Winning Plan:
+Winning plan means the best execution plan MongoDB chooses to run the query and we can see it inside explain()
+It selects the most efficient index based on cost.
+Other possible plans are shown as rejected plans.
 
 
 limit():
-limit() is used to control how many documents MongoDB returns.
+limit() is used to control how many documents should return.
 db.users.find().limit(5)
-Returns only first 5 documents.
+
 
 Projection:
 Projection is used to select only required fields from documents.
 db.users.find({}, { name: 1, _id: 0 })
-Returns only name field and hides _id.
 
 
 > When to use or avoid indexes (read-heavy vs write-heavy):
@@ -123,6 +96,8 @@ Returns only name field and hides _id.
 Covered queries return data directly from indexes without document fetch. 
 MongoDB chooses the best index as the winning plan. Indexes are ideal for read-heavy applications but 
 should be limited in write-heavy systems because they slow down insert and update operations.
+
+
 
 
 Note: 

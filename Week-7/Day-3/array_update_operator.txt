@@ -94,7 +94,7 @@ These three hepler operations used to focus on length of the array so only push 
 
 //Positional operators($):
 
-//The $ operator updates the first matching element in an array that meets the query condition.
+//The $ operator updates the first matching element inside an array based on the query condition.
 example:
 {
   name: "Hiba",
@@ -115,7 +115,7 @@ this will remove completely (5)
 
 //Array filters:
 
-Used when we want to update multiple elements inside the array that meet a condition.
+Array filters updates multiple elements inside the array based on condition.
 //ex-1:
 {
   name: "Sara",
@@ -171,16 +171,3 @@ db.students.updateOne(
     ]
   }
 )
-
-
-Note:
-
-scores: [5, 7, 9, 8]
-Change only the first 5 into 50.
-
-db.customer.updateOne(
-  { name: "Hiba", scores: 5 },
-  { $set: { "scores.$": 50 } }
-)
-This $ is called positional operator.
-It literally means: the first array value that matched my query.

@@ -1,13 +1,13 @@
 > MongoDB:
 
 MongoDB is a NoSQL database. It stores data in JSON-like format instead of tables.
-It is schema-less and flexible, so it's good for large and growing applications.
+It is schema-flexible and horizontally scalable.
 
 
 > Key features of MongoDB:
 
 - It stores data in document format.
-- It is schema-less, so structure can change easily.
+- It is schema-less.
 - It is scalable using sharding.
 - It provides high availability using replication.
 
@@ -15,18 +15,15 @@ It is schema-less and flexible, so it's good for large and growing applications.
 > Advantanges of MongoDB:
 
 - It is flexible.
-- It can handle large data.
-- Its easy to scale when data grows.
+- It can handle large data. 
 - It supports replication, so data is safe.
+- It provides ACID transactions.
 
 
 > MongoDB installed mainly in two ways:
 
-1. Local Installation:
-Install MongoDB Community edition on our computer directly using mongosh works offline.
-
-2. Cloud(mongoDB atlas):
-Use free and no need installation, stored and accessed through cloud, works online.
+MongoDB can be installed in two ways: one is local installation, where MongoDB is installed on our own system and works offline, mainly used for learning and development. 
+The second is cloud installation using MongoDB Atlas, where MongoDB runs online on cloud servers
 
 Data types in MongoDB:
 
@@ -80,7 +77,6 @@ ObjectId / Decimal128 → special MongoDB types
 
 > Structure of MongoDB
 
-It stores data in a heirarchy like-
 database contains collections
 each collection contains documents. 
 Documents are JSON-like objects that hold the actual data and can have flexible fields.

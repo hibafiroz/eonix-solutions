@@ -1,0 +1,219 @@
+1. Create a new collection sales in the same school database.
+db.createCollection('sales')
+
+
+2. Insert sample data with fields: item, category, quantity, price, date.
+db.sales.insertMany([
+   {
+     item: "Laptop",
+     category: "Electronics",
+     quantity: 2,
+     price: 55000,
+     date: new Date("2026-02-20")
+   },
+   {
+     item: "T-shirt",
+     category: "Clothing",
+     quantity: 5,
+     price: 800,
+     date: new Date("2026-02-21")
+   },
+   {
+     item: "Rice Bag",
+     category: "Groceries",
+     quantity: 1,
+     price: 1200,
+     date: new Date("2026-02-22")
+   },
+   {
+     item: "Mobile Phone",
+     category: "Electronics",
+     quantity: 3,
+     price: 25000,
+     date: new Date("2026-02-23")
+   },
+   {
+     item: "Notebook",
+     category: "Stationery",
+     quantity: 10,
+     price: 50,
+     date: new Date("2026-02-24")
+   }
+ ]);
+
+
+3.  Use $match to show sales with quantity above 10.
+ Use $addFields to add a new field revenue = quantity * price.
+ Use $group to find total and average revenue for each category.
+ Sort results by total revenue (highest first).
+ Show top 3 categories using $limit.
+
+db.sales.aggregate([
+  {
+    $match: {
+      quantity:{$gt:10}
+    }
+  },
+  {
+    $addFields: {
+      revenue: {
+        $multiply:['$quantity','$price']
+      }
+    }
+  },
+  {
+    $group: {
+      _id: '$category',
+      totalRevenue: { $sum: '$revenue' },
+      avgRevenue: { $avg: '$revenue' }
+    }
+  },
+  {
+    $sort: {
+      totalRevenue:-1
+    }
+  },
+  {
+    $limit: 3
+  }
+])
+
+Output:
+
+
+4. Use $bucket to group items by price range.
+db.sales.aggregate([
+{
+    $bucket: {
+      groupBy: '$price',
+      boundaries: [0, 1000, 5000, 20000, 40000, 60000, 80000],
+      default: 'expensive',
+      output: {
+        items: { $push: "$item" },
+        count: { $sum: 1 }
+      }
+    }
+  }
+])
+
+Output:
+[
+  { _id: 0, items: [ 'T-shirt', 'Notebook' ], count: 2 },
+  { _id: 1000, items: [ 'Rice Bag' ], count: 1 },
+  { _id: 20000, items: [ 'Mobile Phone' ], count: 1 },
+  { _id: 40000, items: [ 'Laptop' ], count: 1 }
+]
+
+
+5. Use $lookup to join with a new suppliers collection.
+
+db.suppliers.insertMany([
+  { category: "Electronics", supplier: "Tech World" },
+  { category: "Clothing", supplier: "Fashion Hub" },
+  { category: "Groceries", supplier: "Fresh Mart" },
+  { category: "Stationery", supplier: "Office Store" }
+])
+
+db.sales.aggregate([
+  {
+    $lookup: {
+      from: 'suppliers',
+      localField: 'category',
+      foreignField: 'category',
+      as: 'suppliersDetail'
+    }
+  }
+])
+
+Output:
+[
+  {
+    _id: ObjectId('699dd4389d61dd977dcebea4'),
+    item: 'Laptop',
+    category: 'Electronics',
+    quantity: 12,
+    price: 55000,
+    date: ISODate('2026-02-20T00:00:00.000Z'),
+    suppliersDetail: [
+      {
+        _id: ObjectId('699ddfdff0eb0ca52bc3a2a2'),
+        category: 'Electronics',
+        supplier: 'Tech World'
+      }
+    ]
+  },
+  {
+    _id: ObjectId('699dd4389d61dd977dcebea5'),
+    item: 'T-shirt',
+    category: 'Clothing',
+    quantity: 20,
+    price: 800,
+    date: ISODate('2026-02-21T00:00:00.000Z'),
+    suppliersDetail: [
+      {
+        _id: ObjectId('699ddfdff0eb0ca52bc3a2a3'),
+        category: 'Clothing',
+        supplier: 'Fashion Hub'
+      }
+    ]
+  },
+  {
+    _id: ObjectId('699dd4389d61dd977dcebea6'),
+    item: 'Rice Bag',
+    category: 'Groceries',
+    quantity: 22,
+    price: 1200,
+    date: ISODate('2026-02-22T00:00:00.000Z'),
+    suppliersDetail: [
+      {
+        _id: ObjectId('699ddfdff0eb0ca52bc3a2a4'),
+        category: 'Groceries',
+        supplier: 'Fresh Mart'
+      }
+    ]
+  },
+  {
+    _id: ObjectId('699dd4389d61dd977dcebea7'),
+    item: 'Mobile Phone',
+    category: 'Electronics',
+    quantity: 15,
+    price: 25000,
+    date: ISODate('2026-02-23T00:00:00.000Z'),
+    suppliersDetail: [
+      {
+        _id: ObjectId('699ddfdff0eb0ca52bc3a2a2'),
+        category: 'Electronics',
+        supplier: 'Tech World'
+      }
+    ]
+  },
+  {
+    _id: ObjectId('699dd4389d61dd977dcebea8'),
+    item: 'Notebook',
+    category: 'Stationery',
+    quantity: 19,
+    price: 50,
+    date: ISODate('2026-02-24T00:00:00.000Z'),
+    suppliersDetail: []
+  }
+]
+
+
+6. Use $project to display item names in uppercase using $toUpper.
+db.sales.aggregate([
+{
+    $project: {
+      _id: 0,
+      items: { $toUpper: '$item' }
+    }
+  }
+])
+
+Output:
+[
+  { items: 'LAPTOP' },
+  { items: 'T-SHIRT' },
+  { items: 'RICE BAG' },
+  { items: 'MOBILE PHONE' },
+  { items: 'NOTEBOOK' }
+]

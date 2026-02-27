@@ -1,11 +1,11 @@
 Change Streams:
 
-- Change Streams are used to get real-time updates from MongoDB collections.
+- Change Streams are used to get real-time updates from collections.
 - Whenever there is an insert, update, or delete, MongoDB automatically sends a change event to our application, so we don’t need polling.
-- It work only in Replica Set or Sharded Cluster, not standalone, bcz they depend on MongoDB’s oplog.
-- They are mainly used in chat apps, notifications, and live dashboards.
+- It work only in Replica Set or Sharded Cluster, bcz they depend on oplog. they cant work in standalone server
+- They are mainly used in chat apps,  live dashboards.
 
-To use it, we call:
+To use it, we use the collection we want and write:
 const changeStream = db.users.watch();
 
 Then listen like:

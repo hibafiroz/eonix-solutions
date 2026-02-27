@@ -1,7 +1,9 @@
 4. $group:
 
-- $group is used to combine documents and get summary data like count or average. 
-- _id decides grouping. We can group by multiple fields, and _id:null means everything becomes one group. 
+- $group is used to combine documents by a specific field and apply accumulators like sum, average, count on each group.
+- _id decides the field to grouping. 
+- We can group by multiple fields using an object inside _id.
+- _id:null means all documents are grouped into a single group.
 - Accumulators like $sum and $avg help calculate values.
 
 > Syntax:
@@ -196,4 +198,4 @@ output: ["A","B"]
 totalAmount: {
   $sum: { $multiply: ['$items.price', '$items.quantity'] }
 }
-$sum is an accumulator (used in $group / $bucket), not for simple field calculation.
+$sum is an accumulator used in $group / $bucket, not for simple field calculation.

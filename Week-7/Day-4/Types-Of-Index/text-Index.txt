@@ -11,12 +11,6 @@
 - Only one text index is allowed per collection and it's not for sorting or range queries, mainly for text searching.
 
 
-It enables features like:
-Word-based search
-Phrase search
-Language-based stemming
-
-
 > Why do we need a Text Index?
 Normal indexes: Work well for exact matches (=, <, >)
 
@@ -27,13 +21,6 @@ Normal indexes: Work well for exact matches (=, <, >)
 normal index: db.jobs.createIndex({ title: 1 }) -> This index works like a dictionary
 we have to find like this : find({ title: "Backend Developer" })
 
-suppose we search "developer" But stored value is : "Full Stack Developer"
-Normal index fails because It tries to match the whole string, it does NOT understand words inside the string
-
-so, Text search needs:
-   Searching words, not exact strings
-   Ignoring case by default
-   Handling language rules (run, running → run)
 
 Creating a Text Index:
 
@@ -46,34 +33,12 @@ db.jobs.createIndex({
   description: "text",
   skills: "text"
 })                        //this is allowed
+Now MongoDB treats all these fields as one search space.
 
 Note: Only ONE text index is allowed per collection.
 db.products.createIndex({ title: "text" })
 db.products.createIndex({ description: "text" })       //not allowed
 
-
-> Default Language in Text Index is english
-db.jobs.createIndex(
-  { description: "text" },
-  { default_language: "english" }
-)
-
-> Supports multiple fields:
-
-if our document is
-{
-  title: "Backend Developer",
-  description: "Node.js and MongoDB experience",
-  skills: "JavaScript MongoDB Express"
-}
-
-we create ONE text index in one collection like this:
-db.jobs.createIndex({
-  title: "text",
-  description: "text",
-  skills: "text"
-})
-Now MongoDB treats all these fields as one search space.
 
 When user searches : $search: "MongoDB"
 MongoDB will check: description and skills
@@ -150,10 +115,3 @@ Step 2: Applies the same steps used during indexing:
 Step 3: MongoDB looks up words in the inverted index
 Step 4: MongoDB finds matching document IDs
 Step 5: Matching documents are returned
-
-
-> When words are long, Index size increases, Not the document size
-but it does NOT become a big problem bcz-
-Reason 1: Inverted index is compact.  word → [DocIDs]
-If "mongodb" appears 100 times, stored once. So repetition does not explode memory.
-Reason 2: Index is optimized & compressed

@@ -1,12 +1,12 @@
 > DataBase:
 
-A database is a place where we store data in an organized way, so we can easily create, read, update, and delete that data whenever we needed.
-Its like a digital filing cabinet for information.
+A database is a place where we store data in an organized way, 
+so we can easily create, read, update, and delete that data whenever we needed.
 
 > DBMS:
 
 A DBMS (Database Management System) is software acts as a bridge between the user and the database that helps to manage the database
-and it supports CRUDS operations, ensuring data is secure and organized.
+and it supports CRUDS operations, ensuring data is secure.
 
 > DBMS types:
 
@@ -19,10 +19,9 @@ Examples are MySQL, PostgreSQL, and Oracle.
 
 2. NoSQL:
 
-NoSQL databases are non-relational and flexible. They store data as documents or key-value pairs.
-They are schema-less, so each doc can have different fields, and we can change structure anytime.
+NoSQL stands for Not Only SQL. It is used to work with non-relational databases.
+They store data as documents. They are schema-less, so each doc can have different fields, they're flexible.
 Because of this flexibility, NoSQL is used for large scalable apps.
-NoSQL means ‘Not Only SQL’, so it doesn't always use SQL commands.
 Examples: MongoDB and Firebase, couchDB
 
 when to use:

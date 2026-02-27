@@ -1,0 +1,85 @@
+> Transaction:
+
+A transaction is a group of database operations that are completed together.
+If any operation fails, MongoDB cancels all changes.
+
+> ACID:
+
+ACID is a four guarantees that make sure database transactions work correctly and safely.
+It guarantees that transactions are reliable. Money is never partially transferred, rules are always maintained
+
+1. Atomicity:
+All operations succeed together or fail together. No partial updates.
+
+2. Consistency:
+All Data always follows database rules before and after a transaction.
+
+3. Isolation:
+Multiple transactions don't interfere with each other. (Isolation is done using separate sessions)
+
+4. Durability:
+Once a transaction is committed, data is permanently stored even after crashes.
+
+> Transactions require:
+
+1. Replica Set:
+- Transactions work only when MongoDB runs as a replica set Because ACID needs Durability.
+- If one server crashes, another server still has the data.
+
+2. Session (transaction context):
+- Session is used to group multiple database operations so MongoDB can treat them as one transaction. 
+  It can help Mongodb to understand that these operations belongs together.
+- If all operations succeed, MongoDB commits them. If any operation fails, MongoDB abort (cancels) and rolls back everything.
+
+> MongoDB Transaction — Step by Step (Bank Transfer Example):
+
+First MongoDB should run as a replica set. 
+Then we create a session and start a transaction. 
+Inside the session we run multiple operations. 
+If all succeed, MongoDB commits and writes changes to oplog. 
+If any fails, MongoDB aborts and rolls back everything.
+
+
+const session = db.getMongo().startSession();               //getMongo Gives the MongoDB connection object and startSession starts a session on that connection.
+
+session.withTransaction(() => {                             // Run everything inside this block as one unit.
+
+ const students = session.getDatabase("school").students;   // This connects to the school database using the session.
+ const payments = session.getDatabase("school").payments;
+
+ payments.insertOne(
+   { student:"Sara", amount:50000, date:new Date() }
+ );                                                         // Adds a new payment document for Sara.
+
+ students.updateOne(
+   { name:"Sara" },
+   { $set:{ feeStatus:"paid" } }                            // Updates Sara’s feeStatus to "paid"
+ );
+
+});
+
+session.endSession();                                       // Closes the session
+
+
+const session = db.getMongo().startSession()
+session.withTransaction(() => {
+  const students = session.getDatabase('school').students
+  const payments = session.getDatabase('school').payments
+  payments.insertOne({
+    studentId: ObjectId('69a15bd8c5c4b8c9d8cebead'),
+    amount: 100000,
+    date:new Date()
+  },
+    {session}
+  )
+  students.updateOne({
+    _id: ObjectId('69a15bd8c5c4b8c9d8cebead')
+  },
+    {
+      $set: {
+      feeStatus:'paid'
+    }
+    },
+  {session})
+})
+session.endSession()

@@ -1,6 +1,8 @@
-Aggregation Pipeline Update:
+> Aggregation Pipeline Update:
 
-aggregation pipeline update allows us to update documents using aggregation expressions.
+Aggregation Pipeline Update allows us to update documents using aggregation expressions.
+In normal updates, we assign values directly using $set. 
+But in aggregation pipeline update, we pass an array of stages, and we can use expressions like $cond, $add, $concat, and more.
 
 > Normal update:
 db.users.updateOne(filter, {

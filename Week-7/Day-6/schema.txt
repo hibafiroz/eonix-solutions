@@ -1,7 +1,10 @@
 > Schema Validation in MongoDB:
 
-It is used to restrict what kind of data can be inserted into a collection.
-By default, MongoDB allows any type of data
+It is used to control what kind of data can be inserted into a collection.
+Even though MongoDB is schema-less, we can define a validator using $jsonSchema to set rule.
+When someone tries to insert data, MongoDB checks these rules.
+If the data is not matching, MongoDB can reject it.
+
 
 > MongoDB uses JSON Schema format to define rules.
 db.createCollection("users", {
@@ -19,13 +22,81 @@ db.createCollection("users", {
   }
 })
 
+
+document level:
+bsonType: "object" → means each record must be an object
+required → tells which fields are mandatory (like name, email, age, status, address)
+additionalProperties: false → means no extra fields are allowed
+properties → this is where we define rules for field
+
+Properties (field level):
+bsonType: "string" → must be text
+minLength / maxLength → length limit
+pattern → format check (email pattern)
+minimum / maximum → for numbers
+enum → only allowed values
+description → just explanation message
+
+
+> Full example:
+
+db.createCollection("users", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["name", "email", "age", "status", "address"],
+      additionalProperties: false,
+
+      properties: {
+        name: {
+          bsonType: "string",
+          minLength: 3,
+          maxLength: 50,
+          description: "Name must be a string between 3 and 50 characters"
+        },
+
+        email: {
+          bsonType: "string",
+          pattern: "^.+@.+\\..+$",
+          description: "Must be a valid email"
+        },
+
+        age: {
+          bsonType: "int",
+          minimum: 18,
+          description: "Age must be 18 or above"
+        },
+
+        status: {
+          enum: ["active", "inactive"]
+        },
+
+        address: {
+          bsonType: "string"
+        }
+      }
+    }
+  },
+  validationLevel:"strict",
+  validationAction:"error"
+});
+
 > validationLevel:
 Controls when validation applies
-"strict" → validate all inserts + updates (default)
-"moderate" → validate only new documents
+"strict" → validation applies to all inserts + updates (default)
+"moderate" → validation applies only on inserts
 
 > validationAction:
 Controls what happens if validation fails
 "error" → reject document (default)
 "warn" → allow insert but give warning
 
+
+To create schema for existing collection, we write
+db.runCommand({
+  collMod: 'students',
+  validator: {
+    $jsonSchema: {
+      bsonType: 'object',
+      required: ['name', 'course', 'joiningDate'], ....so on
+}}})

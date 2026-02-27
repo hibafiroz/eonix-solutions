@@ -1,8 +1,7 @@
 1. $match:
 
 - $match is basically used to filter documents in an aggregation pipeline. 
-- It works similar to find(), but the difference is it’s used inside aggregation. 
-- Whatever condition we give in $match, only those documents move to the next pipeline stage.
+- It works similar to find(), but the difference is match works inside aggregation. 
 
 For example: 
 [

@@ -1,8 +1,8 @@
 MongoDB Data Relationships:
 
 1. One-to-One (1:1):
-A one-to-one relationship means one parent document stores the reference to only one child document.
-Parent stores the reference of the child.
+One-to-one means one document is connected to only one other document. 
+usually child document’s ID is stored in parent document.
 
 Example:
 > User = Profile
@@ -40,8 +40,9 @@ When to use:
 
 
 2. One-to-Many (1:M):
-A one-to-many relationship means multiple child documents store a reference to the same parent document.
-Child stores the parent reference bcz children can grow, parent should not have huge arrays
+One-to-many means one document is related to many other documents. 
+In this case, the child documents store the parent ID.
+
 example:
 > User = Posts
 > post = comments
@@ -79,7 +80,10 @@ When to use:
 
 
 3. Many-to-Many (M:M):
-A many-to-many relationship means both sides require references, and this is managed using a separate linking collection that stores references to both documents.
+Many-to-many means both sides can have many related documents. 
+So we use a separate linking collection to store both IDs.
+bcz both sides can grow a lot.
+
 Example:
 > Students = courses
 > users = followers
@@ -126,6 +130,3 @@ output:
     { "_id": 301, "title": "MongoDB" }
   ]
 }
-When to use:
-> Both sides can grow a lot
-> Pure many-to-many relationships

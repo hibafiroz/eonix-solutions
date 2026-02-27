@@ -21,9 +21,7 @@ First element of array.
 true if "JS" exists.
 
 
-4. $map — transform array
-Used when we want to modify each element.
-
+4. $map — transform each elemnt of array
 {
   $map: {
     input: "$marks",

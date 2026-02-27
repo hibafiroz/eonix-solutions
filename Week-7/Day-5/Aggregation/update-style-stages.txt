@@ -2,7 +2,7 @@ Update-Style Stages:
 
 These stages modify the document shape inside aggregation (not actual DB update — only pipeline result).
 
-1. $set (same as $addFields)
+1. $set
 2. $unset
 3. $replaceRoot
 4. $replaceWith
@@ -21,7 +21,7 @@ Here it adds status, calculates new field, keeps all old fields
 2. $unset:
 It is used to delete fields from documents in aggregation.
 { $unset: "password" }     OR
-{ $unset: ["password", "secretKey"] }
+{ $unset: ["password", "secretKey"] }   //multiple field delete
 
 
 3. $replaceRoot:
@@ -68,8 +68,7 @@ output:
 
 
 4. $replaceWith:
-$replaceWith is just the modern and shorter version of $replaceRoot.
-They’re useful when reshaping data, but risky because they remove all old fields.
+$replaceWith is just the modern version of $replaceRoot.
 
 > Example:
 
@@ -80,5 +79,5 @@ Same result as:
 
 Note:
 $project is NOT considered an update-style stage.
-$project also reshapes documents, but it’s not considered update-style because it’s mainly for selecting or excluding fields.
-Update-style stages like $set and $unset behave more like updates.
+Because $project is mainly for reshaping output.
+Update operations are meant to modify documents, do not reshape the results.

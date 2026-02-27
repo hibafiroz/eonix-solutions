@@ -1,6 +1,6 @@
  Bulk Write Operations
 
-Bulk operations let us execute multiple write operations (insert, update, delete, replace) together in a single command
+Bulk operations used to execute multiple write operations (insert, update, delete, replace) together in a single command
  which is faster and more efficient than running them one by one.
 
  Method: collection.bulkWrite([])
@@ -43,6 +43,8 @@ Upsert means:
 If matching document EXISTS → replace it
 If matching document does NOT exist → create a new document
 
+
+> Find-Modify Methods:
 
  1. findOneAndUpdate()
 

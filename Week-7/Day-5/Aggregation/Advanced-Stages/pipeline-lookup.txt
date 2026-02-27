@@ -1,8 +1,7 @@
 > Pipeline-based $lookup:
 
-Pipeline $lookup is used when normal $lookup is not enough.
-Instead of just matching fields, we can run aggregation on the second collection.
-So we can filter records and pick only needed fields before joining.
+Pipeline-based $lookup is used to join two collections where we pass an aggregation pipeline
+ inside $lookup to the foreign collection.
 
 
 Orders collection contains userId.

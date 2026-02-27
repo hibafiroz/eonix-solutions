@@ -1,6 +1,6 @@
 Terminal Stages:
 
-Terminal stages are aggregation stages that finish the aggregation by saving results into a collection.
+Terminal stages are used to finish the aggregation by saving results into a collection.
 
 1. $out:
 $out writes the full pipeline output into a collection.

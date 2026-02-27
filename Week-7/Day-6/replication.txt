@@ -23,10 +23,10 @@ Secondary nodes reads the operation and apply the same to stay in sync.
 
 > Write Concern:
 
-- write concern decides when MongoDB should tell that a write operation is successful.
+- write concern decides when should MongoDB tell that a write operation is successful.
 - By default, MongoDB uses w:1. That means as soon as the primary server writes the data, MongoDB immediately sends success msg to the client. 
   This is fast, but if the primary crashes before secondaries copy, we could lose that data.
-- If we use w: 'majority', MongoDB waits until most of thesecondaries also save the data. Only after majority confirmation does it return success. 
+- If we use w: 'majority', MongoDB waits until majority of secondaries also save the data. Only after majority confirmation does it return success. 
   This is slower, but much safer because the data already exists on multiple servers.
 
   db.collection.insertOne(
@@ -45,7 +45,7 @@ For normal data, default is enough.
 read preference decides which server should MongoDB reads data from. 
 By default it reads from the primary because primary always has the latest data. 
 We can also read from secondary to reduce load on primary, but secondaries may have slightly old data due to replication lag, 
-so for critical things like login or payments we always use primary
+so for imp things like login or payments we always use primary
 
 But we can’t always read from secondary because replication is not instant. Secondaries may have slightly old data — this is called replication lag.
 

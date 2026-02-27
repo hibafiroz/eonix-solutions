@@ -1,11 +1,17 @@
 > JSON v/s BSON:
 
-JSON is a text format used to store and share data. 
+JSON is a text format used to store and exchange data btw systems.
 It is easy for humans to read, but it supports only basic types like string, number, and boolean.
 
-BSON stands for Binary JSON. It is a binary format so its faster for computers to process.
+BSON stands for Binary JSON. It is a binary format used to store data. 
+Its faster for computers to process since its binary.
 It supports extra data types like Date, ObjectId, and Decimal128.
 
+client (frontend ) sends data as JSON
+MongoDB driver receives JSON
+Inside MongoDB, that JSON is converted to BSON
+BSON is what MongoDB stores internally on disk
+When data comes back to client → BSON → JSON again
 
 > Why MongoDB uses BSON internally?
 
@@ -15,7 +21,7 @@ It also helps with indexing for better performance.
 
 
 > What is an Insert Operation?
-An insert operation is the process of adding new documents into a collection.
+An insert operation means adding new documents into a collection.
 
 
 1. insertOne()

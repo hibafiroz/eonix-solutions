@@ -1,9 +1,9 @@
 // 1. field update operators:
 
 // Operators covered: 
-// $set, $unset, $inc, $rename, $mul, $min, $max, $currentDate
+// $set, $unset, $inc, $mul, $min, $max, $rename, $currentDate
 
-    // 1. $set — set or update field value
+    // 1. $set — It sets a field value
     db.students.updateOne(
       { name: "Aliya" },
       { $set: { grade: "A", city: "London" } }
@@ -32,6 +32,8 @@
       { name: "Aliya" },
       { $mul: { marks: 1.1 } } // increase marks by 10%
     );
+    5% = 5 / 100 = 0.05
+    1 + 0.05 = 1.05
 
     // 6. $min — update only if value is smaller
     db.students.updateOne(

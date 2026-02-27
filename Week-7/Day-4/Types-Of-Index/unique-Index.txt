@@ -1,6 +1,6 @@
 6. Unique Index:
 
-- A unique index is used to maintain data integrity and avoid duplicates like duplicate emails or usernames.
+- A unique index is used to avoid duplicates and maintain data integrity.
 - If we try to insert a value that already exists, MongoDB rejects it and throws a duplicate key error.
 
 - MongoDB also treats null as a value, so we cannot have multiple missing fields bcz they are treated as null by default.
