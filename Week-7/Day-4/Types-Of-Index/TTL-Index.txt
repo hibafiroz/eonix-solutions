@@ -5,9 +5,6 @@
 - MongoDB runs a background process that checks expired documents and removes them. 
 - It's mainly used for OTPs.
 
-- TTL index works in two ways. One way is based on expireAfterSeconds, where MongoDB deletes documents after a fixed time from a Date field.
-- The second way is storing an exact expiry time inside the document and setting expireAfterSeconds to zero. 
-
 - Used for auto-cleanup of old data.
 
 Syntax:

@@ -1,9 +1,8 @@
 > GridFS:
 
-GridFS is used to store very large files in MongoDB.
+GridFS is used to store very large files.
 MongoDB has a document size limit (16MB), so we cannot store big files directly inside one document.
-GridFS solves this by splitting the file into small pieces called chunks.
-Each chunk is stored separately in the database.
+GridFS solves this by splitting the file into small pieces called chunks. chunk is stored separately in the database.
 When we retrieve the file, MongoDB automatically combines all the chunks and returns the full file.
 
 How MongoDB stores it internally:

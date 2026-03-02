@@ -30,7 +30,7 @@ We use preserveNullAndEmptyArrays:
     preserveNullAndEmptyArrays: true
   }
 }
-Even if items is empty or null, MongoDB will keep the document.
+Even if items is [], MongoDB will keep the document as value 'null'.
 
 Arrays can appear:
 

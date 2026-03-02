@@ -1,6 +1,6 @@
 4. $group:
 
-- $group is used to combine documents by a specific field and apply accumulators like sum, average, count on each group.
+- $group is used to combine documents by a specific field and apply accumulators on each group.
 - _id decides the field to grouping. 
 - We can group by multiple fields using an object inside _id.
 - _id:null means all documents are grouped into a single group.

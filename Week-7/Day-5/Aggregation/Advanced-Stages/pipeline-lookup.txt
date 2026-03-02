@@ -1,7 +1,7 @@
 > Pipeline-based $lookup:
 
-Pipeline-based $lookup is used to join two collections where we pass an aggregation pipeline
- inside $lookup to the foreign collection.
+Pipeline-based $lookup means we pass an aggregation pipeline
+ inside $lookup to the foreign collection to perform aggregation operations.
 
 
 Orders collection contains userId.

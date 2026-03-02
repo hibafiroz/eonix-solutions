@@ -47,6 +47,7 @@ ex: { city: 1, age: 1 }
 query: find({ city: "Kochi" }, { city: 1, age: 1, _id: 0 })
 MongoDB fetches the result directly from the Index
 
+- Compound indexes are useful when queries involve multiple fields for filtering and sorting.
 
 > Left Prefix Rule:
 > MongoDB can use a compound index only if the query starts from the first field(s) of the index.

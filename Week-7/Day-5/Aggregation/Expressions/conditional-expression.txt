@@ -43,7 +43,6 @@ Output:
 2. $switch:  Multiple conditions (like if / else if / else):
 
 $switch is used when we have multiple conditions. It works like multiple if–else. 
-For example, if score is above 80 we give grade A, above 60 grade B, and otherwise grade C. 
 MongoDB checks the conditions from top to bottom and returns the first match.
 
 > Syntax:

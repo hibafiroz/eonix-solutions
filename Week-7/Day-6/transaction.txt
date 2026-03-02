@@ -5,12 +5,11 @@ If any operation fails, MongoDB cancels all changes.
 
 > ACID:
 
-ACID is a four guarantees that make sure database transactions work correctly and safely.
-It guarantees that transactions are reliable. Money is never partially transferred, rules are always maintained
+ACID is a four guarantees that make sure transactions work correctly and safely.
 
 1. Atomicity:
 All operations succeed together or fail together. No partial updates.
-
+ 
 2. Consistency:
 All Data always follows database rules before and after a transaction.
 
@@ -27,8 +26,7 @@ Once a transaction is committed, data is permanently stored even after crashes.
 - If one server crashes, another server still has the data.
 
 2. Session (transaction context):
-- Session is used to group multiple database operations so MongoDB can treat them as one transaction. 
-  It can help Mongodb to understand that these operations belongs together.
+- Session is used to group multiple database operations so MongoDB can understand that these operations belongs together.
 - If all operations succeed, MongoDB commits them. If any operation fails, MongoDB abort (cancels) and rolls back everything.
 
 > MongoDB Transaction — Step by Step (Bank Transfer Example):
@@ -59,27 +57,3 @@ session.withTransaction(() => {                             // Run everything in
 });
 
 session.endSession();                                       // Closes the session
-
-
-const session = db.getMongo().startSession()
-session.withTransaction(() => {
-  const students = session.getDatabase('school').students
-  const payments = session.getDatabase('school').payments
-  payments.insertOne({
-    studentId: ObjectId('69a15bd8c5c4b8c9d8cebead'),
-    amount: 100000,
-    date:new Date()
-  },
-    {session}
-  )
-  students.updateOne({
-    _id: ObjectId('69a15bd8c5c4b8c9d8cebead')
-  },
-    {
-      $set: {
-      feeStatus:'paid'
-    }
-    },
-  {session})
-})
-session.endSession()

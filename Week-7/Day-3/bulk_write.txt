@@ -39,11 +39,6 @@ db.students.replaceOne(
   { upsert: true }  optional
 )
 
-Upsert means:
-If matching document EXISTS → replace it
-If matching document does NOT exist → create a new document
-
-
 > Find-Modify Methods:
 
  1. findOneAndUpdate()

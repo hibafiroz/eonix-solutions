@@ -22,14 +22,15 @@ Right side contains larger values
 
 Indexing:
 
-An index is a separate data structure that stores field values in sorted version, 
+An index is a separate data structure that stores field values in sorted order, 
 so MongoDB can find data quickly without checking whole collection.
 
 With an index, MongoDB performs an index scan (IXSCAN)
-This reduces the number of documents examined.
+It improves query performance by reducing the number of documents scanned.
+It makes search operations faster.
 
 > Default _id Index:
-Whenever we create a collection, MongoDB automatically creates an index on the _id field. 
+Whenever we create a collection, MongoDB automatically creates a unique index on the _id field. 
 This index makes sure every document inside collection is unique.
 
 > Creating an Index:
@@ -51,12 +52,12 @@ b. when we often sort or filter using that field etc.
 
 > When NOT to Use Indexes:
 a. Field is rarely searched
-b. Frequent inserts/updates
-c. Query returns most of the collection (80–90%)
+b. If there are many inserts and updates, too many indexes can slow down performance because MongoDB must update them every time.
+c. If a query returns most of the collection, index is not useful.
    Boolean field (true/false)
    Gender field (male/female)
 
-
+ 
 > Using explain():
 explain() shows how MongoDB runs a query.
 It only shows performance details like whether an index was used or it scanned the whole collection etc.
@@ -64,7 +65,7 @@ It only shows performance details like whether an index was used or it scanned t
 
 
 > explain("executionStats"):
-is used to check how a query actually performed. 
+It is used to analyze query performance in detail.
 It shows details like how many documents were returned, how many were scanned, 
 how much time it took, and whether MongoDB used an index or did a full collection scan
 - db.users.find({ age: 25 }).explain("executionStats")
@@ -80,6 +81,13 @@ Winning plan means the best execution plan MongoDB chooses to run the query and 
 It selects the most efficient index based on cost.
 Other possible plans are shown as rejected plans.
 
+COLLSCAN happens when MongoDB scans the entire collection to find matching documents.
+IXSCAN happens when MongoDB uses an index to find documents instead of scanning everything.
+IXSCAN is usually better because it reduces the number of documents examined and improves performance.
+However, if a query returns most of the collection, using an index may not be beneficial.
+
+Left prefix rule means that in a compound index, MongoDB can use the index only if the query starts from the first indexed field and 
+follows the index order without skipping fields.
 
 limit():
 limit() is used to control how many documents should return.
@@ -89,14 +97,6 @@ db.users.find().limit(5)
 Projection:
 Projection is used to select only required fields from documents.
 db.users.find({}, { name: 1, _id: 0 })
-
-
-> When to use or avoid indexes (read-heavy vs write-heavy):
-
-Covered queries return data directly from indexes without document fetch. 
-MongoDB chooses the best index as the winning plan. Indexes are ideal for read-heavy applications but 
-should be limited in write-heavy systems because they slow down insert and update operations.
-
 
 
 

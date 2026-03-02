@@ -14,7 +14,7 @@ $text is mandatory for all text search operations.
 
 
 2. $search:
-It specifies the actual text to search
+search operator is used to search actual words. 
 
 Using $search, 
 we can do single-word search that returns all documents containing that word, 

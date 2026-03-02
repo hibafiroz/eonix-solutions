@@ -7,9 +7,10 @@ It is schema-flexible and horizontally scalable.
 > Key features of MongoDB:
 
 - It stores data in document format.
-- It is schema-less.
-- It is scalable using sharding.
-- It provides high availability using replication.
+- It is schema-less and flexible.
+- Supports multiple types of indexing.
+- Uses Replica sets for high availability.
+- Supports Sharding for horizontal scaling.
 
 
 > Advantanges of MongoDB:

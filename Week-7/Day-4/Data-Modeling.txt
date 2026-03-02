@@ -51,7 +51,7 @@ It's fast bcz mongoDB can return everything in just one query, without looking u
 
 When to Use Embedding:
 a. If there are only a small number of related items.
-b. As document size limit is 16MB, so the embedded data not grow too large.
+b. When we need faster reads.
 
 2. Document References:
 Document referencing means storing related data in separate collections and linking them using IDs 
@@ -60,7 +60,7 @@ instead of embedding everything inside one document.
 When to Use References:
 a. Many-to-Many Relationships: Both sides can grow large, so embedding is not possible.
 b. Frequently Changing Data.
-c. If the child is not always read along with the parent, it deserves its own collection.
+c. When embedded data may exceed the 16MB document limit.
 
 
 - Whenevr we create a collection, the data folder creates two file, one for documents another for index (default one is ObjectId points to its doc location)

@@ -16,7 +16,7 @@ When data comes back to client → BSON → JSON again
 > Why MongoDB uses BSON internally?
 
 It is faster to read and write since it’s binary.
-It supports more data types. 
+It supports additional data types. 
 It also helps with indexing for better performance.
 
 

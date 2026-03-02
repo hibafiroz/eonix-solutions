@@ -47,7 +47,6 @@ By default it reads from the primary because primary always has the latest data.
 We can also read from secondary to reduce load on primary, but secondaries may have slightly old data due to replication lag, 
 so for imp things like login or payments we always use primary
 
-But we can’t always read from secondary because replication is not instant. Secondaries may have slightly old data — this is called replication lag.
 
 Note:
 - MongoDB replication is asynchronous by default.

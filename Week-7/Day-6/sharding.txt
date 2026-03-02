@@ -3,7 +3,7 @@ MongoDB Sharding:
 - Sharding is a horizontal scaling technique.
 - It splits large data across multiple servers and each server is called shard and each shard is a replica set.
 - But the application cannot directly talk to these shards. instead it connects to Mongos its a router between our app and the shards.
-- Mongos checks a shard key from config server and decides which shard the data should go to.
+- Mongos checks a shard key and metadata from the config servers to decide which shard the data should store or retrieve.
 - ( Shard key is the field MongoDB uses to split data across servers. )
 
 
@@ -21,13 +21,16 @@ userId 1–1000 → shard 1
 userId 1001–2000 → shard 2
 
 2. Hash Based Sharding:
-It hashes the shard key first, then splits data so that all shards get almost equal data.
+It hashes the shard key first, then splits data so that all shards get equal data.
 
 
-MongoDB sharding has three components: 
-Shards which store actual data and each shard has replica set.
-Config servers do not store user data. They store metadata about which shard the data is in.
-Mongos routes requests to the correct shard.
+> MongoDB sharding has three components: one cluster contain-
+Shards: which store actual data and each shard has replica set.
+Config servers: do not store user data. They store metadata about which shard the data is in.
+Mongos: routes requests to the correct shard.
+
+A cluster means a group of MongoDB servers working together as one system.
+Config Server stores the metadata of the cluster like Which data belongs to which shard, What is the shard key
 
 
 Shard key must exist in every document

@@ -171,3 +171,17 @@ db.students.updateOne(
     ]
   }
 )
+
+
+
+Note :
+tasks: [
+    { title: "Setup UI", priority: 2 },
+    { title: "Backend API", priority: 1 },
+    { title: "Payment Integration", priority: 3 }
+],
+
+Remove tasks where priority > 3
+$pull: {
+  tasks: { priority: { $gt: 3 } }
+}

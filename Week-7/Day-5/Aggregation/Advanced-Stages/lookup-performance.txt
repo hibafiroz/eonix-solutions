@@ -54,7 +54,7 @@ Each $lookup works like a join. So if we use many $lookup stages in one pipeline
 - Solution1: If data is closely related and doesn't change often, we embed it to avoid multiple lookups.
 - Solution2: For heavy queries, we pre-aggregate data and store it in another collection so APIs don’t run expensive lookups every time.
 
-Pre-aggregation means we do the heavy calculation once — maybe every hour or every day — and save the result in another collection.
+Pre-aggregation means we do the heavy calculation once every hour or every day and save the result in another collection.
 After that, our application just reads from that saved collection.
 So it becomes very fast because we are not calculating again and again.
 
