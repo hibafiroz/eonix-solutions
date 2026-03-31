@@ -1,7 +1,7 @@
 7. Sparse Index:
 
 - A sparse index indexes only the documents that actually contain the indexed field.
-  By default, If a document doesn't have that field, it still indexed as null.
+  By default, If a document doesn't have that field, it still creates index as null to that document.
   So to avoid that we use sparse index. This reduces the index size.
 
 > Example:

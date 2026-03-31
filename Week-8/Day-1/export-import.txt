@@ -1,0 +1,65 @@
+> Export & Import in React:
+
+In React we usually create components in separate files to keep the project organized. 
+We use export to make a component available to other files, and import to use that component where it is needed. 
+This helps in reusing components and maintaining a clean project structure.
+
+
+Step 1: Create a Component
+
+StudentCard.jsx
+function StudentCard() {
+  return <h2>Student Card</h2>
+}
+export default StudentCard
+
+Here:
+export default StudentCard
+This allows other files to use this component.
+
+Step 2: Import the Component
+
+App.jsx
+import StudentCard from "./components/StudentCard"
+
+function App() {
+  return (
+    <div>
+      <StudentCard />
+    </div>
+  )
+}
+export default App
+
+
+> Suppose we have:
+
+src
+ ├─ components
+ │   ├─ Navbar.jsx
+ │   └─ Footer.jsx
+ ├─ App.jsx
+
+Then in App.jsx:
+
+import Navbar from "./components/Navbar"
+import Footer from "./components/Footer"
+
+
+| Default Export    | Named Export      |
+| ----------------- | ----------------- |
+| One per file      | Multiple allowed  |
+| No `{}` in import | Use `{}`          |
+| Name can change   | Name must be same |
+
+
+> Named Export:
+We can have multiple named exports in one file.
+
+export const name = "Hiba"
+export const age = 22
+
+Import:
+import { name, age } from "./file"
+
+Must use same name and curly braces.

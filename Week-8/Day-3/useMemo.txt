@@ -1,0 +1,105 @@
+> useMemo Hook:
+
+useMemo is used to avoid doing the same calculation again and again.
+Like, if there is some heavy calculation in my component, React will run it on every render.
+So what useMemo does is, it stores the result and only recalculates it when the dependency changes.
+This helps to improve performance.
+
+Difference from normal variable
+const value = expensiveFunction(); // runs every render ❌
+
+const value = useMemo(() => expensiveFunction(), []); // runs once ✅
+
+
+Normally, when a component re-renders, everything inside runs again.
+Sometimes that's wasteful, especially if A calculation is heavy
+useMemo helps avoid that.
+
+
+import { useState, useMemo } from "react";
+
+function App() {
+  const [count, setCount] = useState(0);
+  const [text, setText] = useState("");
+
+  const expensiveCalculation = useMemo(() => {
+    console.log("Calculating...");
+    return count * 2;
+  }, [count]);
+
+  return (
+    <div>
+      <h1>{expensiveCalculation}</h1>
+
+      <button onClick={() => setCount(count + 1)}>
+        Increase Count
+      </button>
+
+      <input 
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+    </div>
+  );
+}
+
+When count changes 👉 calculation runs ✅
+
+When text changes 👉 calculation does NOT run ❌
+
+👉 Because useMemo only cares about [count]
+
+Without useMemo
+Every time you type in input → calculation runs again 
+
+
+
+note
+It returns a value, not a function
+
+It runs only when dependencies change
+
+Don’t overuse it (only for heavy stuff)
+
+useMemo → stores value
+useCallback → stores function
+
+
+
+
+
+
+> useCallback Hook:
+
+useCallback is used to memoize a function so it doesn’t get recreated on every render. 
+It’s mainly useful when passing functions to child components to avoid unnecessary re-renders.
+
+import { useState, useCallback } from "react";
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  const handleClick = useCallback(() => {
+    console.log("Clicked");
+  }, []);
+
+  return (
+    <div>
+      <button onClick={handleClick}>Click me</button>
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+    </div>
+  );
+}
+Without useCallback:
+Function gets recreted every render ❌
+With useCallback
+Same function reused ✅
+
+
+Can we replace useCallback with useMemo?”
+
+✔️ Smart answer:
+
+Yes, technically we can, because useCallback is internally similar to useMemo returning a function. But for readability and clarity, we should use useCallback for functions.
+
+useMemo is used for memoizing values, and useCallback is used for memoizing functions. Both are used for performance optimization, especially to prevent unnecessary re-renders.

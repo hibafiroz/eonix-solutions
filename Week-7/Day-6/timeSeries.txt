@@ -1,0 +1,8 @@
+Time Series Collection:
+
+It is used to store time-based data like sensor data ,temperature.
+
+When we insert data, each record looks like a separate document.
+But internally, MongoDB groups nearby time data into buckets.
+It stores multiple measurements inside one bucket and compresses them.
+Because of this, it uses less storage.

@@ -1,0 +1,111 @@
+> React.memo:
+
+React.memo is a higher-order component used to prevent unnecessary re-rendering of a component. 
+It re-renders the component only when its props change by doing a shallow comparison.
+It is used for performance optimization.
+
+React.memo only prevents re-render caused by props.
+If the component has its own state or context changes, it will still re-render.
+
+In React, when a parent component re-renders, all child components also re-render by default. 
+React.memo prevents this by re-rendering the child component only if the props have changed. This improves performance.
+
+React.memo uses shallow comparison to check if props have changed. If props are the same, it skips re-rendering.
+
+
+import React, { useState } from "react";
+
+function Child({ name }) {
+  console.log("Child rendered");
+  return <h1>{name}</h1>;
+}
+
+function Parent() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <button onClick={() => setCount(count + 1)}>Click</button>
+      <Child name="Hiba" />
+    </div>
+  );
+}
+export default Parent;
+
+
+This Child is a child component.
+But a child component means nothing unless someone renders it.
+The component that renders Child is the Parent.
+
+
+Without React.memo
+function Child({ name }) {
+  console.log("Child rendered");
+  return <h1>{name}</h1>;
+}
+Every time parent renders → Child also renders.
+
+With React.memo
+const Child = React.memo(({ name }) => {
+  console.log("Child rendered");
+  return <h1>{name}</h1>;
+});
+Now Child renders only when name changes.
+
+
+
+> Basic Folder Structure:
+
+src/
+│
+├── components/      → Reusable components (Button, Card)
+├── pages/           → Page components (Home, About)
+├── layouts/         → Layouts (Navbar, Footer)
+├── hooks/           → Custom hooks
+├── context/         → Context API
+├── services/        → API calls (axios, fetch)
+├── utils/           → Helper functions
+├── routes/          → Routing configuration
+├── assets/          → Images, icons
+├── styles/          → CSS files
+│
+├── App.jsx
+├── main.jsx
+
+
+I follow a structured folder architecture. I separate reusable components into a components folder, route-level components into a pages folder, 
+API calls into services, global state into context, and helper functions into utils
+
+
+| Use React.memo             | Don't Use               |
+| -------------------------- | ----------------------- |
+| Pure functional components | Small components        |
+| Component re-renders often | No performance issue    |
+| Same props many times      | Props change frequently |
+
+
+> React.memo is often used with:
+
+useCallback → memoize function
+useMemo → memoize value
+
+
+> Smart component vs Dumb component:
+
+Smart components are components that handle logic, state, and data fetching, 
+while dumb components are presentational components that only handle UI and receive data via props.
+
+| Smart Component                             | Dumb Component                   |
+| ---------------                             | --------------                   |
+| Handles logic of the application.           | Handles UI only.                 |
+| State                                       | No state                         |
+| Fetch data                                  | Display data                     |
+| Container                                   | Presentational                   |
+
+Another name:
+Smart Component → Container Component
+Dumb Component → Presentational Component
+
+
+> How do you optimize React performance?
+We can optimize React performance using React.memo, useMemo, useCallback, lazy loading, code splitting, and avoiding unnecessary re-renders.

@@ -1,0 +1,368 @@
+> props: a way to pass information to a component.
+
+Props are basically used to pass data from a parent component to a child component. 
+They helps to make components reusable because the same component can display different data
+and the child component cannot modify them because props are read-only.
+
+Without props, Every component would be static and We would have to duplicate components to pass different data.
+With props, The same component can show different data.
+
+Parent Component
+       ↓
+      Props
+       ↓
+Child Component
+
+Data flows top → bottom
+Parent sends data
+Child receives and displays it
+
+
+> Example:
+
+Parent Component:
+function App() {
+  return (
+    <div>
+      <User name="Hiba" age={22} />
+      <User name="Aisha" age={24} />
+    </div>
+  );
+}
+
+Child Component:
+function User(props) {
+  return (
+    <div>
+      <h2>Name: {props.name}</h2>
+      <p>Age: {props.age}</p>
+    </div>
+  );
+}
+
+Output:
+Name: Hiba
+Age: 22
+
+Name: Aisha
+Age: 24
+
+
+> Props with Destructuring:
+
+Props Destructuring means extracting values from the props object directly so we can use them easily inside a component.
+Props destructuring uses JavaScript destructuring, which allows us to pull values from objects.
+
+Instead of writing: props.name, props.age, props.city
+we can extract them like this {name, age, city}
+
+Why Props Destructuring Is Used? bcz Without destructuring, we repeatedly write props every time. Also when a component receives multiple props
+
+Without Destructuring:
+function User(props) {
+  return (
+    <div>
+      <h2>{props.name}</h2>
+      <p>{props.age}</p>
+    </div>
+  );
+}
+With Destructuring:
+function User({ name, age }) {
+  return (
+    <div>
+      <h2>{name}</h2>
+      <p>{age}</p>
+    </div>
+  );
+}
+
+
+> Two Ways to Destructure Props:
+
+Method 1 — Inside Function Parameter (Most Common)
+function User({ name, age }) {
+  return (
+    <>
+      <h1>{name}</h1>
+      <p>{age}</p>
+    </>
+  );
+}
+
+This is the most common and recommended way.
+
+Method 2 — Inside the Function Body
+function User(props) {
+  const { name, age } = props;
+
+  return (
+    <>
+      <h1>{name}</h1>
+      <p>{age}</p>
+    </>
+  );
+}
+
+
+> Destructuring With Default Values:
+
+We can give default values if props are not passed.
+function User({ name = "Guest", age = 0 }) {
+  return (
+    <>
+      <h2>{name}</h2>
+      <p>{age}</p>
+    </>
+  );
+}
+
+- Internally React does this-
+const name = props.name !== undefined ? props.name : "Guest";
+const age = props.age !== undefined ? props.age : 0;
+when the prop is not passed or is undefined. If a value is provided through props, React will use that value instead of the default.
+
+
+> Destructuring Object Props
+
+Example:
+
+Parent
+function App() {
+  const user = {
+    name: "Hiba",
+    age: 22
+  };
+
+  return <Profile user={user} />;
+}
+Child
+function Profile({ user }) {
+  return <h1>{user.name}</h1>;
+}
+
+Or nested destructuring:
+
+function Profile({ user: { name, age } }) {
+  return (
+    <>
+      <h2>{name}</h2>
+      <p>{age}</p>
+    </>
+  );
+}
+
+
+> Passing Different Types of Props:
+
+1. String
+<Greeting name="Hiba" />
+
+2. Number
+<Product price={500} />
+
+3. Boolean
+<Button disabled={true} />
+or shorthand
+<Button disabled />
+
+4. Array
+<List items={["Apple", "Banana", "Mango"]} />
+
+5. Object
+<User user={{ name: "Hiba", age: 22 }} />
+
+Access:
+
+function User({ user }) {
+  return <h1>{user.name}</h1>;
+}
+
+6. Function
+Props can pass functions.
+
+function App() {
+  function sayHello() {
+    alert("Hello");
+  }
+
+  return <Button onClick={sayHello} />;
+}
+
+Child component:
+
+function Button({ onClick }) {
+  return <button onClick={onClick}>Click</button>;
+}
+
+
+> Default Props
+
+Used when a prop is not provided.
+
+Method 1
+function Greeting({ name = "Guest" }) {
+  return <h1>Hello {name}</h1>;
+}
+
+Usage:
+<Greeting />
+
+Output:
+Hello Guest
+
+
+> Children Props
+
+The children prop is a special prop in React that represents the content placed between the opening and closing tags of a component.
+It lets a component display whatever is written inside its tags.
+
+Normally we write components like this:
+<Button />
+
+But sometimes we write:
+<Button>Click Me</Button>
+
+The text "Click Me" is automatically passed as the children prop.
+
+Parent Component
+function App() {
+  return (
+    <Card>
+      <h2>Hello Hiba</h2>
+    </Card>
+  );
+}
+
+Here, <h2>Hello Hiba</h2> is the children of Card.
+
+Child Component
+function Card(props) {
+  return <div>{props.children}</div>;
+}
+
+React internally treats it like:
+Card({
+  children: <h2>Hello Hiba</h2>
+})
+
+children can contain multiple elements.
+
+Example:
+
+function App() {
+  return (
+    <Card>
+      <h2>Title</h2>
+      <p>This is description</p>
+    </Card>
+  );
+}
+
+Child component:
+
+function Card(props) {
+  return <div>{props.children}</div>;
+}
+
+Output:
+
+Title
+This is description
+
+- Instead of writing props.children, we can destructure it.
+function Card({ children }) {
+  return <div>{children}</div>;
+}
+
+- The children prop is useful when:
+• Creating reusable wrapper components
+• Designing layouts
+• Building UI containers
+• Building custom components like modals or cards
+
+
+> Spread Props:
+
+React allows spreading props using spread operator.
+
+const user = {
+  name: "Hiba",
+  age: 22
+};
+
+<User {...user} />
+
+Same as:
+<User name="Hiba" age={22} />
+
+
+> Passing Props Between Multiple Levels:
+
+Example:
+
+App
+ ↓
+Parent
+ ↓
+Child
+
+App:
+
+<Parent name="Hiba" />
+
+Parent:
+
+function Parent(props) {
+  return <Child name={props.name} />;
+}
+
+Child:
+
+function Child({ name }) {
+  return <h1>{name}</h1>;
+}
+
+This is called prop drilling.
+
+
+> Prop Drilling
+
+When props pass through many intermediate components, it is called prop drilling.
+
+Example:
+
+App → Parent → Child → GrandChild
+Each component must forward props.
+
+Solutions:
+Context API
+Redux
+Zustand
+
+
+> Real World Example
+
+Example: Product Card
+
+Parent:
+
+<ProductCard 
+  title="Laptop"
+  price={50000}
+  brand="Dell"
+/>
+
+Child:
+
+function ProductCard({ title, price, brand }) {
+  return (
+    <div>
+      <h2>{title}</h2>
+      <p>{brand}</p>
+      <p>₹{price}</p>
+    </div>
+  );
+}
+
+This allows creating hundreds of products using one component.

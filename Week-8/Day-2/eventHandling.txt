@@ -1,0 +1,213 @@
+> Event Handling:
+
+Event Handling in React is the process of responding to user actions such as clicking a button, typing in an input field, submitting a form, hovering over elements, etc.
+React allows you to handle these user interactions using functions called event handlers.
+
+| HTML                  | React                 |
+| --------------------- | --------------------- |
+| Uses lowercase events | Uses camelCase events |
+| Uses strings          | Uses functions        |
+| onclick               | onClick               |
+| onsubmit              | onSubmit              |
+
+HTML Example
+<button onclick="handleClick()">Click</button>
+React Example
+<button onClick={handleClick}>Click</button>
+
+> Example:
+
+function App() {
+
+  function handleClick() {
+    alert("Button clicked!");
+  }
+
+  return (
+    <button onClick={handleClick}>Click Me</button>
+  );
+}
+
+export default App;
+
+
+> Instead of defining a separate function, we can use an arrow function directly inside JSX.
+
+Example:
+
+function App() {
+  return (
+    <button onClick={() => alert("Button clicked!")}>
+      Click Me
+    </button>
+  );
+}
+
+
+> Updating State with Events:
+
+import { useState } from "react";
+
+function Counter() {
+
+  const [count, setCount] = useState(0);
+
+  function handleClick() {
+    setCount(count + 1);
+  }
+
+  return (
+    <div>
+      <h2>{count}</h2>
+      <button onClick={handleClick}>Increase</button>
+    </div>
+  );
+}
+
+export default Counter;
+
+count → current state value
+setCount → function used to update state
+useState(0) → initial state is 0
+handleClick → event handler function
+onClick → event listener
+
+When the button is clicked:
+handleClick runs
+setCount(count + 1) updates the state
+React re-renders the component
+Updated value appears in the UI
+
+
+> We can pass data to the event handler.
+
+Example:
+
+function App() {
+
+  function greet(name) {
+    alert("Hello " + name);
+  }
+
+  return (
+    <button onClick={() => greet("Hiba")}>
+      Greet
+    </button>
+  );
+}
+
+Arrow function allows passing parameters.
+greet("Hiba") runs when the button is clicked.
+
+
+> Event Object in React
+
+React automatically passes an event object to event handler functions.
+This event object contains information about the event.
+
+Example:
+
+function App() {
+
+  function handleClick(event) {
+    console.log(event);
+  }
+
+  return (
+    <button onClick={handleClick}>
+      Click Me
+    </button>
+  );
+}
+
+The event object includes:
+event type
+target element
+mouse position
+keyboard key etc.
+
+
+> Sometimes events bubble up to parent elements.
+To stop this, use:
+event.stopPropagation()
+
+function App() {
+
+  function parentClick() {
+    console.log("Parent clicked");
+  }
+
+  function childClick(e) {
+    e.stopPropagation();
+    console.log("Button clicked");
+  }
+
+  return (
+    <div onClick={parentClick}>
+      <button onClick={childClick}>Click</button>
+    </div>
+  );
+}
+Without stopPropagation, both parent and child would trigger.
+
+
+> What is event binding in React?
+
+In class components, event handlers need to be bound to the component instance so that this refers to the correct component.
+ We usually do this using bind(this) inside the constructor. 
+Functional components don’t require binding because they don’t use this.
+
+
+> Common React Events:
+
+Mouse Events
+| Event         | Description                       |
+| ------------- | --------------------------------- |
+| onClick       | Triggered when element is clicked |
+| onDoubleClick | Double click                      |
+| onMouseEnter  | Mouse enters element              |
+| onMouseLeave  | Mouse leaves element              |
+
+Keyboard Events:
+| Event      | Description                              |
+| ---------- | ---------------------------------------- |
+| onKeyDown  | Key pressed                              |
+| onKeyUp    | Key released                             |
+| onKeyPress | Key pressed (deprecated in modern React) |
+
+Form Events:
+| Event    | Description         |
+| -------- | ------------------- |
+| onChange | Input value changes |
+| onSubmit | Form submitted      |
+| onFocus  | Input focused       |
+| onBlur   | Input loses focus   |
+
+function App() {
+
+  function handleChange(e) {
+    console.log(e.target.value);
+  }
+
+  return (
+    <input type="text" onChange={handleChange} />
+  );
+}
+e.target.value gets the input value
+
+
+> Function Reference (Recommended)
+<button onClick={handleClick}>Click</button>
+Advantages:
+
+Cleaner code
+Better performance
+
+> Inline Function
+<button onClick={() => handleClick()}>
+  Click
+</button>
+Used when:
+
+passing arguments
+executing additional logic

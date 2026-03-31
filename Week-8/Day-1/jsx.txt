@@ -1,0 +1,87 @@
+> JSX (Rules & Syntax):
+
+JSX stands for JavaScript XML. It is a syntax extension for JavaScript. It allows us to write HTML-like code inside JavaScript. 
+React uses JSX to describe the UI structure which makes the code easier to read and write compared to plain JavaScript for creating elements.
+
+ex: const element = <h1>Hello Hiba</h1>
+
+This looks like HTML, but it is actually JavaScript with JSX syntax.
+Behind the scenes, JSX is converted into normal JavaScript using Babel.
+(Babel is a JavaScript compiler that converts modern JavaScript and JSX into regular JavaScript that browsers can understand.)
+const element = <h1>Hello</h1> converts to const element = React.createElement("h1", null, "Hello");
+
+
+> Simple Example
+
+- Plain JavaScript example (without JSX):
+const element = React.createElement("div", null, "Hello Hiba")
+if we want hello Hiba in h1 tag, we write as
+const element = React.createElement("div", null, React.createElement("h1", null, "Hello Hiba"))  //which is messier to read
+
+- JSX version:
+const element = <h1>Hello Hiba</h1>
+JSX is much cleaner and easier to read.
+
+
+> Example Inside a Component:
+function App() {
+  return <h1>Hello React</h1>
+}
+export default App
+
+
+Important JSX Rules:
+
+1. JSX Must Have One Parent Element
+
+❌
+return (
+  <h1>Hello</h1>
+  <p>Welcome</p>
+)
+
+✅
+return (
+  <div>
+    <h1>Hello</h1>
+    <p>Welcome</p>
+  </div>
+)
+React components must return one parent element.
+
+
+2. Use className Instead of class
+Because class is a JavaScript keyword.
+
+❌
+<h1 class="title">Hello</h1>
+
+✅
+<h1 className="title">Hello</h1>
+
+
+3. All Tags Must Be Closed
+
+❌
+<img src="image.png">
+
+✅
+<img src="image.png" />
+
+JSX requires self-closing tags.
+
+
+4. JavaScript Inside JSX Uses { }
+Example:
+
+function App() {
+  const name = "Hiba"
+  return <h1>Hello {name}</h1>
+}
+
+In normal:
+React.createElement("h1", null, "Hello " + name);
+
+> Is JSX HTML?
+No, JSX looks like HTML but it is not HTML. 
+It is JavaScript syntax that gets converted into JavaScript using Babel.

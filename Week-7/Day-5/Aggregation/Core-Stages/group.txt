@@ -188,9 +188,6 @@ db.students.aggregate([
 ])
 output: ["A","B"]
 
-> After $group, you get one result per group — and if _id is null, everything becomes one single group, so you get only one value.
-
-
 
 
 > Note:

@@ -8,9 +8,8 @@ It is schema-flexible and horizontally scalable.
 
 - It stores data in document format.
 - It is schema-less and flexible.
-- Supports multiple types of indexing.
-- Uses Replica sets for high availability.
 - Supports Sharding for horizontal scaling.
+- Uses Replica sets for high availability.
 
 
 > Advantanges of MongoDB:

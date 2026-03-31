@@ -1,0 +1,101 @@
+> When fetching data from an API, there are 3 possible states:
+
+| State   | Meaning                   |
+| ------- | ------------------------- |
+| Loading | Data is being fetched     |
+| Success | Data fetched successfully |
+| Error   | Something went wrong      |
+So we manage this using 3 states in React.
+
+
+> States Setup
+const [data, setData] = useState([]);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState(null);
+
+| State   | Purpose                |
+| ------- | ---------------------- |
+| data    | Store API data         |
+| loading | Show loading indicator |
+| error   | Show error message     |
+
+
+
+> Fetch Data with useEffect:
+useEffect(() => {
+  fetch("API_URL")
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("Something went wrong");
+      }
+      return res.json();
+    })
+    .then((data) => {
+      setData(data);
+      setLoading(false);
+    })
+    .catch((err) => {
+      setError(err.message);
+      setLoading(false);
+    });
+}, []);
+
+
+> Conditional Rendering:
+if (loading) return <h1>Loading...</h1>;
+if (error) return <h1>Error: {error}</h1>;
+
+
+
+> Then render data:
+return (
+  <div>
+    {data.map((item) => (
+      <p key={item.id}>{item.name}</p>
+    ))}
+  </div>
+);
+
+> Full version:
+
+import { useState, useEffect } from "react";
+
+function App() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+
+        const res = await fetch("https://api.example.com/users");
+        const data = await res.json();
+
+        setData(data);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error occurred</p>;
+  return <div>{data.length}</div>;
+}
+
+
+> Real World Practice:
+
+Instead of text:
+Loading → Spinner / Skeleton
+Error → Error message + Retry button
+
+Example:
+if (loading) return <Spinner />;
+if (error) return <Error message={error} />;

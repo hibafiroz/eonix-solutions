@@ -1,0 +1,243 @@
+> Lists and Keys:
+
+Lists in React are used to render multiple elements dynamically by iterating over arrays, typically using the map() function. 
+Keys are special attributes used to uniquely identify elements in a list so React can efficiently update, add, or remove items during the rendering process.
+
+
+The most common way to render lists in React is using Array.map().
+
+map() creates a new array by transforming each element.
+
+Basic Example
+function App() {
+  const fruits = ["Apple", "Orange", "Mango"];
+
+  return (
+    <ul>
+      {fruits.map((fruit) => (
+        <li>{fruit}</li>
+      ))}
+    </ul>
+  );
+}
+Output
+• Apple
+• Orange
+• Mango
+
+
+React requires a key when rendering lists.
+
+A key is a unique identifier for each element in a list.
+
+Example:
+
+function App() {
+  const fruits = ["Apple", "Orange", "Mango"];
+
+  return (
+    <ul>
+      {fruits.map((fruit, index) => (
+        <li key={index}>{fruit}</li>
+      ))}
+    </ul>
+  );
+}
+Here:
+
+key={index}
+React uses this key to track elements efficiently.
+
+
+
+Keys help React in its reconciliation process.
+
+React compares:
+
+Previous Virtual DOM
+vs
+New Virtual DOM
+Using keys, React can determine:
+
+Which item changed
+
+Which item was added
+
+Which item was removed
+
+Without keys, React may re-render unnecessary elements, reducing performance.
+
+
+
+Example Without Keys
+{items.map(item => (
+  <li>{item}</li>
+))}
+React will show a warning:
+
+Each child in a list should have a unique "key" prop
+Because React cannot track items properly.
+
+
+
+Example With Keys
+{items.map(item => (
+  <li key={item.id}>{item.name}</li>
+))}
+Here:
+
+item.id is unique.
+
+React can track elements correctly.
+
+
+
+Using Index as Key
+{items.map((item, index) => (
+  <li key={index}>{item}</li>
+))}
+But React documentation discourages using index as a key.
+
+Reason:
+
+If list order changes, React may update elements incorrectly.
+
+Using index is acceptable only if:
+
+The list never changes order
+
+Items are not added or removed
+
+Data has no unique IDs
+
+
+
+Lists can also render components.
+
+Example:
+
+function User({ name }) {
+  return <li>{name}</li>;
+}
+
+function App() {
+  const users = ["Hiba", "Sara", "Ali"];
+
+  return (
+    <ul>
+      {users.map((user, index) => (
+        <User key={index} name={user} />
+      ))}
+    </ul>
+  );
+}
+User component is rendered multiple times.
+
+Each component has a unique key.
+
+
+
+Extracting Components with Keys
+Correct way:
+
+Key should be placed where the list is created, not inside the child component.
+
+Correct:
+
+function User({ name }) {
+  return <li>{name}</li>;
+}
+
+function App() {
+  const users = ["Hiba", "Sara", "Ali"];
+
+  return (
+    <ul>
+      {users.map((user, index) => (
+        <User key={index} name={user} />
+      ))}
+    </ul>
+  );
+}
+Incorrect:
+
+function User({ name }) {
+  return <li key={name}>{name}</li>;
+}
+Keys belong to the array element, not inside child component.
+
+
+
+Lists are often combined with filter().
+
+Example:
+
+const numbers = [1,2,3,4,5,6];
+
+{numbers
+  .filter(num => num % 2 === 0)
+  .map(num => (
+    <li key={num}>{num}</li>
+  ))
+}
+
+
+
+ Lists with Conditional Rendering
+Example:
+
+const users = [
+  { id: 1, name: "Hiba", active: true },
+  { id: 2, name: "Sara", active: false }
+];
+
+{users.map(user =>
+  user.active && <p key={user.id}>{user.name}</p>
+)}
+Only active users are shown.
+
+React uses keys during Virtual DOM diffing.
+
+
+Rules for Keys
+
+ Keys must be unique among siblings
+
+✔ key={user.id}
+2️⃣ Keys must be stable
+
+They should not change between renders.
+
+Bad example:
+
+key={Math.random()}
+3️⃣ Keys are not passed as props
+
+Inside a component:
+
+props.key ❌
+Key is used internally by React.
+
+
+
+Real World Example
+Example: Product List
+
+function App() {
+  const products = [
+    { id: 1, name: "Laptop", price: 50000 },
+    { id: 2, name: "Phone", price: 20000 },
+    { id: 3, name: "Tablet", price: 15000 }
+  ];
+
+  return (
+    <div>
+      {products.map(product => (
+        <div key={product.id}>
+          <h2>{product.name}</h2>
+          <p>{product.price}</p>
+        </div>
+      ))}
+    </div>
+  );
+}

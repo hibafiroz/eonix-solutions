@@ -1,0 +1,122 @@
+> Context API:
+
+Context API is used to share global data like user, theme, or authentication status across multiple components without 
+passing props manually at every level. It is used to solve the prop drilling problem. 
+We create a context using createContext, wrap components with Provider, and access the data using the useContext hook.
+
+Usually we pass data from parent to child using props. But when many components need the same data, like user login, theme, 
+or language, passing props through every component becomes messy. This problem is called prop drilling.
+So React provides Context API to share data globally between components without passing props manually at every level.
+We create a context, wrap the components inside the Provider, and then any component can access that data using useContext hook.
+
+
+> We use Context when we need to share:
+
+Logged-in user, Theme (dark/light), Language, Auth status, Global settings
+Should not use Context for everything but only for global data.
+
+
+> Steps to Use Context API (There are 4 steps):
+
+1. Create Context:
+
+- UserContext.js
+import { createContext } from "react";
+const UserContext = createContext();
+export default UserContext;
+
+
+2. Create Provider
+3. Wrap App with Provider
+
+- App.js
+import React, { useState } from "react";
+import UserContext from "./UserContext";
+import Home from "./Home";
+
+function App() {
+  const [user, setUser] = useState("Hiba");
+
+  return (
+    <UserContext.Provider value={{user}}>
+      <Home />
+    </UserContext.Provider>
+  );
+}
+export default App;
+
+
+4. Use Context in components
+5. consume data
+
+- Home.js
+import React from "react";
+import Profile from "./Profile";
+
+const Home = () => {
+  return <Profile />;
+};
+export default Home;
+
+- Profile.js
+import React, { useContext } from "react";
+import UserContext from "./UserContext";
+
+const Profile = () => {
+  const user = useContext(UserContext);
+
+  return <h1>Hello {user}</h1>;
+};
+export default Profile;
+
+
+> useContext:
+
+useContext is a React hook used to access data from Context. 
+Instead of passing props from parent to child, we store data in Context and any component can access it using useContext.
+
+> Context API is used to create and provide the global data, and 
+useContext is a hook used to consume that data inside components.
+
+
+> Prop Drilling Problem:
+
+In React, data is passed from parent to child using props. When the application becomes large, sometimes we need to pass data through many intermediate components just to reach a deeply nested component. This is called prop drilling.
+It makes the code messy and hard to maintain. To solve this problem, we use Context API or state management libraries like Redux.
+
+
+> Without Context (Prop Drilling)
+
+function App() {
+  const user = "Hiba";
+  return <Home user={user} />;
+}
+
+function Home({ user }) {
+  return <Profile user={user} />;
+}
+
+function Profile({ user }) {
+  return <Settings user={user} />;
+}
+
+function Settings({ user }) {
+  return <h1>{user}</h1>;
+}
+
+Here we passed user through 3 components just to reach Settings.
+This is Prop Drilling.
+
+
+src
+ ├── context
+ │     └── UserContext.js
+ ├── components
+ │     ├── Home.jsx
+ │     ├── Profile.jsx
+ │     └── Settings.jsx
+ └── App.jsx
+
+
+- Context API vs Redux?
+Context API is used for simple global state, while Redux is used for complex state management in large applications.

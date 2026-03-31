@@ -1,0 +1,158 @@
+> useRef Hook:
+
+useRef is used to store data inside a component that stays the same between renders.
+When the component re-renders, the value inside the ref does not reset. React keeps the same ref object for the whole life of the component.
+Another important thing is, changing a ref does not re-render the component.
+That is the main difference between useRef and useState.
+
+Example:
+
+const countRef = useRef(0);
+Here React creates a ref object like this:
+
+{
+  current: 0
+}
+
+The actual value is always stored inside .current.
+So if we want to read or change the value we use: countRef.current
+
+Even if the component re-renders many times, the value inside
+countRef.current stays the same unless we change it manually.
+
+
+> We can update ref but it does not re render the componenet.
+Because React only re-renders when state changes, props change
+React does not track ref changes.
+A ref is just a mutable object container.
+
+Example: countRef.current = 5;
+
+
+
+> Difference between useState and useRef
+
+1. useState:
+
+used when UI needs to update
+React tracks it
+updating it causes re-render
+
+2. useRef:
+
+used to store values without re-render
+React does not track it
+updating it does NOT cause re-render
+
+
+
+> Common Use Cases:
+
+1. Accessing DOM Elements directly:
+
+import { useRef } from "react";
+
+function App() {
+  const inputRef = useRef(null);
+
+  function focusInput() {
+    inputRef.current.focus();
+  }
+
+  return (
+    <>
+      <input ref={inputRef} />
+      <button onClick={focusInput}>Focus</button>
+    </>
+  );
+}
+
+inputRef stores the input element
+React attaches the DOM element to inputRef.current
+Now we can control the input directly
+
+
+2. Storing Previous Values:
+
+Sometimes we want to remember the previous state value.
+useRef is useful because it persists between renders.
+
+import { useState, useRef, useEffect } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  const prevCount = useRef();
+
+  useEffect(() => {
+    prevCount.current = count;
+  }, [count]);
+
+  return (
+    <>
+      <h2>Current Count: {count}</h2>
+      <h2>Previous Count: {prevCount.current}</h2>
+
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+    </>
+  );
+}
+
+Inside useEffect we update it.
+So the next render can access the previous value.
+
+
+3. Storing Timers:
+
+Refs are often used to store timer IDs.
+
+> real example:
+Search with Delay (Debounce):
+
+import { useState, useRef } from "react";
+
+function SearchBox() {
+  const [text, setText] = useState("");
+  const timerRef = useRef(null);
+
+  function handleChange(e) {
+    const value = e.target.value;
+    setText(value);
+
+    // cancel previous timer
+    clearTimeout(timerRef.current);
+
+    // start new timer
+    timerRef.current = setTimeout(() => {
+      console.log("Searching for:", value);
+    }, 2000);
+  }
+
+  return (
+    <input
+      type="text"
+      value={text}
+      onChange={handleChange}
+      placeholder="Type something..."
+    />
+  );
+}
+
+User types "H"
+timer starts
+search will run after 2 seconds
+But user quickly types "Hi" before 2 seconds.
+
+Now we do clearTimeout(timerRef.current)
+So the previous timer is cancelled.
+Then we create a new timer.
+Finally only one search happens after the user stops typing
+
+
+
+Use useRef when:
+
+• you need DOM access
+• you need to store values between renders
+• you want to avoid unnecessary re-renders
+• you want to store timer IDs
+• you want to track previous values

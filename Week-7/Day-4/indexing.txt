@@ -52,7 +52,7 @@ b. when we often sort or filter using that field etc.
 
 > When NOT to Use Indexes:
 a. Field is rarely searched
-b. If there are many inserts and updates, too many indexes can slow down performance because MongoDB must update them every time.
+b. Too many indexes slow down inserts and updates since MongoDB updates all indexes whenever data changes.
 c. If a query returns most of the collection, index is not useful.
    Boolean field (true/false)
    Gender field (male/female)

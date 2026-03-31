@@ -29,7 +29,7 @@ db.students.updateMany({}, { $currentDate: { lastUpdated: true } })
 Existence and Type Checks:
 
  1. $exists:
- $exists is used to check if a field exists or missing in a documnt
+$exists is used to filter documents by checking whether a field is present or missing.
  ex:
 
 a. check if pincode exists inside address.

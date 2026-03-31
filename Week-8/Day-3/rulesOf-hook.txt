@@ -1,0 +1,107 @@
+> Rules of Hooks:
+
+1. Only Call Hooks at the Top Level
+Hooks must always be called at the top level of the component.
+
+Do NOT call Hooks inside:
+
+if conditions
+for / while loops
+nested functions
+event handlers
+try/catch blocks
+
+React depends on the same order of Hooks on every render.
+
+function Example() {
+  if (true) {
+    const [count, setCount] = useState(0); // ❌ wrong
+  }
+}
+
+
+> Why this rule exists
+React depends on the order of Hooks.
+
+Example first render:
+
+1 → useState
+2 → useEffect
+3 → useState
+If next render changes order because of conditions, React gets confused.
+
+
+2. Only Call Hooks from React Functions:
+
+Hooks can only be used inside:
+
+React Function Components
+Custom Hooks
+
+They cannot be used in:
+
+normal JavaScript functions
+class components
+
+function normalFunction() {
+  const [count, setCount] = useState(0); // ❌ wrong
+}
+
+class Example extends React.Component {
+  const [count, setCount] = useState(0); // ❌ wrong
+}
+
+
+3. Custom Hooks Must Start With "use"
+This is not an official rule but a convention React enforces with ESLint.
+
+function useFetchData() {
+  const [data, setData] = useState(null);
+}
+
+function fetchData() {
+  const [data, setData] = useState(null);
+}
+React won't treat it as a Hook.
+
+
+
+> Note:
+
+function App() {
+  const [count, setCount] = useState(0);
+  const [name, setName] = useState("Hiba");
+
+  useEffect(() => {
+    console.log("Component mounted");
+  }, []);
+}
+
+When React runs this component, it stores hooks in order like this:
+
+1. useState(count)
+2. useState(name)
+3. useEffect()
+
+React remembers this exact order.
+
+In next render, React expects the same order again:
+
+1. useState(count)
+2. useState(name)
+3. useEffect()
+
+if Hooks are inside conditions
+
+First render order:
+
+1. useState(count)
+2. useEffect()
+
+Second render (if count > 0):
+
+1. useState(count)
+2. useState(name)
+3. useEffect()
+
+Now the order changed, so React gets confused. That’s why Hooks must always stay at the top level.

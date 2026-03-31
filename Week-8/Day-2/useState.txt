@@ -1,0 +1,224 @@
+> useState Hook:
+
+useState is a React Hook that allows functional components to create and manage state variables. When the state changes, React re-renders the component to update the UI.
+
+syntax:
+const [state, setState] = useState(initialValue);
+
+state: current state value
+setState:  function to update the state
+initialValue: starting value of the state
+
+> Importing useState:
+import { useState } from "react";
+
+> We Use Array Destructuring in useState
+useState returns an array that contains the state value and a function to update that value. Instead of accessing them using indexes like state[0] and state[1], we use array destructuring to directly assign them to variables like count and setCount
+
+The useState hook returns an array with two values:
+
+1️⃣ The current state value
+2️⃣ A function to update that state
+
+Without Array Destructuring
+
+If we didn’t use destructuring, we would have to access values using indexes.
+
+const state = useState(0)
+
+const count = state[0]
+const setCount = state[1]
+
+This works, but it is not clean and harder to read.
+
+With Array Destructuring
+
+So React developers use array destructuring:
+
+const [count, setCount] = useState(0)
+
+Multiple State Variables
+
+You can create multiple states.
+
+function User() {
+
+  const [name, setName] = useState("Hiba");
+  const [age, setAge] = useState(22);
+
+  return (
+    <div>
+      <h1>{name}</h1>
+      <h2>{age}</h2>
+    </div>
+  );
+}
+
+Each state works independently.
+
+useState with Objects
+
+State can also store objects.
+
+const [user, setUser] = useState({
+  name: "Hiba",
+  age: 22
+});
+
+Update object state:
+
+setUser({
+  ...user,
+  age: 23
+});
+
+We use spread operator to keep existing values.
+
+useState with Arrays
+
+Example:
+
+const [items, setItems] = useState([]);
+
+Adding item:
+
+setItems([...items, "Apple"]);
+
+
+Lazy initial state:
+It is used when calculating the initial state is expensive. Instead of passing the value directly to useState, we pass a function that returns the value. React will call this function only once during the first render, so the calculation doesn’t run again on every re-render
+
+When a component renders for the first time, React needs a starting value for the state.
+const [count, setCount] = useState(0);
+initial state = 0            //Initial State Is Simple here
+
+When Initial State Needs Calculation
+const [value, setValue] = useState(calculateValue());
+
+Maybe calculateValue():
+runs a heavy calculation
+reads from localStorage
+processes a large array
+
+function calculateValue() {
+  console.log("calculating...");
+  return 100;
+}
+React components re-render many times.
+So console becomes:
+
+calculating...
+calculating...
+calculating...
+But React only needs the value the first time.
+So this is wasteful.
+The Solution (Lazy Initialization)
+
+Real Practical Example
+
+Reading localStorage.
+
+Bad way:
+
+const [theme, setTheme] = useState(localStorage.getItem("theme"));
+
+Every render React reads localStorage again.
+
+Better way:
+
+const [theme, setTheme] = useState(() => {
+  return localStorage.getItem("theme");
+});
+
+Now localStorage is read only once.
+
+Interview Questions About useState
+
+Common ones:
+
+1️⃣ What is useState?
+2️⃣ Why do we use array destructuring in useState?
+3️⃣ Can we use multiple useState in one component?
+4️⃣ What happens when state changes?
+5️⃣ Difference between setState in class and useState?
+6️⃣ Can state store objects or arrays?
+7️⃣ What is functional state update?
+
+
+> updating state:
+Updating state in React means modifying the value of a state variable using the setter function returned by useState. When the state changes, React re-renders the component to reflect the updated value in the UI.
+
+
+Updating Object State:
+const [user, setUser] = useState({
+  name: "Hiba",
+  age: 22
+});
+
+Wrong update:
+
+setUser({ age: 23 });
+
+This removes name.
+
+Correct way:
+
+setUser({
+  ...user,
+  age: 23
+});
+
+The spread operator keeps existing properties.
+
+> Updating Array State
+
+Example:
+
+const [items, setItems] = useState([]);
+
+Add item:
+
+setItems([...items, "Apple"]);
+
+Here we create a new array with the old items plus the new one.
+
+State Updates Trigger Re-render
+
+When state changes:
+
+1️⃣ React updates the state
+2️⃣ React re-renders the component
+3️⃣ UI updates automatically
+
+But React only re-renders the affected component, not the entire application.
+
+
+
+Multiple Updates:
+
+setCount(count + 1);
+setCount(count + 1);
+Here you might expect:
+
+0 → 1 → 2
+
+But React actually sees:
+
+setCount(1)
+setCount(1)
+
+Because both lines used the same old value (0).
+
+So result becomes:
+count = 1
+
+But when updates depend on previous state repeatedly, the safer pattern is:
+Correct Way When Doing Multiple Updates
+setCount(prev => prev + 1);
+setCount(prev => prev + 1);
+Now React processes them sequentially:
+
+prev = 0 → 1
+prev = 1 → 2
+Final:
+count = 2

@@ -1,0 +1,162 @@
+> useEffect Hook:
+
+useEffect is a React Hook used to handle side effects in functional components. Things that are not directly related to rendering UI.
+It runs after the component renders and can run once, when dependencies change, or on every render depending on the dependency array.
+
+Normally React components just return JSX to show UI.
+But sometimes we need to do other tasks like:
+
+calling an API
+setting a timer
+adding event listeners
+saving something in localStorage
+logging data
+
+These kinds of tasks are called side effects.
+To handle them in functional components, React gives us useEffect.
+
+- useEffect runs after the component renders.
+So first React shows the UI, then useEffect runs the code inside it.
+
+
+useEffect(() => {
+  console.log("Component mounted");
+}, []);
+
+- The first part is the function that contains the effect.
+- The second part is the dependency array, which controls when the effect should run.
+
+> When useEffect Runs:
+
+1. If the dependency array is empty, It runs only once when the component loads. It usually use this for API calls, initial setup.
+
+2. Run when state changes:
+
+useEffect(() => {
+  console.log("Count changed");
+}, [count]);
+- Here the effect runs every time count changes.
+- React watches the dependency array.
+- If any value inside it changes, the effect runs again.
+
+3. Run on every render:
+
+useEffect(() => {
+  console.log("Runs every render");
+});
+- If we don't give a dependency array, the effect runs after every render.
+
+Whenever the button is clicked:
+count changes
+component re-renders
+useEffect runs again
+
+
+> Cleanup Function:
+
+When the component UI is removed, things created outside React do not automatically stop like
+- event listeners
+- setInterval
+- setTimeout
+- subscriptions
+- websocket connections
+
+These are attached to the browser or global objects, not inside the component itself.
+So when the component disappears, those things can still keep running unless we stop them. If we don't remove it, it can cause memory leaks or duplicate listeners can appear.
+That’s why we use the cleanup function inside useEffect.
+
+> Cleanup does two times:
+1. Before the effect runs again (when dependencies change)
+2. When the component unmounts (component removed)
+
+- Cleaning timer:
+
+useEffect(() => {
+
+  const timer = setInterval(() => {
+    console.log("Running...");
+  }, 1000);
+
+  return () => {                    // Cleanup function must not return anything except a function.
+    clearInterval(timer);
+  };
+
+}, []);
+
+
+- Cleaning Event Listener using useEffect:
+
+function App() {
+  useEffect(() => {
+    const handleResize = () => {
+      console.log("Window resized");
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+
+  }, []);
+
+  return <h1>Resize the window</h1>;
+}
+- The function returned inside useEffect is the cleanup function.
+- It runs when the component unmounts or before the effect runs again.
+
+
+> Multiple useEffect in a Component:
+
+Each useEffect should handle one specific task.
+Instead of putting everything in one big effect, we separate logic.
+
+import { useEffect, useState } from "react";
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    console.log("Component mounted");
+  }, []);
+
+  useEffect(() => {
+    console.log("Count changed:", count);
+  }, [count]);
+
+  return (
+    <button onClick={() => setCount(count + 1)}>
+      {count}
+    </button>
+  );
+}
+First useEffect:
+
+useEffect(() => {
+  console.log("Component mounted");
+}, []);
+This runs only once when the component loads.
+
+Second useEffect:
+
+useEffect(() => {
+  console.log("Count changed:", count);
+}, [count]);
+This runs every time count changes.
+
+- Execution Order
+React runs useEffect in the order they appear in the component.
+
+- In React 18 and React 19 -> In development mode, React may run effects twice automatically to detect bugs.
+This happens in Strict Mode. But in production it runs normally.
+
+
+
+> Note:
+
+Inside useEffect:
+add something → clean it in return()
+example:
+addEventListener → removeEventListener
+setInterval → clearInterval
+subscribe → unsubscribe

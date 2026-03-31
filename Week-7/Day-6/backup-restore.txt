@@ -1,0 +1,15 @@
+Backup:
+
+A backup means making a copy of our data and saving it in another place.
+If data is lost or deleted, we can restore it.
+
+There are two types of backups:
+Logical backup and Physical backup.
+Logical backup is done using mongodump and mongorestore.
+mongodump exports the database data and creates BSON files in a folder on our system and 
+mongorestore reads those files and recreates the collections.
+It is Used for normal backup and migration.
+
+Physical backup means copying the actual database from the storage engine.
+It is usually done at the filesystem level and is faster for large databases, 
+but it requires proper server shutdown or snapshot support.

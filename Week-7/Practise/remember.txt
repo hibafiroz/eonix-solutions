@@ -1,0 +1,34 @@
+> In group, we can only use accumulator operator  and inside that we can use expressions
+so we cannot use any of the expression directly inside group
+_id → can be an expression directly ✅
+Other fields → must use accumulator ❗
+ex: _id: { $toUpper: "$course" },
+
+- $in work in array with or logic
+and logic is handles by default
+
+- $not is used with operators (like regex or comparison), not for direct value comparison.
+$ne → means “not equal”
+$not → wraps another condition (like regex)
+
+- 
+
+
+// Topper in MongoDB (highest score)
+// subject wise find average score
+// find documents where batch "C2C-01"
+// set status 'pass' only if score >=60
+
+db.marks.aggregate([
+    {
+        $match: {
+            subject:'MongoDB'
+        }
+    },
+    {
+        $sort:{score:-1}
+    },
+    {
+        $limit:1
+    }
+])

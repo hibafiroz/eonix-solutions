@@ -1,0 +1,125 @@
+> Portals:
+
+React Portals allow us to render a component outside the normal parent component DOM hierarchy. 
+It is mainly used for modals, popups, tooltips, and overlays.
+Portal moves the DOM node outside the parent DOM, but in the React tree it is still a child component
+
+
+> How Portals Work:
+
+- Step 1 — Add a div in index.html
+<div id="root"></div>
+<div id="portal-root"></div>
+
+- Step 2 — Create Portal
+import React from "react";
+import ReactDOM from "react-dom";
+
+
+function Modal() {
+  return ReactDOM.createPortal(
+    <div className="modal">
+      <h1>This is Modal</h1>
+    </div>,
+    document.getElementById("portal-root")
+  );
+}
+export default Modal;
+
+Now Modal renders in portal-root, not inside App.
+
+
+> Why not render modal normally? Why Portal?
+If we render modal inside parent, it may be affected by parent styles like overflow hidden or z-index issues. 
+So we use Portal to render it outside the parent DOM.
+
+
+
+
+> Lazy Loading (React.lazy):
+
+Normally in React, all the components we import are bundled into one single JavaScript file. So even if the user only opens the Home page, React still loads other pages like About, Dashboard etc in the initial load itself. 
+This increases the bundle size and makes the first loading slower. To solve this problem, we use lazy loading.
+
+Lazy loading is a technique where we load components only when user visits that route instead of loading everything at the beginning.
+
+import React, { Suspense } from "react";
+
+const About = React.lazy(() => import("./About"));
+
+
+function App() {
+  return (
+    <div>
+      <h1>My App</h1>
+
+      <Suspense fallback={<h2>Loading...</h2>}>
+        <About />
+      </Suspense>
+    </div>
+  );
+}
+
+export default App;
+
+> React.lazy:
+
+React.lazy is used for code splitting to load components only when needed, which improves application performance, 
+and it must be used with Suspense to show a fallback UI while loading
+
+
+> Suspense:
+
+When we use React.lazy for lazy loading, the component loads asynchronously. 
+So Suspense is used to show a fallback UI like a loader until the component finishes loading.
+
+- Fallback is the UI we show while the component is loading.
+- we cannot use lazy without Suspense
+- We use suspense mainly with lazy loading and in newer React versions also for data fetching.
+
+- Suspense can wrap multiple lazy components.
+
+<Suspense fallback={<Loader />}>
+  <Home />
+  <About />
+  <Contact />
+</Suspense>
+
+
+> Lazy Loading with Routing Example:
+
+import { Suspense, lazy } from "react";
+import { Routes, Route } from "react-router-dom";
+
+const Home = lazy(() => import("./Home"));
+const About = lazy(() => import("./About"));
+
+function App() {
+  return (
+    <Suspense fallback={<h1>Loading...</h1>}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </Suspense>
+  );
+}
+
+
+> Code Splitting vs Lazy Loading:
+
+| Term           | Meaning                             |
+| -------------- | ----------------------------------- |
+| Code Splitting | Breaking bundle into smaller chunks |
+| Lazy Loading   | Loading chunks only when needed     |
+
+
+
+> When To Use What:
+
+| Feature        | Used For                        |
+| -------------- | ------------------------------- |
+| Portal         | Modals, overlays                |
+| Lazy           | Load component only when needed |
+| Suspense       | Show loading UI                 |
+| Code Splitting | Reduce bundle size              |

@@ -1,0 +1,102 @@
+> Error Boundaries:
+
+Error Boundary is a class component used to catch JavaScript errors in child 
+components during rendering and display a fallback UI instead of crashing the whole app. 
+It uses getDerivedStateFromError and componentDidCatch lifecycle methods.
+
+Error Boundary catches render errors, not async errors:
+
+- Error Boundaries catch errors in Rendering, Lifecycle methods, Constructor
+- They do NOT catch errors in Event handlers, setTimeout, API calls, Server-side rendering
+(bcz these are async so we handle this using try-catch manually.)
+(Server-side rendering happens when React runs on server (Next.js etc.), not in browser. Error Boundary works only in browser)
+
+They use: componentDidCatch(), static getDerivedStateFromError()
+
+
+1. Create Error Boundary Component (Class Component):
+
+import React from "react";
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, info) {
+    console.log("Error:", error);
+    console.log("Error Info:", info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <h1>Something went wrong.</h1>;
+    }
+
+    return this.props.children;
+  }
+}
+
+export default ErrorBoundary;
+
+
+2. Wrap the Component That May Crash:
+Where to Use Error Boundary
+We don’t wrap the entire app always. Usually wrap risky components
+
+Example: Dashboard component may crash.
+
+import ErrorBoundary from "./ErrorBoundary";
+import Dashboard from "./Dashboard";
+
+function App() {
+  return (
+    <div>
+      <h1>My App</h1>
+
+      <ErrorBoundary>
+        <Dashboard />
+      </ErrorBoundary>
+
+    </div>
+  );
+}
+export default App;
+
+Now if Dashboard crashes, only Dashboard shows:
+Something went wrong.
+But the rest of the app still works.
+
+
+3. Example of Component That Crashes:
+
+function Dashboard() {
+  throw new Error("Crash!");
+  return <h1>Dashboard</h1>;
+}
+
+export default Dashboard;
+This error will be caught by Error Boundary.
+
+
+> Suspense vs Error Boundary:
+
+| Suspense               | Error Boundary                |
+| ---------------------- | ----------------------------- |
+| Handles loading        | Handles errors                |
+| Used with lazy loading | Used with crashing components |
+| Shows loading fallback | Shows error fallback          |
+
+
+> Error Boundary works like a try-catch but for components.
+App
+ ├── Header
+ ├── ErrorBoundary
+ │      └── Dashboard (crash)
+ └── Footer
+If Dashboard crashes, Header and Footer works.

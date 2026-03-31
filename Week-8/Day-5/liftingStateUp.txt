@@ -1,0 +1,64 @@
+> Lifting State Up:
+
+Lifting state up means moving the state from a child component to their common parent component so that multiple child components can share and use the same state.
+We use lifting state up to keep a single source of truth for shared data.
+
+> Example:
+
+import React, { useState } from "react";
+import Input from "./Input";
+import Display from "./Display";
+
+function App() {
+  const [text, setText] = useState("");
+
+  return (
+    <>
+      <Input setText={setText} />
+      <Display text={text} />
+    </>
+  );
+}
+
+export default App;
+
+
+> Input.js:
+
+function Input({ setText }) {
+  return (
+    <input
+      type="text"
+      onChange={(e) => setText(e.target.value)}
+      placeholder="Type something"
+    />
+  );
+}
+
+export default Input;
+
+
+> Display.js:
+
+function Display({ text }) {
+  return <h1>{text}</h1>;
+}
+
+export default Display;
+
+Now both components share same state - This is Lifting State Up.
+
+
+> If only a few components need the state, we use lifting state up. 
+If many components in different levels need the state, we use Context API.
+
+
+Data Flow Concept:
+React follows one-way data flow (Parent → Child).
+So instead of child managing state, we lift the state to the parent and pass it to children via props.
+
+> Real Life Example:
+
+- Temperature Converter (Celsius ↔ Fahrenheit) 
+- Shopping cart (Cart count shown in Navbar and Cart page)
+- Search bar + Results list

@@ -1,0 +1,194 @@
+> Components:
+
+A component is a piece of the UI (user interface) that has its own logic and appearance. 
+It can be as small as a button, or as large as an entire page.
+It is written as a javascript function that returns JSX.
+
+function MyButton() {
+  return (                             // this is called The markup syntax 
+    <button>I'm a button</button>
+  );
+}
+
+- Now we can nest it into another component:
+
+export default function MyApp() {
+  return (
+    <div>
+      <h1>Welcome to my app</h1>
+      <MyButton />
+    </div>
+  );
+}
+
+- The export default keywords specify the main component in the file
+
+A component cannot return multiple JSX tags, So
+we have to wrap them into a shared parent, like a <div>...</div> or an empty <>...</> wrapper
+
+> Types of Components in React:
+
+1. Functional Components
+2. Class Components
+
+
+1. Functional component:
+
+A functional component is a JavaScript function that returns JSX. 
+These are simpler and commonly used in modern React.
+It uses React Hooks for state and lifecycle
+
+function Welcome() {
+  return <h1>Hello Hiba</h1>
+}
+
+OR  
+
+const Welcome = () => {
+  return <h1>Hello Hiba</h1>;
+}
+export default Welcome
+
+
+2. Class Components:
+
+A class component is created using a JavaScript class that extends React.Component.
+It can manage state and use lifecycle methods to control behavior during different stages of a component's life.
+State is stored using this.state and updated using this.setState().
+setState() is used to update the state in class components. When setState() is called, React re-render the component
+import React, { Component } from "react";
+
+class Welcome extends Component {
+  render() {
+    return <h1>Hello</h1>;
+  }
+}
+
+| Method               | Purpose                          |
+| -------------------- | -------------------------------- |
+| componentDidMount    | Runs after component created     |
+| componentDidUpdate   | Runs after update                |
+| componentWillUnmount | Runs before component is removed |
+
+
+Before version 16.8, 
+To use state and lifecycle, developers had to use JavaScript classes. 
+Written using ES6 classes.
+Used this keyword
+Used this.setState() to update state
+
+
+
+| Functional Component        | Class Component            |
+| --------------------------- | -------------------------- |
+| Written as a function       | Written as a class         |
+| Simpler and easier          | More complex               |
+| Uses Hooks                  | Uses lifecycle methods     |
+| Mostly used in modern React | Older approach             |
+
+
+
+Important Rules for Components:
+
+1. Component name must start with Capital Letter
+
+✅ Correct
+function StudentCard() {}
+
+❌ Wrong
+function studentCard() {}
+
+React treats lowercase names as HTML tags.
+
+2. Component must return JSX
+function App() {
+  return <h1>Hello</h1>
+}
+
+3. Components can be reused
+<StudentCard />
+<StudentCard />
+<StudentCard />
+One component can render multiple times.
+
+
+
+a component must return only one parent element.
+So we wrap them in a parent like:
+
+return (
+  <div>
+    <h1>Hello</h1>
+    <p>Welcome</p>
+  </div>
+)
+
+But sometimes we don’t want extra div in the DOM (it can break layout, CSS, flex, grid etc).
+So React gives React.Fragment.
+
+return (
+  <React.Fragment>
+    <h1>Hello</h1>
+    <p>Welcome</p>
+  </React.Fragment>
+)
+
+Short syntax:
+return (
+  <>
+    <h1>Hello</h1>
+    <p>Welcome</p>
+  </>
+)
+
+When to use Fragment
+
+Use Fragment when:
+
+We don’t want extra <div>
+Inside .map()
+Inside <table>
+Inside <ul> / <ol>
+When returning multiple elements
+Important: Short syntax <> </> cannot take key, but <React.Fragment key=""> can.
+
+
+
+3 ways to apply css in react
+
+1. inline style:
+We write CSS inside the element using the style attribute.
+
+function App() {
+  return (
+    <h1 style={{ color: "red", fontSize: "30px" }}>
+      Hello
+    </h1>
+  );
+}
+
+2. Internal CSS (CSS in same file) in a variable:
+We create a CSS object and use it.
+
+function App() {
+  const headingStyle = {
+    color: "blue",
+    fontSize: "25px"
+  };
+
+  return <h1 style={headingStyle}>Hello</h1>;
+}
+
+3. External CSS:
+Create a separate CSS file and import it.
+
+App.css
+.title {
+  color: green;
+  font-size: 28px;
+}
+
+App.js
+function App() {
+  return <h1 className="title">Hello</h1>;
+}

@@ -1,0 +1,39 @@
+Step 1: 
+
+Check Node.js: node -v
+React needs Node.js.
+
+Step 2: 
+
+Create React Project:
+npm create vite@latest
+
+Then it will ask some questions.
+Project name: my-react-app
+Select framework: React
+Select variant: JavaScript
+
+Step 3: 
+
+Go to Project Folder
+cd my-react-app
+
+Step 4: 
+
+Install Dependencies
+npm install
+This installs all required packages.
+
+Step 5: 
+
+Run Development Server
+npm run dev
+You will see something like:
+Local: http://localhost:5173
+
+Open it in your browser.
+Our first React app is running
+
+
+Earlier, React projects were set up manually by installing React and configuring tools like Webpack and Babel, which was complicated. 
+To simplify this, Create React App was introduced by Meta Platforms, which automatically sets up the configuration so developers can start a React project quickly.

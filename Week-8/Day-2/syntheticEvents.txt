@@ -1,0 +1,84 @@
+> Synthetic Event:
+
+Synthetic Event in React is basically a wrapper around the browser’s native event. 
+When a user performs an action like clicking a button, the browser creates a normal event, 
+but React wraps that event inside its own object called a SyntheticEvent and passes it to our event handler. 
+React does this to make sure events behave the same across all browsers and to manage events more efficiently
+
+Different browsers behave slightly differently.
+Example problems:
+Event properties may differ
+Some events work differently
+Old browsers behave differently
+So developers had to write extra code to support all browsers.
+
+function handleClick(e) {
+  console.log(e.type);
+}
+
+<button onClick={handleClick}>Click</button>
+e = SyntheticEvent
+
+| Property              | Meaning                      |
+| --------------------- | ---------------------------- |
+| `e.type`              | event type                   |
+| `e.target`            | element that triggered event |
+| `e.preventDefault()`  | stop default behavior        |
+| `e.stopPropagation()` | stop event bubbling          |
+
+> Why React uses Synthetic Events
+
+1️⃣ Cross-browser compatibility:
+Works the same in: Chrome,Firefox,Safari,Edge
+
+2️⃣ Performance optimization
+React uses event delegation.
+Instead of attaching many listeners:
+100 buttons = 100 listeners
+React attaches one listener at root and manages everything.
+
+3️⃣ Consistent API
+React makes sure event objects behave the same everywhere.
+
+> React uses camelCase.
+
+Normal HTML:
+
+onclick
+onsubmit
+onchange
+
+React:
+
+onClick
+onSubmit
+onChange
+
+Advantages of Synthetic Events
+1️⃣ Cross-Browser Compatibility
+
+Synthetic events work consistently across all browsers.
+
+2️⃣ Consistent API
+
+Developers use the same event properties and methods regardless of the browser.
+
+3️⃣ Better Performance
+
+React uses event delegation. Instead of attaching many event listeners to individual elements, React attaches a single listener at the root and manages events internally.
+
+4️⃣ Efficient Event Management
+
+React controls event handling and optimizes performance.
+
+
+Sometimes you may need the original browser event.
+
+You can access it using:
+
+e.nativeEvent
+Example:
+
+function handleClick(e) {
+  console.log(e.nativeEvent);
+}

@@ -1,0 +1,76 @@
+> Custom Hooks:
+
+A custom hook is basically a normal JavaScript function that we create in React to reuse logic. 
+It always starts with use, and inside it we can use other hooks like useState or useEffect. 
+Instead of writing the same logic again in different components, we put that logic inside a custom hook and use it wherever we need.
+
+> Why Custom Hooks Are Created
+
+Custom Hooks solve these problems:
+Reuse logic between components
+Avoid duplicate code
+Keep components clean
+Separate logic from UI
+
+
+> Rules for Creating Custom Hooks:
+
+1. Name must start with use:
+useFetch()
+useCounter()
+useWindowSize()
+React identifies hooks using the use prefix.
+
+2. Can Use Other Hooks Inside
+
+3. Must Be Called Inside Components or Hooks
+   Hooks cannot run conditionally.
+
+
+| Component   | Custom Hook              |
+| ----------- | ------------------------ |
+| Returns JSX | Returns values/functions |
+| Handles UI  | Handles logic            |
+| Used in JSX | Used inside components   |
+
+Component
+return <h1>Hello</h1>
+
+Custom Hook
+return { count, increment }
+
+
+Without custom hook (repeating logic)
+useEffect(() => {
+  fetch("https://api.com/data")
+    .then(res => res.json())
+    .then(data => setData(data));
+}, []);
+If you need this in many components → messy
+
+ With custom hook
+function useFetch(url) {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch(url)
+      .then(res => res.json())
+      .then(data => setData(data));
+  }, [url]);
+
+  return data;
+}
+Use it anywhere:
+
+const data = useFetch("https://api.com/data");
+
+
+ Can use other hooks inside
+useState, useEffect, useMemo, etc.
+
+No UI inside
+👉 Only logic
+
+Follow hook rules
+Call at top level
+Not inside loops/conditions

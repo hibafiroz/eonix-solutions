@@ -1,0 +1,25 @@
+> React Strict Mode:
+
+React Strict Mode is a development tool in React that helps to detect possible issues in the React application and show warnings to developers.
+It only works in development and does not affect the production build.
+
+
+In a React project created using Vite, we will usually see it inside main.jsx.
+
+import React from "react"
+import ReactDOM from "react-dom/client"
+import App from "./App"
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>     //is wrapping the App component.
+)
+
+Strict Mode helps by:
+showing warnings in the console
+detecting bad coding practices
+helping developers write safer React code
+
+> Does Strict Mode affect performance?
+No, because Strict Mode works only in development and is removed in the production build.

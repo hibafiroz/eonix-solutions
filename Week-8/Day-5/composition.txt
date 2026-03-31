@@ -1,0 +1,221 @@
+> Composition:
+
+Composition in React means building complex components by combining smaller components. 
+We reuse components by placing one component inside another using props or children
+
+In React, we use Composition instead of Inheritance to reuse components.
+because Composition makes components more reusable and flexible.
+
+> Composition happens in three ways:
+
+1. Using children:
+
+function Card({ children }) {
+  return (
+    <div className='card'>
+      {children}
+    </div>
+  );
+}
+
+in app.jsx:
+  <Card>
+    <h1>Hello Hiba</h1>
+  </Card>
+
+
+- Version 1
+function Card(props) {
+  return <div className="card">{props.children}</div>;
+}
+
+- Version 2 (Destructuring)
+function Card({ children }) {
+  return <div className="card">{children}</div>;
+}
+
+- Both are correct. Only difference is destructuring.
+
+
+> Destructuring multiple props + children
+
+function Card({ title, children, className }) {
+  return (
+    <div className={className}>
+      <h2>{title}</h2>
+      {children}
+    </div>
+  );
+}
+
+<Card title="Profile" className="card">
+  <h1>Hello Hiba</h1>
+</Card>
+
+| Value     | Comes from |
+| --------- | ---------- |
+| title     | prop       |
+| className | prop       |
+| children  | inside tag |
+
+
+2. Using props:
+
+- Card component:
+function Card(props) {
+  return (
+    <div>
+      <h2>{props.title}</h2>
+      {props.children}
+    </div>
+  );
+}
+export default Card;
+
+
+- Welcome componenet:
+function Welcome(props) {
+  return <h1>Hello {props.name}</h1>;
+}
+export default Welcome;
+
+
+- App.jsx (parent):
+import Card from "./Card";
+import Welcome from "./Welcome";
+
+function App() {
+  return (
+    <div>
+      <Card title="User 1">
+        <Welcome name="Hiba" />
+      </Card>
+
+      <Card title="User 2">
+        <p>This is a paragraph</p>
+      </Card>
+
+      <Card title="User 3">
+        <button>Click Me</button>
+      </Card>
+    </div>
+  );
+}
+export default App;
+
+Output will be like
+<div class="card">
+  <h2>User 1</h2>
+  <h1>Hello Hiba</h1>
+</div>
+
+
+3. Component Composition:
+
+Passing a component as a prop.
+
+1. Card Component (Reusable Wrapper)
+function Card({ children }) {
+  return (
+    <div style={{
+      border: "1px solid #ccc",
+      padding: "15px",
+      borderRadius: "10px",
+      width: "200px",
+      margin: "10px"
+    }}>
+      {children}
+    </div>
+  );
+}
+export default Card;
+
+
+2. Product Component
+function Product({ name, price }) {
+  return (
+    <>
+      <h3>{name}</h3>
+      <p>Price: {price}</p>
+      <button>Buy Now</button>
+    </>
+  );
+}
+export default Product;
+
+
+3. App.jsx (Composition happens here)
+import Card from "./Card";
+import Product from "./Product";
+
+function App() {
+  return (
+    <div style={{ display: "flex" }}>
+      <Card>
+        <Product name="Shoes" price="$50" />
+      </Card>
+
+      <Card>
+        <Product name="Watch" price="$80" />
+      </Card>
+
+      <Card>
+        <Product name="Phone" price="$500" />
+      </Card>
+    </div>
+  );
+}
+export default App;
+
+
+> Inheritance is an OOP concept where one class extends another class.
+
+| Composition           | Inheritance       |
+| --------------------- | ----------------- |
+| Combines components   | Extends classes   |
+| Used in React         | Not used in React |
+| Flexible              | Rigid             |
+| Uses props & children | Uses extends      |
+
+React prefers composition over inheritance because composition makes components loosely coupled, reusable, and easier to maintain.
+
+
+> Real Website Structure (Composition):
+
+<Layout>
+  <Header />
+  <Sidebar />
+  <Content />
+  <Footer />
+</Layout>
+
+Header = small component
+Sidebar = small component
+Content = small component
+Footer = small component
+Layout = parent wrapper
+
+All combined → One full page
+
+
+> There are two main composition patterns in React:
+
+| Pattern        | Example                             |
+| -------------- | ----------------------------------- |
+| Containment    | Card, Modal, Layout (use children)  |
+| Specialization | Button, PrimaryButton, DangerButton |
+
+
+Specialization Example:
+
+function Button({ children }) {
+  return <button className="btn">{children}</button>;
+}
+
+function PrimaryButton() {
+  return <Button>Primary</Button>;
+}
+
+function DangerButton() {
+  return <Button>Delete</Button>;
+}

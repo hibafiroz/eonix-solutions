@@ -1,0 +1,85 @@
+> Dependency Array:
+
+The dependency array is the second argument of useEffect.
+It tells React when the effect should run again.
+React checks the values inside this array.
+If any value changes, the effect runs again.
+
+
+1. Empty Dependency Array:
+
+useEffect(() => {
+  console.log("runs once");
+}, []);
+
+If the array is empty, the effect runs only once when the component mounts.
+It will not run again unless the component unmounts and mounts again.
+
+Common use cases: API calls, initial setup, adding event listeners
+
+
+2. Dependency with Variables:
+
+useEffect(() => {
+  console.log("count changed");
+}, [count]);
+
+React watches count. Whenever count changes
+- component re-renders
+- effect runs again
+
+
+3. Multiple Dependencies:
+
+More than one value can be watched.
+
+useEffect(() => {
+  console.log("something changed");
+}, [count, name]);
+
+The effect runs when any dependency changes.
+
+Example:
+count changes → effect runs
+name changes → effect runs
+
+
+4. No dependency array:
+
+useEffect(() => {
+  console.log("effect running")
+})
+
+If there is no dependency array, the effect runs after every render.
+Usually this is not recommended because it may cause unnecessary work.
+
+
+
+Note:
+> every variable used inside the effect should be listed in the dependency array.
+useEffect(() => {
+  console.log(count)
+}, [])
+
+
+> Objects and Arrays as Dependencies:
+
+const obj = {name: "Hiba"}
+
+useEffect(() => {
+  console.log("effect");
+}, [obj])
+
+Even if the content is same, the object reference changes every render, so the effect runs again.
+So should careful with objects, arrays, functions.
+
+
+> Dependency with Functions:
+
+Functions can also be dependencies.
+
+useEffect(() => {
+  fetchData()
+}, [fetchData])
+
+we use useCallback to prevent unnecessary effect runs.

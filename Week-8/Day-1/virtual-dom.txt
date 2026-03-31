@@ -1,0 +1,25 @@
+> Virtual DOM:
+
+The Virtual DOM is a lightweight copy of the real DOM that is stored in memory.
+When something changes in the UI, React creates an updated Virtual DOM and compares it with the previous Virtual DOM to find the differences. 
+This comparison is called Diffing
+Then React updates only the changed parts in the real DOM instead of updating the whole page. 
+This makes React applications faster and more efficient.
+
+Updating the Real DOM directly can be slow because the browser may need to re-render many elements.
+and we update the DOM frequently, performance becomes poor.    
+
+> Diffing means comparing two Virtual DOM trees to find what changed.
+
+
+> What algorithm does React use to compare Virtual DOM?
+React uses a diffing algorithm to find changes between two Virtual DOM trees.
+
+
+> Real DOM vs Virtual DOM:
+
+| Real DOM                                         | Virtual DOM                                       |
+| ------------------------------------------------ | ------------------------------------              |
+| Created and managed by the browser               | Created and managed by React stored in js memory  |
+| Represents the actual UI shown on the screen     | A lightweight copy used by React                  |
+| Updates are slower                               | Used to make updates efficient                    |

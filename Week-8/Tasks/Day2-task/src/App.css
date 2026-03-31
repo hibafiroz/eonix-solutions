@@ -1,0 +1,150 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.counter-container {
+  width: 320px;
+  margin: 80px auto;
+  padding: 30px;
+  text-align: center;
+  border-radius: 15px;
+  background: #4e5d2d;
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.2);
+}
+
+.login-container{
+  width: 320px;
+  margin: 80px auto;
+  padding: 30px;
+  text-align: center;
+  border-radius: 15px;
+  background: #4e5d2d;
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.2);
+}
+
+.login-input{
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
+  align-items: center;
+}
+
+.login-input input{
+  padding: 13px;
+  width: 240px;
+  border-radius: 7px;
+  border: none;
+}
+
+.studentList-container{
+  width: 320px;
+  margin: 80px auto;
+  padding: 30px;
+  text-align: center;
+  border-radius: 15px;
+  background: #4e5d2d;
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.2);
+}
+
+.studentList-container ul{
+  color: white;
+  font-size: 20px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  text-align: center;
+}
+
+.studentList-container h1{
+  color: white;
+}
+
+.login-input button{
+  margin-top: 10px;
+  width: 140px;
+  border-radius: 5px;
+  border: none;
+  padding: 12px 26px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #2d410a;
+}
+
+.count {
+  font-size: 50px;
+  font-weight: bold;
+  margin: 20px 0;
+  color: #140f18;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.btn-group button {
+  flex: 1;
+  padding: 12px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.increase {
+  background: #4CAF50;
+  color: white;
+}
+
+.decrease {
+  background: #f44336;
+  color: white;
+}
+
+.reset {
+  background: #0b0c0e;
+  color: white;
+}
+
+.btn-group button:hover {
+  transform: translateY(-4px);
+  color: #42600d;
+}
+
+.toggle-container {
+  width: 320px;
+  margin: 80px auto;
+  padding: 30px;
+  text-align: center;
+  border-radius: 15px;
+  background: #4e5d2d;
+   box-shadow: 0 20px 25px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-btn {
+  padding: 12px 26px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.toggle-text {
+  margin-top: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  color: rgb(210, 212, 48);
+}

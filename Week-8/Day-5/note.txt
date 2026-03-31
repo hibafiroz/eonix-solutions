@@ -1,0 +1,28 @@
+The value prop makes the input controlled by React state, while defaultValue sets only the initial value and the input becomes uncontrolled and managed by the DOM
+return (
+    <input
+      type="text"
+      value={name}
+      onChange={(e) => setName(e.target.value)}
+    />
+  );
+
+What happens if we use value without onChange?
+Answer:
+If we use value without onChange, the input becomes read-only.
+Because React is controlling the value but we are not updating the state.
+
+
+| value                | defaultValue       |
+| -------------------- | ------------------ |
+| Controlled           | Uncontrolled       |
+| React controls input | DOM controls input |
+| Needs onChange       | No onChange needed |
+| Dynamic              | Only initial value |
+| useState             | useRef             |
+
+function App() {
+  return <input type="text" defaultValue="Hiba" />;
+}
+
+

@@ -2,7 +2,7 @@
 
 A transaction is a group of database operations that are completed together.
 If any operation fails, MongoDB cancels all changes.
-
+Transaction provide acid properties.
 > ACID:
 
 ACID is a four guarantees that make sure transactions work correctly and safely.
