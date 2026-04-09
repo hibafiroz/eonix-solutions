@@ -1,32 +1,3 @@
-> State:
-
-State is a built-in React object used to store data that can change over time. 
-When state updates, React re-renders the component to reflect the new data in the UI.
-In class components state was managed using this.state and updated using setState(). 
-In modern React, functional components manage state using the useState hook.
-
-> Lifecycle
-
-The lifecycle of a component refers to the different stages a component goes through from creation to removal from the DOM. 
-The main phases are mounting, updating, and unmounting. 
-In class components lifecycle was handled using methods like componentDidMount, componentDidUpdate, and componentWillUnmount. 
-In modern React, we handled using hooks like useEffect.
-
-> Why Did React Introduce Hooks?
-
-Hooks were introduced to allow functional components to use state and lifecycle features without 
-writing class components, making React code simpler and easier to reuse.
-
-> Why Are Class Components Used Less Today?
-
-Class components are used less today because hooks provide a simpler and more flexible way to 
-manage state and lifecycle logic in functional components.
-
-> What is the render() Method?
-
-The render() method is required in class components and returns the JSX that should be displayed on the UI.
-
-
 > Hooks:
 
 Hooks are special functions that allow functional components to use React features like 
@@ -34,11 +5,9 @@ state, lifecycle features, and other capabilities without writing class componen
 Hooks were introduced in React 16.8 (2019).
 
 
-> example of simple hook:
-import { useState } from "react";
+> Example of simple hook:
 
 function Counter() {
-
   const [count, setCount] = useState(0);
 
   return (
@@ -47,17 +16,13 @@ function Counter() {
     </button>
   );
 }
-useState creates a state variable.
-count → current state value
-setCount → function to update state
 
 
-> React Hooks follow two strict rules.
+> React Hooks follow two strict rules:
 
 Rule 1: Hooks must be called at the top level of a component.
 Rule 2: Hooks can only be used in React functional components, Custom hooks
         Not allowed inside normal functions, loops, conditions, classes
-
 
 
 > common Built-in Hooks are:
@@ -74,19 +39,46 @@ Rule 2: Hooks can only be used in React functional components, Custom hooks
 | useLayoutEffect | Similar to useEffect but runs earlier |
 
 
+> Lifecycle:
+
+The lifecycle of a component refers to the different stages of a component that goes from creation to removal from the DOM. 
+The main phases are mounting, updating, and unmounting. 
+
+In class components lifecycle was handled using methods like componentDidMount, componentDidUpdate, and componentWillUnmount. 
+In modern React, we handled using hooks like useEffect.
+
+
+> Why Did React Introduce Hooks?
+
+Hooks were introduced to allow functional components to use state and lifecycle features without 
+writing class components, making React code simpler and easier to reuse.
+
+> Why Are Class Components Used Less Today?
+
+Class components are used less today because hooks provide a simpler and more flexible way to manage 
+state and lifecycle logic in functional components.
+
+> What is the render() Method?
+
+The render() method is used to return JSX that should be displayed on the UI.
+
+
+> State:
+
+State is used to store and manage data inside a component.
+It can hold any type of data like string, number, array, or object.
+When state updates, React re-renders the component to update the UI.
+
+In class components state was managed using this.state and updated using setState(). 
+In modern React, functional components manage state using the useState hook.
 
 
 
+> Note:
 
-
-
-
-
-Note:
-
-• Simple functions
-• Used only for UI rendering
-• Could receive props
-• Could NOT manage state
-• Could NOT use lifecycle methods
+- Simple functions
+- Used only for UI rendering
+- Could receive props
+- Could NOT manage state
+- Could NOT use lifecycle methods
 So they were called Stateless Components.

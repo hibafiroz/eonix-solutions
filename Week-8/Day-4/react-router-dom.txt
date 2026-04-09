@@ -1,15 +1,17 @@
 > React Router DOM:
 
 React Router DOM is a library used for navigation in React applications.
-Since React is a single-page application, it does not reload the entire page when navigating.
-Instead, React Router DOM updates the URL and renders different components based on the route.
+Since React is a single-page application, we dont reload the entire page when navigating between pages. 
+Instead, React Router changes the URL and renders different components based on the route.
 
-We usually wrap the whole app inside BrowserRouter, then inside that we define Routes, 
-and inside Routes we define each Route with a path and the component to show.
+We usually wrap the entire application inside BrowserRouter so that routing can work in the app. 
+Inside BrowserRouter, we use Routes to define all the available routes. Then inside Routes, 
+we define multiple Route components, where each Route has a path and an element (component) to display.
 
 
 1. Install
 npm install react-router-dom
+
 
 2. Basic Setup
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -27,112 +29,17 @@ function App() {
   );
 }
 
-| Tag           | Purpose          |
-| ------------- | ---------------- |
-| BrowserRouter | Wraps whole app  |
-| Routes        | Holds all routes |
-| Route         | Single route     |
-| path          | URL              |
-| element       | Component        |
-
-
-4. Link (Navigation without reload)
-
-import { Link } from "react-router-dom";
-<Link to="/">Home</Link>
-<Link to="/about">About</Link>
-Why not <a> tag?
-Because <a> reloads the page, but Link does not.
-
-
-5. useNavigate (Redirect)
-
-import { useNavigate } from "react-router-dom";
-const navigate = useNavigate();
-
-navigate("/about");
-navigate(-1); // go back
-
-Used after:
-Login
-Form submit
-Payment
-Logout
-
-
-6. 5. useNavigate (Redirect)
-import { useNavigate } from "react-router-dom";
-
-const navigate = useNavigate();
-
-navigate("/about");
-navigate(-1); // go back
-
-Used after:
-Login
-Form submit
-Payment
-Logout
-
-
-6. URL Params
-<Route path="/user/:id" element={<User />} />
-import { useParams } from "react-router-dom";
-
-const { id } = useParams();
-URL:
-
-/user/101
-/user/102
-
-
-7. Nested Routes
-<Route path="/dashboard" element={<Dashboard />}>
-  <Route path="profile" element={<Profile />} />
-  <Route path="settings" element={<Settings />} />
-</Route>
-Inside Dashboard.jsx:
-
-import { Outlet } from "react-router-dom";
-
-<Outlet />
-8. 404 Page
-<Route path="*" element={<NotFound />} />
-9. Protected Route (Very Important Interview Question)
-Example: Only logged-in users can access dashboard.
-
-const ProtectedRoute = ({ children }) => {
-  const isLoggedIn = true;
-
-  if (!isLoggedIn) {
-    return <Navigate to="/login" />;
-  }
-
-  return children;
-};
-Use:
-
-<Route
-  path="/dashboard"
-  element={
-    <ProtectedRoute>
-      <Dashboard />
-    </ProtectedRoute>
-  }
-/>
-
 
 
 > BrowserRouter:
 
 BrowserRouter is used to wrap the entire React application so that routing can work. 
 It connects the React app with the browser URL.
-Because of BrowserRouter, when the URL changes, 
-React will render a different component without reloading the page.
+Because of BrowserRouter, when the URL changes, React will render a different component without reloading the page.
 So it basically enables single page application routing in React.
 
 
-> We Use it in App.js.
+> We Use it in Main.js.
 
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
@@ -158,123 +65,50 @@ function Root() {
 
 > Routes & Route:
 
-Routes is a container that holds all the Route components. 
-It checks the current URL and renders the matching Route.
-
-Route is used to define a single path and which component should be displayed for that path.
+- Routes is a container that holds all the Route components. 
+- Route is used to define a single path and which component should be displayed for that path.
 
 In React Router v6:
-
-Old version:
-
 <Route path="/" component={Home} />
-New version:
 
+New version:
 <Route path="/" element={<Home />} />
 
 
 
-> useParams:
+> Link:
 
-useParams is a React Router hook used to extract dynamic values from the URL, such as an ID,
- which can be used to fetch and display specific data.
+Link is used to navigate between pages without reloading the page.
 
+import { Link } from "react-router-dom";
 
-Step 1 — Create Dynamic Route
-<Route path="/user/:id" element={<User />} />
-:id → dynamic value
+<Link to="/">Home</Link>
+<Link to="/about">About</Link>
 
-Step 2 — Get ID in User Component
-import { useParams } from "react-router-dom";
-
-function User() {
-  const { id } = useParams();
-
-  return <h1>User ID: {id}</h1>;
-}
+Why not <a> tag?
+Because <a> reloads the page, but Link does not.
 
 
-For example, in a project, when I click a user from the user list, 
-I navigate to /user/ID. Then in the user details page, 
-I use useParams to get the ID from the URL, and using that ID 
-I fetch the user data from the backend and display it.
+> NavLink:
 
+NavLink is used for navigation and it automatically applies active class styling to the current route.
+It checks whether the current URL matches the link path. If it matches, it sets the link as active and 
+we can apply active class or active styling using className or style based on the isActive property.
 
-
-> useNavigate:
-
-useNavigate is a React Router hook used to redirect users to another route programmatically based on some action like login, logout, or form submission.
-
-import { useNavigate } from "react-router-dom";
-
-function Login() {
-  const navigate = useNavigate();
-
-  const handleLogin = () => {
-    // login logic
-    navigate("/dashboard");
-  };
-
-  return <button onClick={handleLogin}>Login</button>;
-}
-
-Go Back Example
-<button onClick={() => navigate(-1)}>Go Back</button>
-
-
-> Nested Routes:
-
-Nested routing is used when we have a parent page like dashboard and inside that we have child pages like profile, settings, orders etc. 
-In React Router, we define a Route inside another Route, and we use Outlet in the parent component to render the child components.
-
-| Page      | Route               |
-| --------- | ------------------- |
-| Dashboard | /dashboard          |
-| Profile   | /dashboard/profile  |
-| Orders    | /dashboard/orders   |
-| Settings  | /dashboard/settings |
-This is exactly where nested routes are used.
+<NavLink to="/about" style={({ isActive }) => ({
+    color: isActive ? "red" : "black"
+  })}
+>
+  About
+</NavLink>
 
 
 
-> Protected Route:
+> Navigate Component:
 
-Protected routes are used to restrict access to certain pages like dashboard or profile so that only authenticated users can access them
+Navigate is used to redirect from one path to another path.
 
-<Route
-  path="/dashboard"
-  element={
-    <ProtectedRoute>
-      <Dashboard />
-    </ProtectedRoute>
-  }
-/>
-Now: Logged in → Dashboard
-     Not logged in → Login page
+Instead of this    <Route path="/about" element={<About />} />
+We write like      <Route path="/home" element={<Navigate to="/" />} />
 
-
-
-> 404 page:
-
-In React Router, we create a 404 page using a wildcard route with path "*". If the user enters a URL that doesn't match any existing route, the NotFound component will be displayed.
-
-| URL              | Page            |
-| ---------------- | --------------- |
-| /                | Home            |
-| /login           | Login           |
-| /dashboard       | Dashboard       |
-| /product/101     | Product Details |
-| /something-wrong | 404 Page        |
-
-import { useNavigate } from "react-router-dom";
-
-function NotFound() {
-  const navigate = useNavigate();
-
-  return (
-    <>
-      <h1>404 - Page Not Found</h1>
-      <button onClick={() => navigate("/")}>Go Home</button>
-    </>
-  );
-}
+Navigate is used for redirection, while Route is used to render a component for a specific path.

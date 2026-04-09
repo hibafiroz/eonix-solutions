@@ -1,8 +1,11 @@
 > React.memo:
 
-React.memo is a higher-order component used to prevent unnecessary re-rendering of a component. 
-It re-renders the component only when its props change by doing a shallow comparison.
+React.memo is a higher-order component that is used to prevent unnecessary re-rendering of a component. 
+It re-renders only when its props change by doing a shallow comparison.
 It is used for performance optimization.
+
+A Higher Order Component is a function that wraps a component and adds extra functionality like authentication, logging, styling, etc. 
+and then returns a new enhanced component. The original component is not modified.
 
 React.memo only prevents re-render caused by props.
 If the component has its own state or context changes, it will still re-render.
@@ -11,31 +14,6 @@ In React, when a parent component re-renders, all child components also re-rende
 React.memo prevents this by re-rendering the child component only if the props have changed. This improves performance.
 
 React.memo uses shallow comparison to check if props have changed. If props are the same, it skips re-rendering.
-
-
-import React, { useState } from "react";
-
-function Child({ name }) {
-  console.log("Child rendered");
-  return <h1>{name}</h1>;
-}
-
-function Parent() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <div>
-      <button onClick={() => setCount(count + 1)}>Click</button>
-      <Child name="Hiba" />
-    </div>
-  );
-}
-export default Parent;
-
-
-This Child is a child component.
-But a child component means nothing unless someone renders it.
-The component that renders Child is the Parent.
 
 
 Without React.memo
@@ -52,6 +30,34 @@ const Child = React.memo(({ name }) => {
 });
 Now Child renders only when name changes.
 
+
+> Where to AVOID React.memo:
+
+1. If the component is very small and using React.memo here is useless
+2. When Props Change Frequently, React.memo cannot stop re-render → No use.
+3. When Passing Objects, Arrays, Functions Without Memoizing
+creates new object every render → React.memo fails → unnecessary comparison → waste.
+4. When Component Re-renders Rarely
+
+
+> React.memo is often used with:
+
+useCallback → memoize function
+useMemo → memoize value
+
+
+> Smart component vs Dumb component:
+
+Smart components are components that handle logic, state, and data fetching, 
+while dumb components are presentational components that only handle UI and receive data via props.
+
+Another name:
+Smart Component → Container Component
+Dumb Component → Presentational Component
+
+
+> How do you optimize React performance?
+We can optimize React performance using React.memo, useMemo, useCallback, lazy loading, code splitting, and avoiding unnecessary re-renders.
 
 
 > Basic Folder Structure:
@@ -77,35 +83,55 @@ I follow a structured folder architecture. I separate reusable components into a
 API calls into services, global state into context, and helper functions into utils
 
 
-| Use React.memo             | Don't Use               |
-| -------------------------- | ----------------------- |
-| Pure functional components | Small components        |
-| Component re-renders often | No performance issue    |
-| Same props many times      | Props change frequently |
+
+> Note:
+
+> Why React.memo not working with objects?"
+
+const [firstCount, setFirstCount] = useState(0);
+const [secondCount, setSecondCount] = useState(0);
+
+const person = { id: 123, name: "Harry", age: 15 };
+
+<Detail firstCount={firstCount} person={person} />
+
+React.memo does shallow comparison of props.
+Objects are compared by reference, not by value.
+When we create an object inside a component, a new object is created on every render, so React thinks props changed and re-renders the component.
+To fix this, we use useMemo to memoize the object.
+
+const person = useMemo(() => {
+  return { id: 123, name: "Harry", age: 15 };
+}, []);
 
 
-> React.memo is often used with:
 
-useCallback → memoize function
-useMemo → memoize value
+> const Person = React.memo(({ name, age }) => {
+    console.log("Person component is re-rendered");
+    return (
+      <div>
+        {name}, {age}
+      </div>
+    );
+  },
+  (prevProps, nextProps) => {
+    return prevProps.name === nextProps.name;
+  }
+);
 
+Normally React.memo does shallow comparison of all props.
+But here, we are giving our own comparison function:
 
-> Smart component vs Dumb component:
+(prevProps, nextProps) => {
+  return prevProps.name === nextProps.name;
+}
 
-Smart components are components that handle logic, state, and data fetching, 
-while dumb components are presentational components that only handle UI and receive data via props.
+This means:
+If name is same → Do NOT re-render
+If name is different → Re-render
+age change will be ignored
 
-| Smart Component                             | Dumb Component                   |
-| ---------------                             | --------------                   |
-| Handles logic of the application.           | Handles UI only.                 |
-| State                                       | No state                         |
-| Fetch data                                  | Display data                     |
-| Container                                   | Presentational                   |
-
-Another name:
-Smart Component → Container Component
-Dumb Component → Presentational Component
-
-
-> How do you optimize React performance?
-We can optimize React performance using React.memo, useMemo, useCallback, lazy loading, code splitting, and avoiding unnecessary re-renders.
+React.memo accepts a second argument which is a custom comparison function. 
+It receives previous props and next props. If the function returns true, React will not re-render the component. 
+If it returns false, React will re-render the component. 
+This is used when we want to control re-rendering manually.

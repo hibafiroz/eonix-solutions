@@ -1,7 +1,7 @@
 > SPA (Single Page Application):
 
-A Single Page Application is a web application means 
-It loads one HTML page only once and updates only the required parts of the page instead of reloading the entire page.
+A Single Page Application is a web application that loads only one HTML page and 
+updates only the required part of the page instead of reloading the entire page.
 Because of this, the application feels faster and smoother. 
 React is commonly used for developing such applications.
 
@@ -25,5 +25,5 @@ JavaScript updates the UI dynamically.
 
 > How does React help in building SPA? by
 
-Updating only the required components of the UI instead of reloading the entire page.
+Updating only the required components of the UI.
 It uses Virtual DOM to update the UI efficiently which makes the application faster

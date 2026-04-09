@@ -23,3 +23,9 @@ React uses a diffing algorithm to find changes between two Virtual DOM trees.
 | Created and managed by the browser               | Created and managed by React stored in js memory  |
 | Represents the actual UI shown on the screen     | A lightweight copy used by React                  |
 | Updates are slower                               | Used to make updates efficient                    |
+
+
+> lightweight => It is just a plain JavaScript object representation of the real DOM. 
+It includes elements, props, and content, but it doesn’t have browser-specific features like 
+rendering or event handling, so it is faster to work with.
+

@@ -26,3 +26,50 @@ function App() {
 }
 
 
+
+> Lazy initial state:
+
+It is used when calculating the initial state is expensive. 
+Instead of passing the value directly to useState, we pass a function that returns the value. 
+React will call this function only once during the first render, so the calculation doesn't run again on every re-render
+
+When a component renders for the first time, React needs a starting value for the state.
+const [count, setCount] = useState(0);
+initial state = 0            //Initial State is Simple here
+
+When Initial State Needs Calculation
+const [value, setValue] = useState(calculateValue());
+
+Maybe calculateValue():
+runs a heavy calculation
+reads from localStorage
+processes a large array
+
+function calculateValue() {
+  console.log("calculating...");
+  return 100;
+}
+React components re-render many times.
+So console becomes:
+
+calculating...
+calculating...
+calculating...
+But React only needs the value the first time.
+So this is wasteful.
+The Solution (Lazy Initialization)
+
+
+> Real Practical Example:
+
+Reading localStorage.
+Bad way: const [theme, setTheme] = useState(localStorage.getItem("theme"));
+
+Every render React reads localStorage again.
+
+Better way:
+const [theme, setTheme] = useState(() => {
+  return localStorage.getItem("theme");
+});
+
+Now localStorage is read only once.

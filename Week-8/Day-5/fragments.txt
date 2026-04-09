@@ -1,7 +1,6 @@
 > Fragments:
 
-Fragment is a wrapper component in React that groups multiple elements without adding an extra DOM node. 
-It helps keep the DOM clean and is useful when returning multiple elements from a component
+Fragment is a wrapper component that groups multiple elements without adding an extra DOM element and it keeps the DOM clean.
 
 In React, a component must return one parent element.
 return (
@@ -11,14 +10,12 @@ return (
   </div>
 );
 
-But this adds an extra div in the DOM, sometimes we don’t want that. So we use Fragment.
+But this adds an extra div in the DOM, sometimes we don't want that. So we use Fragment.
 
 
 > There are 3 Ways to Use Fragment:
 
 1. Using <React.Fragment>:
-
-import React from "react";
 
 function App() {
   return (
@@ -31,7 +28,6 @@ function App() {
 
 
 2. Using <Fragment>
-import { Fragment } from "react";
 
 function App() {
   return (
@@ -61,8 +57,7 @@ function App() {
 | Used for layout        | Used for grouping |
 
 
-When rendering a list, Fragment can accept key, but the shortcut <> </> cannot.
-import { Fragment } from "react";
+> When rendering a list, Fragment can accept key, but the shortcut <> </> cannot.
 
 const items = ["Apple", "Banana", "Mango"];
 
@@ -75,14 +70,13 @@ function App() {
   ));
 }
 
-Shortcut will NOT work here. We use <Fragment> instead of <> when we need to pass a key attribute
-
 
 > Use Fragment when:
 
-Returning multiple elements
-Avoiding extra div in DOM
-Table structure
+- Returning multiple elements
+- Avoiding extra div in DOM
+- Table structure
+
 
 function Table() {
   return (
@@ -96,5 +90,6 @@ function Table() {
     </table>
   );
 }
-If you use <div> inside <tr>, it breaks HTML structure. So we use Fragment.
 
+In elements like table, tr, and ul, we cannot place a div inside them because it breaks the HTML structure. 
+In such cases, we use React Fragment to group elements without adding an extra DOM node.

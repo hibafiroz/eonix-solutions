@@ -1,10 +1,9 @@
 Data fetching means Getting data from a server/API and showing it in the UI.
 For data fetching in React, we can use fetch or axios. 
-Usually we call the API inside useEffect and store the response in state. Axios is more convenient because it handles JSON automatically and has better error handling.
+Usually we call the API inside useEffect and store the response in state. 
+Axios is more convenient because it handles JSON automatically and has better error handling.
 
 Using fetch (built-in):
-
-import { useState, useEffect } from "react";
 
 function App() {
   const [data, setData] = useState([]);
@@ -25,10 +24,9 @@ Store in state
 Render
 
 
-> Using axios (more popular):
+> Using axios:
 
-First install
-npm install axios
+First install: npm install axios
 
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -68,16 +66,6 @@ useEffect(() => {
 }, []);
 
 
-
-Even though a component has multiple return statements, 
-only one executes based on conditions. 
-This is called early return and is commonly used for handling loading and error states.
-Multiple returns allowed, but only one executes
-
-React shows loading first, then after state updates, it re-renders and shows data. 
-Only one return runs per render.
-
-
 > Why do we use useEffect for data fetching instead of calling API directly in component?
 We use useEffect because data fetching is a side effect, and React doesn’t allow side effects directly inside the component render.
 
@@ -85,22 +73,10 @@ if we call API directly, Component renders → API call, State updates → re-re
 useEffect fixes it, Runs after render, Runs only once (because []), No infinite loop.
 
 
-
-> Dependency Array [id]
-Dependency array controls when useEffect runs. 
-If we pass a value like id, the effect runs whenever that value changes.
-
-useEffect(() => {
-  fetchData();
-}, [id]);
-Run this effect whenever id changes
-we use it for dynamic data
-
-
-
 > AbortController:
 
-It is built-in browser tool used to cancel ongoing API requests, especially when a component unmounts, to prevent memory leaks and unwanted state updates.
+It is built-in browser tool used to cancel ongoing API requests, especially 
+when a component unmounts, to prevent memory leaks.
 
 useEffect(() => {
   const controller = new AbortController();
@@ -125,20 +101,3 @@ why do we need it?
 when User opens page, API starts and when User quickly leaves page
 API still runs in the background. This can cause Memory leaks
 So We cancel the request.
-
-
-
-> Custom Hook for Fetching:
-
-function useFetch(url) {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    fetch(url)
-      .then(res => res.json())
-      .then(setData);
-  }, [url]);
-
-  return data;
-}
-Custom hooks help reuse logic like data fetching across components.

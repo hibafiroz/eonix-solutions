@@ -1,20 +1,25 @@
 > Conditional rendering:
 
-Conditional rendering in React means displaying different UI elements or components based on certain conditions such as state, props, or user actions. 
-React uses normal JavaScript conditions like if/else, ternary operators, and logical AND to control what gets rendered in JSX.
+Conditional rendering means displaying different UI elements based on conditions. 
+It uses JavaScript conditions like if/else, ternary operators, and logical AND to control what gets rendered based on data.
+For example, if the user is logged in, we show Logout button. If not, we show Login button. This is conditional rendering.
 
 
-Conditional rendering is used when UI should change dynamically depending on data or state.
+> React supports multiple ways to handle conditions.
 
-Common cases:
-Showing login/logout buttons
-Displaying loading spinner
-Showing error messages
-Rendering different components
-Displaying data only if it exists
-Showing admin panel only for admins
+Main methods:
+- if / else
+- Element variables
+- Ternary operator
+- Logical AND (&&)
+- Switch statement
+- Conditional rendering with null
+- Conditional component rendering
+- Conditional rendering with functions
 
- if / else Statement
+
+> if / else Statement:
+
 Used outside JSX because JSX cannot directly contain if statements.
 function App() {
   const isLoggedIn = true;
@@ -26,20 +31,29 @@ function App() {
   }
 }
 
-React supports multiple ways to handle conditions.
+- Multiple Conditions Using if:
 
-Main methods:
-if / else
-Element variables
-Ternary operator
-Logical AND (&&)
-Switch statement
-Conditional rendering with null
-Conditional component rendering
-Conditional rendering with functions
+function StatusMessage({ status }) {
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (status === "error") {
+    return <div>Error occurred!</div>;
+  }
+
+  if (status === "success") {
+    return <div>Success!</div>;
+  }
+
+  return <div>Unknown status</div>;
+}
+
+This is called early return pattern.
+Early return pattern is a technique where we return from a function as soon as a condition is met instead of using nested if-else.
 
 
-Element Variables
+> Element Variables
 Sometimes we store JSX in a variable based on a condition.
 
 Example:
@@ -56,21 +70,13 @@ function App() {
 
   return <div>{message}</div>;
 }
-Explanation:
-
-JSX is stored in message
-
-React renders the variable inside JSX
 
 
-
-Ternary Operator (Most Common)
+> Ternary Operator:
 The ternary operator is the most used method for conditional rendering.
-
-Syntax:
-
 condition ? trueResult : falseResult
-Example:
+
+- Example:
 
 function App() {
   const isLoggedIn = true;
@@ -81,23 +87,13 @@ function App() {
     </div>
   );
 }
-Explanation:
-
-If isLoggedIn is true → show Welcome
-
-Otherwise → show Please Login
-
-This is commonly used because it is short and readable.
 
 
-
-Logical AND Operator (&&)
-Used when you want to render something only if condition is true.
-
-Syntax:
-
+> Logical AND Operator (&&):
+Used when we want to render something only if condition is true.
 condition && expression
-Example:
+
+- Example:
 
 function App() {
   const hasMessage = true;
@@ -108,19 +104,48 @@ function App() {
     </div>
   );
 }
-Explanation:
-
-If hasMessage is true → message appears
-
-If false → nothing appears
-If the condition is false, React renders nothing.
 
 
+> Switch statement:
+If-else is used when we have range conditions or complex logic.
+Switch is used when we compare one variable with multiple exact values
 
-Conditional Rendering with null
-React allows returning null if you don't want to render anything.
+import { useState } from "react";
 
-Example:
+function StatusExample() {
+  const [status, setStatus] = useState("pending");
+
+  const getStatusMessage = () => {
+    switch (status) {
+      case "pending": return "Processing...";
+      case "success": return "Success!";
+      case "error": return "Error occurred!";
+      default: return "Unknown status";
+    }
+  };
+
+  return (
+    <div>
+      <h2>{getStatusMessage()}</h2>
+
+      <button onClick={() => setStatus("pending")}>Pending</button>
+      <button onClick={() => setStatus("success")}>Success</button>
+      <button onClick={() => setStatus("error")}>Error</button>
+    </div>
+  );
+}
+
+export default StatusExample;
+
+- When to use switch instead of if-else?
+Use if-else for different or complex conditions (>, <, &&). 
+Use switch when checking one variable against many values
+
+
+> Conditional Rendering with null:
+React allows returning null if we don't want to render anything.
+
+- Example:
 
 function Warning({ show }) {
   if (!show) {
@@ -129,20 +154,16 @@ function Warning({ show }) {
 
   return <h2>Warning Message</h2>;
 }
-Explanation:
 
 If show is false → nothing is rendered
-
 If show is true → warning message appears
-
 This is useful when a component should hide itself.
 
 
-
-Conditional Rendering of Components
+> Conditional Rendering of Components:
 Sometimes we render different components depending on conditions.
 
-Example:
+- Example:
 
 function App() {
   const isLoggedIn = true;
@@ -153,20 +174,14 @@ function App() {
     </div>
   );
 }
-Explanation:
-
-If user logged in → Dashboard component appears
-
-Otherwise → Login component appears
 
 This is very common in authentication systems.
 
 
+> Conditional Rendering Using Functions:
+We can also use functions to return different UI.
 
-Conditional Rendering Using Functions
-You can also use functions to return different UI.
-
-Example:
+- Example:
 
 function App() {
   const isAdmin = true;
@@ -181,46 +196,23 @@ function App() {
 
   return <div>{renderContent()}</div>;
 }
-Explanation:
 
 Function decides what UI to render.
 
-11. Nested Conditional Rendering
+
+> Nested Conditional Rendering
 Sometimes conditions can be nested.
 
-Example:
+- Example:
 
 {user ? (
   user.isAdmin ? <AdminPanel /> : <UserDashboard />
 ) : (
   <Login />
 )}
-Logic:
 
-If user exists
-      If admin
-            show AdminPanel
-      else
-            show UserDashboard
-Else
-      show Login
-12. Real World Example (Loading State)
-Very common example in applications.
 
-function App() {
-  const loading = true;
-
-  return (
-    <div>
-      {loading ? <p>Loading...</p> : <p>Data Loaded</p>}
-    </div>
-  );
-}
-When API is loading → Loading...
-
-After data arrives → Data Loaded
-
-13. Conditional Rendering with Lists
+> Conditional Rendering with Lists:
 Example:
 
 const items = ["Apple", "Orange"];
@@ -236,13 +228,9 @@ return (
     )}
   </div>
 );
-Explanation:
 
-If list empty → show No items
 
-Otherwise → render list
-
-14. Conditional Rendering with Props
+> Conditional Rendering with Props:
 Example:
 
 function Greeting({ isLoggedIn }) {
@@ -252,105 +240,3 @@ function Greeting({ isLoggedIn }) {
     </h1>
   );
 }
-Parent component passes isLoggedIn.
-
-Child decides what to render.
-
-15. Best Practices
-Recommended practices:
-
-1. Use ternary for simple conditions
-Good:
-
-{isLoggedIn ? <Dashboard /> : <Login />}
-2. Use && for single condition
-Good:
-
-{isAdmin && <AdminPanel />}
-3. Avoid deeply nested ternaries
-Bad:
-
-condition1 ? condition2 ? A : B : C
-Better use:
-
-functions
-
-if statements
-
-4. Keep JSX readable
-If logic becomes complex → move it to functions or variables.
-
-16. Interview Definition
-If interviewer asks:
-
-What is conditional rendering in React?
-
-Answer:
-
-Conditional rendering in React means displaying different UI elements or components based on certain conditions such as state, props, or user actions. React uses normal JavaScript conditions like if/else, ternary operators, and logical AND to control what gets rendered in JSX.
-
-17. Key Points to Remember
-Conditional rendering controls what UI appears.
-
-Based on state, props, or logic.
-
-Uses JavaScript conditions inside JSX.
-
-Common methods:
-
-if / else
-
-ternary operator
-
-logical AND (&&)
-
-returning null
-
-Very important for dynamic UI.
-
-If you want, I can also show you 5 real interview questions on conditional rendering (many React interviews ask these). 🚀
-
-
-
-Nested Conditional Rendering
-Sometimes conditions can be nested.
-
-Example:
-
-{user ? (
-  user.isAdmin ? <AdminPanel /> : <UserDashboard />
-) : (
-  <Login />
-)}
-
-
-
-Real World Example (Loading State)
-Very common example in applications.
-
-function App() {
-  const loading = true;
-
-  return (
-    <div>
-      {loading ? <p>Loading...</p> : <p>Data Loaded</p>}
-    </div>
-  );
-}
-When API is loading → Loading...
-
-After data arrives → Data Loaded
-
-
-
-Conditional Rendering with Props
-Example:
-
-function Greeting({ isLoggedIn }) {
-  return (
-    <h1>
-      {isLoggedIn ? "Welcome Back!" : "Please Sign In"}
-    </h1>
-  );
-}
-

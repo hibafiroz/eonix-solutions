@@ -14,61 +14,27 @@ my-react-app
 ├─ package.json
 ├─ vite.config.js
 
-- node_modules:
-This folder contains all installed packages.
-Example:
-React
-dependencies
-libraries
-It is automatically created when you run:
-npm install
+- node_modules: This folder contains all installed packages.
+Example: React, dependencies, libraries
+It is automatically created when we run npm install
 
-- public
-This folder contains static files.
-Example:
-images
-icons
-static assets
+- public: This folder contains static files.
+Example: images, icons, static assets
 Files inside public are served directly to the browser.
 
-- src (Most Important Folder)
-This is where all your React code lives.
-Inside this folder you will write:
-components
-styles
-logic
-UI
+- src: This is where all our React code lives.
+Inside this folder we will write Components, styles, logic, UI
 
-- main.jsx
-This is the entry point of the React app.
+- main.jsx: This is the entry point of the React app.
 It connects React with the HTML page.
-Example:
 
-import React from "react"
-import ReactDOM from "react-dom/client"
-import App from "./App"
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <App />
-)
-Here React renders the App component.
-
-- App.jsx
-This is the main component of your application.
-Example:
-function App() {
-  return <h1>Hello React</h1>
-}
-export default App
+- App.jsx: This is the main component of our application.
 This component controls the main UI.
 
 - package.json
-This file contains:
-project information
-installed dependencies
-scripts
+This file contains: project information, installed dependencies, scripts
 
 Example scripts:
-
 npm run dev
 npm run build
 
@@ -93,6 +59,6 @@ src
 
 In a React project created using Vite, the main folders include node_modules, public, and src. 
 The node_modules folder stores all installed dependencies. 
-The public folder contains static assets like images. 
-The src folder is the most important because it contains the application code, including components and styles. 
-Inside src, main.jsx is the entry point that renders the App component, and App.jsx usually acts as the main component of the application.
+The public folder contains static files like images, icons, static assets. 
+The src folder contains all components and styles of our application. 
+Inside src, main.jsx is the entry point that renders the App component, and App.jsx is the main component of the application.

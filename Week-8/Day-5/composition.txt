@@ -1,10 +1,10 @@
 > Composition:
 
-Composition in React means building complex components by combining smaller components. 
-We reuse components by placing one component inside another using props or children
+Composition in React means building complex UI by combining smaller, reusable components.
+Instead of writing one big component, we create small components and put them inside other components using props or children.
 
-In React, we use Composition instead of Inheritance to reuse components.
-because Composition makes components more reusable and flexible.
+In React, we use Composition instead of Inheritance bcz Composition makes components more reusable and flexible.
+
 
 > Composition happens in three ways:
 
@@ -29,12 +29,10 @@ function Card(props) {
   return <div className="card">{props.children}</div>;
 }
 
-- Version 2 (Destructuring)
+- Version 2 (Destructuring shorter way)
 function Card({ children }) {
   return <div className="card">{children}</div>;
 }
-
-- Both are correct. Only difference is destructuring.
 
 
 > Destructuring multiple props + children
@@ -51,12 +49,6 @@ function Card({ title, children, className }) {
 <Card title="Profile" className="card">
   <h1>Hello Hiba</h1>
 </Card>
-
-| Value     | Comes from |
-| --------- | ---------- |
-| title     | prop       |
-| className | prop       |
-| children  | inside tag |
 
 
 2. Using props:
@@ -117,13 +109,7 @@ Passing a component as a prop.
 1. Card Component (Reusable Wrapper)
 function Card({ children }) {
   return (
-    <div style={{
-      border: "1px solid #ccc",
-      padding: "15px",
-      borderRadius: "10px",
-      width: "200px",
-      margin: "10px"
-    }}>
+    <div>
       {children}
     </div>
   );
@@ -150,7 +136,7 @@ import Product from "./Product";
 
 function App() {
   return (
-    <div style={{ display: "flex" }}>
+    <div>
       <Card>
         <Product name="Shoes" price="$50" />
       </Card>
@@ -168,16 +154,14 @@ function App() {
 export default App;
 
 
-> Inheritance is an OOP concept where one class extends another class.
+> Inheritance vs Composition:
 
-| Composition           | Inheritance       |
-| --------------------- | ----------------- |
-| Combines components   | Extends classes   |
-| Used in React         | Not used in React |
-| Flexible              | Rigid             |
-| Uses props & children | Uses extends      |
-
-React prefers composition over inheritance because composition makes components loosely coupled, reusable, and easier to maintain.
+Composition and Inheritance are two ways to reuse code.
+Composition means building components by combining smaller components using props and children.
+Inheritance means creating a class from another class using extends.
+React recommends composition instead of inheritance because composition is more flexible and reusable, 
+while inheritance makes components tightly coupled and harder to maintain.
+So in React we use composition to reuse UI and logic.
 
 
 > Real Website Structure (Composition):
@@ -205,17 +189,67 @@ All combined → One full page
 | Containment    | Card, Modal, Layout (use children)  |
 | Specialization | Button, PrimaryButton, DangerButton |
 
+> Containment Example:
+Containment is when a component wraps other components using children.
 
-Specialization Example:
-
-function Button({ children }) {
-  return <button className="btn">{children}</button>;
+function Card({ children }) {
+  return <div className="card">{children}</div>;
 }
 
-function PrimaryButton() {
-  return <Button>Primary</Button>;
+function App() {
+  return (
+    <Card>
+      <h2>Product</h2>
+      <p>Price: 500</p>
+      <button>Buy</button>
+    </Card>
+  );
 }
 
-function DangerButton() {
-  return <Button>Delete</Button>;
+Card is a container
+Content inside Card is children
+This pattern is called Containment
+
+
+> Specialization Example:
+Specialization means making different types of the same component using props.
+
+function Button({ text, color }) {
+  return <button style={{ backgroundColor: color }}>{text}</button>;
+}
+
+function App() {
+  return (
+    <div>
+      <Button text="Save" color="green" />
+      <Button text="Delete" color="red" />
+    </div>
+  );
+}
+
+
+
+> Note:
+
+1. <Card className="card">Hello</Card>
+Here className is a prop → props.className
+
+function Card(props) {
+  return <div className="card">{props.children}</div>;
+}
+Here className="card" is just styling the div, not coming from props.
+
+
+2. <Card title="Hello">Hi</Card>
+behind the scenes.
+React.createElement(Card, { title: "Hello" }, "Hi");
+React.createElement(
+  Component,
+  propsObject,
+  children
+)
+So React automatically puts the children into the props object with the key name children.
+props = {
+  title: "Hello",
+  children: "Hi"
 }

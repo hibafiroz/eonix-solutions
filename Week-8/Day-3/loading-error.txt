@@ -9,19 +9,13 @@ So we manage this using 3 states in React.
 
 
 > States Setup
+
 const [data, setData] = useState([]);
 const [loading, setLoading] = useState(true);
 const [error, setError] = useState(null);
 
-| State   | Purpose                |
-| ------- | ---------------------- |
-| data    | Store API data         |
-| loading | Show loading indicator |
-| error   | Show error message     |
-
-
-
 > Fetch Data with useEffect:
+
 useEffect(() => {
   fetch("API_URL")
     .then((res) => {

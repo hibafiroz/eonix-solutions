@@ -1,7 +1,9 @@
 > Embedding JavaScript in JSX:
 
-In React JSX, we can use JavaScript inside the UI.
-To do this, we use curly braces { }.
+In JSX we can embed JavaScript by using curly braces. 
+Inside the braces we can write JavaScript expressions like variables, calculations, function calls, or conditional operators. 
+React will evaluate the expression and display the result in the UI.
+
 Anything written inside { } is treated as JavaScript.
 
 Example 1: Display a Variable
@@ -50,11 +52,6 @@ Output: Welcome
 
 Here we used a ternary operator inside JSX.
 
-
-> How do you use JavaScript inside JSX?
-In JSX we can embed JavaScript by using curly braces. 
-Inside the braces we can write JavaScript expressions like variables, calculations, function calls, or conditional operators. 
-React will evaluate the expression and display the result in the UI.
 
 This works:
 {2 + 3}

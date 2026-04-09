@@ -2,7 +2,7 @@
 
 React DevTools is a browser extension that helps us see and debug React applications. 
 It shows the components of the app in a tree structure, and we can check the props and state of each component. 
-This makes easier to understand how the app is working and helps us find problems while developing.
+This makes us understand how the app is working and helps us find problems while developing.
 
 > What React DevTools Shows
 When we open React DevTools, we can see something like:

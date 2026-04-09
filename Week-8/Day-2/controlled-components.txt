@@ -1,0 +1,115 @@
+> Controlled Component:
+
+A controlled component is a form input element whose value is controlled by React state.
+We use value to control the input and onChange to update the state whenever the user types.
+So React controls the form data and becomes the single source of truth.
+
+Flow: User types → onChange runs → state updates → React updates UI
+
+In normal HTML forms, the DOM manages the input value.
+
+
+> Why Controlled Components Are Used
+
+Controlled components are used bcz it makes form validation, form submission, dynamic UI updates, and resetting input values easier.
+It also helps with conditional rendering based on user input.
+
+Example: Disable button if input is empty.
+
+
+> A controlled input has two important things:
+
+1.value
+2.onChange
+
+function App() {
+  const [name, setName] = useState("");
+  return (
+    <div>
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <p>{name}</p>
+    </div>
+  );
+}
+
+
+> Key Characteristics of Controlled Components:
+
+1. React State Controls the Input
+2. onChange Updates State, Whenever user types.
+3. Single Source of Truth: (meansthe data is managed in one place (state) and that state controls the UI.)
+
+
+> Handling Multiple Inputs:
+
+const [formData, setFormData] = useState({
+  name: "",
+  email: ""
+});
+
+function handleChange(e) {
+  const { name, value } = e.target;
+
+  setFormData({
+    ...formData,
+    [name]: value
+  });
+}
+
+
+> e.preventDefault(): Prevents page reload.
+
+function handleSubmit(e) {
+  e.preventDefault();
+  console.log(email);
+}
+
+> Resetting Controlled Inputs:
+
+Since the input value comes from state, resetting is easy.
+setName("");  Input becomes empty immediately.
+
+
+> Advantages of Controlled Components:
+
+1. React manages every input value.
+2. Easy Validation
+3. Dynamic UI
+
+Example:
+Disable button if input empty.
+
+<button disabled={!name}>
+Submit
+</button>
+
+4. All data stays inside React state.
+5. Easy Form Reset: Just reset the state.
+
+
+> Disadvantages:
+
+1. Need state + onChange for every field.
+2. Each change triggers a React re-render.
+
+- Example Controlled:  <input value={name} onChange={handleChange} />
+- Example Uncontrolled:  <input defaultValue="Hello" />
+
+
+| Normal HTML            | Controlled Component           |
+| ---------------------- | ------------------------------ |
+| DOM stores input value | React state stores input value |
+| Browser controls input | React controls input           |
+| Harder to validate     | Easy to validate               |
+
+
+
+> Controlled vs Uncontrolled Components:
+
+The main difference between controlled and uncontrolled components is where the form data is stored.
+In controlled components, the data is stored in React state and React controls the input using value and onChange.
+In uncontrolled components, the data is stored in the DOM and we use ref to access the input value.

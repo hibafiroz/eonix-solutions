@@ -1,14 +1,11 @@
 > Synthetic Event:
 
-Synthetic Event in React is basically a wrapper around the browser’s native event. 
-When a user performs an action like clicking a button, the browser creates a normal event, 
-but React wraps that event inside its own object called a SyntheticEvent and passes it to our event handler. 
-React does this to make sure events behave the same across all browsers and to manage events more efficiently
+Synthetic Event is basically a wrapper around the browser's native event. 
+When a user performs an action, the browser creates a normal event but React wraps that event inside an object called a SyntheticEvent
+and passes it to event handler to make sure events work the same in all browsers to improve performance.
 
-Different browsers behave slightly differently.
-Example problems:
+Different browsers behave slightly differently like
 Event properties may differ
-Some events work differently
 Old browsers behave differently
 So developers had to write extra code to support all browsers.
 
@@ -26,58 +23,38 @@ e = SyntheticEvent
 | `e.preventDefault()`  | stop default behavior        |
 | `e.stopPropagation()` | stop event bubbling          |
 
-> Why React uses Synthetic Events
 
-1️⃣ Cross-browser compatibility:
-Works the same in: Chrome,Firefox,Safari,Edge
+> Why React uses Synthetic Events?
 
-2️⃣ Performance optimization
-React uses event delegation.
-Instead of attaching many listeners:
-100 buttons = 100 listeners
-React attaches one listener at root and manages everything.
+1. Cross-browser compatibility
+Different browsers handle events differently. SyntheticEvent makes events work the same in all browsers.
 
-3️⃣ Consistent API
-React makes sure event objects behave the same everywhere.
+2. Better performance
+React uses event delegation (one event listener for many elements), which improves performance.
 
-> React uses camelCase.
+3. Consistent behavior
+SyntheticEvent provides the same properties and methods across all browsers.
 
-Normal HTML:
+4. React controls events
+React can manage and optimize events efficiently using SyntheticEvent.
 
-onclick
-onsubmit
-onchange
 
-React:
+> Advantages of Synthetic Events:
 
-onClick
-onSubmit
-onChange
-
-Advantages of Synthetic Events
-1️⃣ Cross-Browser Compatibility
-
+1. Cross-Browser Compatibility
 Synthetic events work consistently across all browsers.
 
-2️⃣ Consistent API
-
+2. Consistent API
 Developers use the same event properties and methods regardless of the browser.
 
-3️⃣ Better Performance
-
+3. Better Performance
 React uses event delegation. Instead of attaching many event listeners to individual elements, React attaches a single listener at the root and manages events internally.
 
-4️⃣ Efficient Event Management
-
+4. Efficient Event Management
 React controls event handling and optimizes performance.
 
 
-Sometimes you may need the original browser event.
-
-You can access it using:
-
-e.nativeEvent
-Example:
+> Sometimes We may need the original browser event, We can access it using e.nativeEvent
 
 function handleClick(e) {
   console.log(e.nativeEvent);

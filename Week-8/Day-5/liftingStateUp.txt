@@ -1,6 +1,7 @@
 > Lifting State Up:
 
-Lifting state up means moving the state from a child component to their common parent component so that multiple child components can share and use the same state.
+Lifting state up means moving the state from a child component to their common parent component 
+so that multiple child components can share and use the same state.
 We use lifting state up to keep a single source of truth for shared data.
 
 > Example:
@@ -20,8 +21,6 @@ function App() {
   );
 }
 
-export default App;
-
 
 > Input.js:
 
@@ -34,8 +33,6 @@ function Input({ setText }) {
     />
   );
 }
-
-export default Input;
 
 
 > Display.js:

@@ -1,9 +1,7 @@
 > Dependency Array:
 
-The dependency array is the second argument of useEffect.
-It tells React when the effect should run again.
-React checks the values inside this array.
-If any value changes, the effect runs again.
+The dependency array is the second argument of useEffect. 
+It tells React when the effect should run. If any value changes, the effect runs again.
 
 
 1. Empty Dependency Array:
@@ -83,3 +81,7 @@ useEffect(() => {
 }, [fetchData])
 
 we use useCallback to prevent unnecessary effect runs.
+
+If the dependency array is empty, it runs only once after the first render.
+If we pass values in the dependency array, it runs when those values change.
+It can also return a cleanup function to remove event listeners or clear timers when the component unmounts.

@@ -40,15 +40,19 @@ Custom Hook
 return { count, increment }
 
 
-Without custom hook (repeating logic)
+> Without custom hook:
+
 useEffect(() => {
   fetch("https://api.com/data")
     .then(res => res.json())
     .then(data => setData(data));
 }, []);
-If you need this in many components → messy
 
- With custom hook
+If we need this in many components → messy
+
+
+> With custom hook:
+
 function useFetch(url) {
   const [data, setData] = useState(null);
 
@@ -65,12 +69,4 @@ Use it anywhere:
 const data = useFetch("https://api.com/data");
 
 
- Can use other hooks inside
-useState, useEffect, useMemo, etc.
-
-No UI inside
-👉 Only logic
-
-Follow hook rules
-Call at top level
-Not inside loops/conditions
+No UI inside, Only logic.

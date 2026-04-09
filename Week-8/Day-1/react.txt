@@ -1,16 +1,15 @@
 > What is React?
 
-React was developed by the Facebook Software Engineer Jordan Walke.
-
-React is a JavaScript library that we use to build user interfaces, especially for single page applications.
-It uses a component-based architecture, so we can create reusable components
-It also Virtual DOM to only the necessary parts of the UI without reloading the entire page.
+React is a JavaScript library that was developed by the Facebook Software Engineer Jordan Walke.
+It is used to build user interfaces, especially for single page applications.
+It follows component-based architecture and also uses a virtual DOM for better performance.
 
 
 > How does React Work?
 
-React creates a VIRTUAL DOM in memory.
-Instead of manipulating the browser's DOM directly, React creates a virtual DOM in memory, where it does all the necessary manipulations, before making the changes in the real DOM.
+React creates a Virtual DOM in memory. When there is a change in state or props, 
+it creates a new Virtual DOM and compares it with the previous one. After finding the differences, 
+React updates only the changed elements in the real DOM instead of updating the entire DOM.
 
 
 > What are the advantages of React?
@@ -28,34 +27,23 @@ Also, the ecosystem changes frequently, and beginners may initially find JSX dif
 
 > Why React?
 
-React follows a component-based architecture, so we can divide the UI into reusable components. 
-This helps in scaling large applications. 
-Also, React uses a Virtual DOM which updates only the necessary parts of the UI instead of reloading the entire page, 
+- React uses a Virtual DOM which updates only the necessary parts of the UI instead of reloading the entire page, 
 so the performance is better compared to traditional DOM manipulation.
+- React follows a component-based architecture, so we can divide the UI into reusable components. 
+This helps in scaling large applications. 
 
 
 > Library vs Framework:
 
-A library is a collection of functions that we use when needed, and we control the flow of the program. 
-A framework provides a structure for building applications, and it controls the flow of the program. 
-In simple terms, when we use a library we call it when we need it, but in a framework our code runs inside the framework's structure.
+- A library is a collection of functions that we use when needed, and we control the flow of the program. 
+- A framework provides a structure for building applications, and it controls the flow of the program.
+
 
 > What is Create React App?
-Create React App is a tool used to set up a React project quickly. It automatically configures things like Webpack and Babel 
-so developers can start building React applications without setting up the environment manually.
 
-
-
-> Code Example (React Component):
-
-function Welcome() {
-  return <h1>Hello Hiba!</h1>
-}
-export default Welcome
-
-Here, function Welcome() is a React component which returns what UI should display.
-<h1>Hello Hiba!</h1> → JSX (HTML inside JavaScript)
-This component will render: Hello Hiba!
+Create React App is a tool used to set up a React project quickly. 
+It automatically configures things like Webpack and Babel so we can start 
+building React applications without setting up the environment manually.
 
 
 Note:
@@ -66,5 +54,3 @@ Note:
 - React native used for mobile development
   Reactjs used for Web development
 - React represents the view layer in the Model–View–Controller (MVC) architecture.  It is responsible for building and displaying the user interface.
-
-

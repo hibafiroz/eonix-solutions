@@ -1,8 +1,12 @@
 > Export & Import in React:
 
 In React we usually create components in separate files to keep the project organized. 
-We use export to make a component available to other files, and import to use that component where it is needed. 
-This helps in reusing components and maintaining a clean project structure.
+We use export to make a component available to other files, and use import to use that component. 
+This helps in reusing components.
+
+Default export is used when we export only one main thing from a file. 
+Named export is used when we export multiple things. 
+For default import we don’t use curly braces, but for named import we use curly braces.
 
 
 Step 1: Create a Component

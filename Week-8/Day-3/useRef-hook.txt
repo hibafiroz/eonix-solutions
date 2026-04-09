@@ -1,8 +1,8 @@
 > useRef Hook:
 
-useRef is used to store data inside a component that stays the same between renders.
-When the component re-renders, the value inside the ref does not reset. React keeps the same ref object for the whole life of the component.
-Another important thing is, changing a ref does not re-render the component.
+useRef is used to store data inside a component and that stays the same between renders.
+When the component re-renders, the value inside the ref does not reset.
+And changing a ref does not re-render the component.
 That is the main difference between useRef and useState.
 
 Example:
@@ -17,9 +17,6 @@ Here React creates a ref object like this:
 The actual value is always stored inside .current.
 So if we want to read or change the value we use: countRef.current
 
-Even if the component re-renders many times, the value inside
-countRef.current stays the same unless we change it manually.
-
 
 > We can update ref but it does not re render the componenet.
 Because React only re-renders when state changes, props change
@@ -29,28 +26,18 @@ A ref is just a mutable object container.
 Example: countRef.current = 5;
 
 
-
 > Difference between useState and useRef
 
-1. useState:
+useState is used when the UI needs to update. 
+React tracks the state, and when we update the state, the component re-renders and the UI updates.
 
-used when UI needs to update
-React tracks it
-updating it causes re-render
-
-2. useRef:
-
-used to store values without re-render
-React does not track it
-updating it does NOT cause re-render
-
+useRef is used to store a value that does not affect the UI. 
+React does not track it for re-rendering, and updating a useRef value does not cause a re-render.
 
 
 > Common Use Cases:
 
 1. Accessing DOM Elements directly:
-
-import { useRef } from "react";
 
 function App() {
   const inputRef = useRef(null);
@@ -76,8 +63,6 @@ Now we can control the input directly
 
 Sometimes we want to remember the previous state value.
 useRef is useful because it persists between renders.
-
-import { useState, useRef, useEffect } from "react";
 
 function Counter() {
   const [count, setCount] = useState(0);

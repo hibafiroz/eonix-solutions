@@ -1,0 +1,118 @@
+> Types of Routing in React Router:
+
+
+1. Basic Routing:
+
+This is the normal routing where each path renders a component.
+Example: /home, /about, /contact
+
+
+
+2. Nested Routes:
+
+Nested routes are used when multiple pages share the same layout under a parent route.
+For example, in a dashboard, pages like profile, orders, and settings share the same sidebar and navbar.
+So instead of repeating the layout in every page, we create a parent route and render child routes inside it using Outle
+Outlet is used inside the parent layout to display nested route components.
+
+
+-App.jsx:
+
+<Route path="/dashboard" element={<Dashboard />}>
+  <Route path="profile" element={<Profile />} />
+  <Route path="orders" element={<Orders />} />
+</Route>
+
+
+-Dashboard.jsx:
+
+import { Outlet } from "react-router-dom";
+function Dashboard() {
+  return (
+    <div>
+      <h1>Dashboard</h1>
+      <Outlet />
+    </div>
+  );
+}
+
+| Page      | Route               |
+| --------- | ------------------- |
+| Dashboard | /dashboard          |
+| Profile   | /dashboard/profile  |
+| Orders    | /dashboard/orders   |
+| Settings  | /dashboard/settings |
+
+This is exactly where nested routes are used.
+
+
+
+> Index route:
+
+Index route is used in nested routing to render a default child component when the parent route is opened. 
+It does not have a path and is written using the index attribute.
+
+<Route path="/dashboard" element={<Dashboard />}>
+  <Route index element={<Profile />} />
+  <Route path="orders" element={<Orders />} />
+</Route>
+
+Profile does not have /dashboard/profile because it is the default page.
+
+
+
+3. Dynamic Routing:
+
+Routing with parameters.
+Example: /product/:id → used for product details page.
+
+
+
+4. Protected Route:
+
+Protected routes are used to restrict access to certain pages like dashboard or profile so that only authenticated users can access them
+
+<Route
+  path="/dashboard"
+  element={
+    <ProtectedRoute>
+      <Dashboard />
+    </ProtectedRoute>
+  }
+/>
+Now: Logged in → Dashboard
+     Not logged in → Login page
+
+
+
+5. Lazy Loading Routing:
+
+Lazy loading means components are loaded only when the route is visited, not when the app first loads.
+We use React.lazy() and Suspense for lazy loading in React Router DOM.
+
+
+
+6. 404 page:
+
+In React Router, we create a 404 page using a wildcard route with path "*". If the user enters a URL that doesn't match any existing route, the NotFound component will be displayed.
+
+| URL              | Page            |
+| ---------------- | --------------- |
+| /                | Home            |
+| /login           | Login           |
+| /dashboard       | Dashboard       |
+| /product/101     | Product Details |
+| /something-wrong | 404 Page        |
+
+import { useNavigate } from "react-router-dom";
+
+function NotFound() {
+  const navigate = useNavigate();
+
+  return (
+    <>
+      <h1>404 - Page Not Found</h1>
+      <button onClick={() => navigate("/")}>Go Home</button>
+    </>
+  );
+}

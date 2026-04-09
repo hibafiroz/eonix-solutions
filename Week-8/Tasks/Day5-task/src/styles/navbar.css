@@ -1,0 +1,26 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f6f7f5;
+  padding: 15px 40px;
+  border-bottom: black;
+}
+
+nav a {
+  color: rgb(29, 4, 4);
+  text-decoration: none;
+  margin-right: 20px;
+  font-size: 18px;
+}
+
+nav a:hover {
+  color: #92b31c;
+}
+
+nav a:last-child {
+  background-color: #b0cc21;
+  padding: 8px 15px;
+  border-radius: 5px;
+  color: white;
+}

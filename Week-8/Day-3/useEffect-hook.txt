@@ -1,23 +1,8 @@
 > useEffect Hook:
 
-useEffect is a React Hook used to handle side effects in functional components. Things that are not directly related to rendering UI.
-It runs after the component renders and can run once, when dependencies change, or on every render depending on the dependency array.
-
-Normally React components just return JSX to show UI.
-But sometimes we need to do other tasks like:
-
-calling an API
-setting a timer
-adding event listeners
-saving something in localStorage
-logging data
-
-These kinds of tasks are called side effects.
-To handle them in functional components, React gives us useEffect.
-
-- useEffect runs after the component renders.
-So first React shows the UI, then useEffect runs the code inside it.
-
+useEffect is a React Hook used to handle side effects in functional components. 
+Side effects include things like fetching data from an API, setting up event listeners or starting a timer.
+useEffect runs after the component renders, and we can control when it runs using the dependency array.
 
 useEffect(() => {
   console.log("Component mounted");
@@ -26,43 +11,18 @@ useEffect(() => {
 - The first part is the function that contains the effect.
 - The second part is the dependency array, which controls when the effect should run.
 
-> When useEffect Runs:
-
-1. If the dependency array is empty, It runs only once when the component loads. It usually use this for API calls, initial setup.
-
-2. Run when state changes:
-
-useEffect(() => {
-  console.log("Count changed");
-}, [count]);
-- Here the effect runs every time count changes.
-- React watches the dependency array.
-- If any value inside it changes, the effect runs again.
-
-3. Run on every render:
-
-useEffect(() => {
-  console.log("Runs every render");
-});
-- If we don't give a dependency array, the effect runs after every render.
-
-Whenever the button is clicked:
-count changes
-component re-renders
-useEffect runs again
-
 
 > Cleanup Function:
 
-When the component UI is removed, things created outside React do not automatically stop like
+When the component is removed, things created outside React do not automatically removes.
 - event listeners
 - setInterval
 - setTimeout
-- subscriptions
 - websocket connections
 
-These are attached to the browser or global objects, not inside the component itself.
-So when the component disappears, those things can still keep running unless we stop them. If we don't remove it, it can cause memory leaks or duplicate listeners can appear.
+These are attached to the browser, not inside the component itself.
+So when the component disappears, those things can still run unless we stop them. 
+It can cause memory leaks or duplicate listeners can appear.
 That’s why we use the cleanup function inside useEffect.
 
 > Cleanup does two times:
@@ -102,8 +62,6 @@ function App() {
 
   return <h1>Resize the window</h1>;
 }
-- The function returned inside useEffect is the cleanup function.
-- It runs when the component unmounts or before the effect runs again.
 
 
 > Multiple useEffect in a Component:

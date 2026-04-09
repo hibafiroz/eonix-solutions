@@ -1,0 +1,60 @@
+> React Router Hooks:
+
+1. useNavigate:
+
+useNavigate is a React Router hook used to navigate between pages programmatically means Navigation happens through functions, not by clicking a link.
+
+import { useNavigate } from "react-router-dom";
+
+function Login() {
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    // login logic
+    navigate("/dashboard");
+  };
+
+  return <button onClick={handleLogin}>Login</button>;
+}
+
+Go Back Example
+<button onClick={() => navigate(-1)}>Go Back</button>
+
+
+
+2. useParams:
+
+useParams is a React Router hook used to extract dynamic values from the URL, such as an ID,
+which can be used to fetch and display specific data on UI.
+
+
+Step 1 — Create Dynamic Route
+<Route path="/user/:id" element={<User />} />
+:id → dynamic value
+
+Step 2 — Get ID in User Component
+import { useParams } from "react-router-dom";
+
+function User() {
+  const { id } = useParams();
+
+  return <h1>User ID: {id}</h1>;
+}
+
+
+3. useLocation():
+
+Used to get current URL information
+
+const location = useLocation();
+console.log(location.pathname);
+
+
+
+4. useSearchParams():
+
+Used to read query parameters from URL
+Example: /products?category=shoes
+
+const [searchParams] = useSearchParams();
+console.log(searchParams.get('category'));

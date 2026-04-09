@@ -1,7 +1,6 @@
 > Rules of Hooks:
 
-1. Only Call Hooks at the Top Level
-Hooks must always be called at the top level of the component.
+1. Hooks must always be called at the top level of the component.
 
 Do NOT call Hooks inside:
 
@@ -15,7 +14,7 @@ React depends on the same order of Hooks on every render.
 
 function Example() {
   if (true) {
-    const [count, setCount] = useState(0); // ❌ wrong
+    const [count, setCount] = useState(0);  // wrong
   }
 }
 
@@ -31,24 +30,16 @@ Example first render:
 If next render changes order because of conditions, React gets confused.
 
 
-2. Only Call Hooks from React Functions:
+2. Hooks can only be used inside React Function Components, Custom Hooks
 
-Hooks can only be used inside:
-
-React Function Components
-Custom Hooks
-
-They cannot be used in:
-
-normal JavaScript functions
-class components
+They cannot be used in normal JavaScript functions or class components
 
 function normalFunction() {
-  const [count, setCount] = useState(0); // ❌ wrong
+  const [count, setCount] = useState(0);  // wrong
 }
 
 class Example extends React.Component {
-  const [count, setCount] = useState(0); // ❌ wrong
+  const [count, setCount] = useState(0);  // wrong
 }
 
 

@@ -4,15 +4,19 @@
   "private": true,
   "workspaces": [
     "day1-task",
+    "day3-task",
     "day4-task",
-    "day2-task"
+    "day2-task",
+    "day5-task"
   ],
   "scripts": {
     "dev:day1": "npm run dev --workspace=day1-task",
     "dev:day4": "npm run dev --workspace=day4-task",
-    "dev:day2": "npm run dev --workspace=day2-task"
+    "dev:day2": "npm run dev --workspace=day2-task",
+    "dev:day3": "npm run dev --workspace=day3-task",
+    "dev:day5": "npm run dev --workspace=day5-task"
   },
   "dependencies": {
-    "react-router-dom": "^7.13.2"
+    "react-router-dom": "^7.14.0"
   }
 }

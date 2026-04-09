@@ -1,0 +1,65 @@
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 10 50px 40px rgba(0,0,0,0.08);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.card h3 {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.card p {
+  font-size: 16px;
+  font-weight: bold;
+  color: #667eea;
+}
+
+.card button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: #b3ca30;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.card button:hover {
+  background: #a0b23d;
+}
+
+.products-page {
+  padding: 40px;
+  background-color: #f5f7fb;
+  min-height: 100vh;
+}
+
+.products-page h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 32px;
+}
+
+/* This is for this div */
+.products-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
